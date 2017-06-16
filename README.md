@@ -14,6 +14,6 @@ Here is a [Google Doc](https://docs.google.com/document/d/1tOjk_6aBxLurST5QDz-dV
 where we can work on creating a consitent Docker boilerplate that will work with
 our agency's products. Specifically AccesNYC and Growing Up NYC.
 
-Eventually, we can replace this readme with docucumentation on how to set up our
+Eventually, we can replace this readme with documentation on how to set up our
 products generally so we have an agreement on the kind of configuration that is best
 suited for each product.
