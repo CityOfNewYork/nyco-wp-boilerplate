@@ -2,10 +2,10 @@
 This [tutorial](https://codeable.io/wordpress-developers-intro-docker/) introduces
 the reasoning for using Docker really well;
 
-"So what is that Docker brings to the table? One thing: consistency. It guarantees
-the environment will be identical no matter where you run it; Locally, on 50 different
-computers, in a CI (continuous integration) environment or in production - it will
-work exactly the same, because it will use the same environment and code."
+> So what is that Docker brings to the table? One thing: consistency. It guarantees
+> the environment will be identical no matter where you run it; Locally, on 50 different
+> computers, in a CI (continuous integration) environment or in production - it will
+> work exactly the same, because it will use the same environment and code."
 
 There are more specific details on that page but the basic proposal is this; utilizing
 Docker will help us more professionally manage our products.
