@@ -1,44 +1,43 @@
 <?
 
 // Database
-define('DB_NAME', getenv('DB_NAME'));
-define('DB_USER', getenv('DB_USER'));
-define('DB_PASSWORD', getenv('DB_PASSWORD'));
-define('DB_HOST', getenv('DB_HOST'));
-define('DB_CHARSET', getenv('DB_CHARSET'));
+define('DB_NAME', 'wp');
+define('DB_USER', 'wp');
+define('DB_PASSWORD', 'wp');
+define('DB_HOST', 'mysql:3306');
+define('DB_CHARSET', 'utf8');
 
 // Content Directory
-define('WP_CONTENT_DIR', getenv('WP_CONTENT_DIR'));
+define('WP_CONTENT_DIR', '/var/www/wp-content');
 
 // Debugging
-define('WP_DEBUG', getenv('WP_DEBUG'));
-define('WP_DEBUG_LOG', getenv('WP_DEBUG_LOG'));
-define('WP_DEBUG_DISPLAY', getenv('WP_DEBUG_DISPLAY'));
-@ini_set('display_errors', getenv('DISPLAY_ERRORS'));
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
+@ini_set('display_errors', 1);
 
-// Salts
-define('AUTH_KEY', getenv('AUTH_KEY'));
-define('SECURE_AUTH_KEY', getenv('SECURE_AUTH_KEY'));
-define('LOGGED_IN_KEY', getenv('LOGGED_IN_KEY'));
-define('NONCE_KEY', getenv('NONCE_KEY'));
-define('AUTH_SALT', getenv('AUTH_SALT'));
-define('SECURE_AUTH_SALT', getenv('SECURE_AUTH_SALT'));
-define('LOGGED_IN_SALT', getenv('LOGGED_IN_SALT'));
-define('NONCE_SALT', getenv('NONCE_SALT'));
+// [Salts](https://api.wordpress.org/secret-key/1.1/salt/)
+define('AUTH_KEY', '');
+define('SECURE_AUTH_KEY', '');
+define('LOGGED_IN_KEY', '');
+define('NONCE_KEY', '');
+define('AUTH_SALT', '');
+define('SECURE_AUTH_SALT', '');
+define('LOGGED_IN_SALT', '');
+define('NONCE_SALT', '');
 
 // Table Prefix
-$table_prefix  = getenv('TABLE_PREFIX') ?: 'wp_';
+$table_prefix  = 'wp_';
 
-// Site URL
-if (!defined('WP_SITEURL'))
-  define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT']);
+// URL
+define('WP_SITEURL', 'http://localhost:8080');
+define('WP_HOME', 'http://localhost:8080');
 
-if (!defined('WP_HOME'))
-  define('WP_HOME', 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT']);
+/* That's all, stop editing! Happy blogging. */
 
-// Absolute path to the WordPress directory
-if (!defined('ABSPATH'))
-  define('ABSPATH', dirname(__FILE__) . '/');
+/** Absolute path to the WordPress directory. */
+if ( !defined('ABSPATH') )
+    define('ABSPATH', dirname(__FILE__) . '/');
 
-// Sets up WordPress vars and included files
+/** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
