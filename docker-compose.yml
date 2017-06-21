@@ -1,0 +1,29 @@
+version: '2'
+
+services: 
+  db: 
+    image: mysql:5.7 
+    volumes: 
+      - ./data:/docker-entrypoint-initdb.d 
+    restart: always 
+    environment:
+      # to replace with env_file
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress: 
+    depends_on: 
+      - db
+    image: wordpress:latest 
+    ports:
+      - "8000:80" 
+    restart: always
+    environment:
+      # to replace wiht env_file
+      WORDPRESS_DB_HOST: db:3306 
+      WORDPRESS_DB_PASSWORD: wordpress 
+    volumes: # persistance - tell Docker to keep these in tact. To replace with the entire wp-content directory
+      - ./wp-content/themes/<theme-name>:/var/www/html/wp-content/themes/<theme-name> 
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins

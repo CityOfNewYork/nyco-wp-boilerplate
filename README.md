@@ -1,3 +1,16 @@
+This branch contains the sample docker-compose.yml and wp-config file to setup a Wordpress Docker Environment.
+
+## Requirements:
+* Docker installed with Docker Compose
+* Make the edits in wp-config.php and docker-compose.yml where there is <user-to-set>
+
+## What this does:
+* Builds the MySQL image and container
+* Builds the Wordpress image and container
+
+##To Run:
+Copy these files into the root of your project. In the terminal, use `docker-compose up`.
+
 # Proposal
 This [tutorial](https://codeable.io/wordpress-developers-intro-docker/) introduces
 the reasoning for using Docker really well;
