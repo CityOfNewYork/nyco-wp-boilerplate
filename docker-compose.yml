@@ -13,6 +13,10 @@ services:
     ports:
       - "8080:80"
       # - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
+      - ./wp:/var/www/html/:ro
 
   mysql:
     image: mysql:5.7
@@ -35,8 +39,8 @@ services:
     restart: always
     env_file: .env
     volumes:
-      - ./wp-content:/var/www/html/wp-content
-      - ./wp-config.php:/var/www/html/wp-config.php
+      - ./wp/wp-content:/var/www/html/wp-content
+      - ./wp/wp-config.php:/var/www/html/wp-config.php
 
 volumes:
   db:
