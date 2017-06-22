@@ -25,8 +25,18 @@ same in both.
 
 # wp-cli
 To use `wp-cli`, run `docker-compose exec wordpress /bin/wp` before your command.
-Optionally, create an alias `alias wp="docker-compose exec wordpress /bin/wp"` so you
+Optionally, create an alias `alias docker-wp="docker-compose exec wordpress /bin/wp"` so you
 don't have to type out the entire command.
+
+You can use `wp-cli` to replace strings in the database...
+```
+docker-wp search-replace 'http://production.com' 'http://localhost:8080'
+```
+
+... and add an administrative user.
+```
+docker-wp user create username username@domain.com --role=administrator --send-email
+```
 
 # Database
 You can look at the database with tools like [Sequel Pro](https://www.sequelpro.com/).

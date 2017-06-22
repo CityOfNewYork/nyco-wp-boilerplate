@@ -79,6 +79,19 @@ $table_prefix  = 'wp_';
  */
 define('WP_DEBUG', true);
 
+/**
+ * WP_SITEURL allows the WordPress address (URL) to be defined. The value
+ * defined is the address where your WordPress core files reside.
+ *
+ * WP_HOME overrides the wp_options table value for home but does not change
+ * it in the database. home is the address you want people to type in their
+ * browser to reach your WordPress site.
+ *
+ * @link https://codex.wordpress.org/Changing_The_Site_URL
+ */
+define('WP_SITEURL', 'http://localhost:8080');
+define('WP_HOME', 'http://localhost:8080');
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
