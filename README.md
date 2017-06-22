@@ -28,6 +28,11 @@ To use `wp-cli`, run `docker-compose exec wordpress /bin/wp` before your command
 Optionally, create an alias `alias wp="docker-compose exec wordpress /bin/wp"` so you
 don't have to type out the entire command.
 
+# Database
+You can look at the database with tools like [Sequel Pro](https://www.sequelpro.com/).
+The connection host will be `127.0.0.1` and the db username/password/name will be `wp`
+or whatever you set in your configuration if you change the config file.
+
 # Todo
 - [ ] Configure `wp-config.php` to use `.env` variables
 - [ ] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
