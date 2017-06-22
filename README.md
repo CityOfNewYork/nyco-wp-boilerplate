@@ -23,6 +23,11 @@ If you would like to configure the variables, you can do so in the `docker-compo
 and the `wp-config.php` file. Be sure to make sure the database configuration is the
 same in both.
 
+# wp-cli
+To use `wp-cli`, run `docker-compose exec wordpress /bin/wp` before your command.
+Optionally, create an alias `alias wp="docker-compose exec wordpress /bin/wp"` so you
+don't have to type out the entire command.
+
 # Todo
 - [ ] Configure `wp-config.php` to use `.env` variables
 - [ ] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
