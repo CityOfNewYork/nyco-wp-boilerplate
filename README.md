@@ -45,6 +45,14 @@ You can look at the database with tools like
 `127.0.0.1` and the db username/password/name will be `wp` or whatever you set
 in your configuration if you change the config file.
 
+# Deployment
+You can deploy to a WP Engine environment and alert the team by modifing the configuration
+file `../deploy.cfg` then running `bin/deploy.sh <branch> <env> <optional message>`.
+
+Be sure review [WP Engine's git push](https://wpengine.com/git/) protocol. You will
+need to add your SSH Key to the User Portal. Also, always backup the environment
+before you deploy.
+
 # Todo
 - [ ] Configure `wp-config.php` to use `.env` variables
 - [x] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
