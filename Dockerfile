@@ -1,11 +1,9 @@
 FROM wordpress:fpm
 
-# # Define Wordrpess root
-# ENV WP_ROOT /var/www/html
-
-# # Add our wp-config file with environment variables
-# COPY wp-config.php $WP_ROOT
-# RUN chown -R www-data:www-data $WP_ROOT && chmod 640 $WP_ROOT/wp-config.php
+# Install requirements for wp-cli support
+RUN apt-get update \
+  && apt-get install -y sudo less mysql-client \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install wp-cli
 RUN curl -o /bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar

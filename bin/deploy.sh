@@ -63,6 +63,10 @@ function post_slack() {
 
 }
 
+# function send_email() {
+#   # mail -s "The subject line" <email address or phone number address>
+# }
+
 function success() {
 
   MESSAGE="Deployment of ${DOMAIN} by @${SLACK_USER} complete via \`${COMMAND}\`"
