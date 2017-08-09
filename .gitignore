@@ -1,5 +1,4 @@
 # Wordpress
-*.php
 *.sql
 wp-admin/*
 wp-content/*

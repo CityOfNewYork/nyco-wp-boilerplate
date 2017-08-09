@@ -57,4 +57,6 @@ before you deploy.
 - [ ] Configure `wp-config.php` to use `.env` variables
 - [x] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
 - [ ] SSL Configuration
+- [ ] The nginx image doesn't seem to work on the first initialization but when
+      restart it will. Need to debug
 
