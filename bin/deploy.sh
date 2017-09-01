@@ -2,7 +2,7 @@
 
 # Usage
 # Modify configuration file ../deploy.cfg
-# Then run `bin/deploy.sh <env> <branch> <optional message>`
+# Then run `bin/deploy.sh <branch> <env> <optional message>`
 
 source deploy.cfg
 BRANCH=$1
@@ -15,50 +15,90 @@ function branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
+function commit {
+  git log -1 --pretty=%B
+}
+
 function find_wp {
-  echo ""
-  echo "\xF0\x9F\x94\xAC  Finding application source...";
+  printf "\xF0\x9F\x94\xAC     Finding application source... ";
   if cd $WORDPRESS_DIR ; then
     echo "Found!"
   else
     echo "Couldn't find your application directory, be sure to add it to config.cfg"
-    echo ""
     exit 0
   fi
 }
 
 function add_remote {
-  echo ""
-  echo "\xF0\x9F\x94\xAD  Adding remote..."
+  printf "\xF0\x9F\x94\xAD     Adding remote... "
   if git remote add $ENV git@git.wpengine.com:$ENV/$WPENGINE_NAME.git 2> /dev/null; then
-    echo "Added"
+    echo "Added!"
+    test_ssh
   else
-    echo "Already present"
+    echo "Already present."
   fi
 }
 
+function test_ssh {
+  printf "\xF0\x9F\x94\x91     Preview permissions... "
+  echo "If you don't see $ENV/$WPENGINE_NAME below, you need to add your public key to the WP Engine portal my.wpengine.com/installs/accessnyc/git_push"
+  echo "This will be skipped in the future."
+  ssh git@git.wpengine.com info
+}
+
 function git_push {
-  echo ""
-  echo "\xF0\x9F\x9A\x80  Git push...";
+  echo "\xF0\x9F\x9A\x80     Git push... ";
   post_slack
-  if eval $COMMAND ; then
+  if eval $COMMAND; then
+    echo ""
     success
   else
-    echo "Could not push to remote"
-    echo ""
+    echo "Could not push to remote."
     exit 0
   fi
 }
 
 function post_slack() {
 
-  MESSAGE="@${SLACK_USER} deploying ${DOMAIN} via \`${COMMAND}\` ${MESSAGE}"
-  PAYLOAD="payload={\"text\":\"${MESSAGE}\", \"channel\":\"${SLACK_CHANNEL}\", \"username\":\"${SLACK_USERNAME}\", \"icon_emoji\":\"${SLACK_ICON}\"}"
+  # MESSAGE="@${SLACK_USER} deploying ${DOMAIN} via \`${COMMAND}\`"
+  COMMIT="$(commit)"
 
-  echo ""
-  echo "${SLACK_ICON_BYTE}  Alerting the team on ${SLACK_CHANNEL}...";
-  echo ""
-  echo "${SLACK_USERNAME}"
+  PAYLOAD="payload={
+    \"channel\": \"${SLACK_CHANNEL}\",
+    \"icon_emoji\": \"${SLACK_ICON}\",
+    \"username\": \"${SLACK_USERNAME}\",
+    \"text\": \"Deployment in progress\",
+      \"attachments\": [
+        {
+          \"color\": \"${SLACK_COLOR}\",
+          \"pretext\": \"${MESSAGE}\",
+          \"author_name\": \"${SLACK_USER}\",
+          \"title\": \"${DOMAIN}\",
+          \"title_link\": \"${DOMAIN}\",
+          \"text\": \"${COMMIT}\",
+          \"fields\": [
+            {
+              \"title\": \"Instance\",
+              \"value\": \"${WPENGINE_NAME}\"
+            },
+            {
+              \"title\": \"Environment\",
+              \"value\": \"${ENV}\"
+            },
+            {
+              \"title\": \"Branch\",
+              \"value\": \"${BRANCH}\"
+            },
+            {
+              \"title\": \"Force\",
+              \"value\": \"true\"
+            }
+          ]
+        }
+      ]
+  }"
+
+  printf "${SLACK_ICON_BYTE}     Alerting the team on ${SLACK_CHANNEL}... ";
   echo $MESSAGE
   curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
 
@@ -66,15 +106,13 @@ function post_slack() {
 
 function success() {
 
-  MESSAGE="Deployment of ${DOMAIN} by @${SLACK_USER} complete via \`${COMMAND}\`"
+  MESSAGE="Deployment of complete"
   PAYLOAD="payload={\"text\":\"${MESSAGE}\", \"channel\":\"${SLACK_CHANNEL}\", \"username\":\"${SLACK_USERNAME}\", \"icon_emoji\":\"${SLACK_ICON}\"}"
 
-  echo ""
-  echo "\xF0\x9F\x99\x8C  Deployment of ${DOMAIN} complete."
-  echo ""
-  echo "${SLACK_USERNAME}"
+  printf "\xF0\x9F\x99\x8C     Success! "
   echo $MESSAGE
   curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
+  echo ""
 
 }
 
