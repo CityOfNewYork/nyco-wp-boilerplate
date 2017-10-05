@@ -7,9 +7,18 @@ This branch contains the sample docker-compose.yml and wp-config file to setup a
 ## What this does:
 * Builds the MySQL image and container
 * Builds the Wordpress image and container
+* Builds the phpMyAdmin image and container
 
-##To Run:
-Copy these files into the root of your project. In the terminal, use `docker-compose up`.
+## To Run:
+1. Copy these files and directories into the root of your project. 
+2. Edit the `docker-compose.yml` with your desired passwords and volumes that you would like Docker to retain.
+3. Export a copy of the SQL file that you would like Docker to load up when the environment is started.
+4. In the terminal, use `docker-compose up`.
+
+## Navigate to Pages
+* To load up your site in a browser, navigate to your machine's IP and the port you defined under `wordpress` in the `docker-compose.yml`. You can find your machine's IP using `docker-machine ip default`. Example: http://<ip-address>:8000.
+* To load up your phpMyAdmin in a browser, navigate to your machine's IP and the port you defined under `phpmyadmin` in the `docker-compose.yml`. You can find your machine's IP using `docker-machine ip default`. Example: http://<ip-address>:8181
+
 
 # Proposal
 This [tutorial](https://codeable.io/wordpress-developers-intro-docker/) introduces
