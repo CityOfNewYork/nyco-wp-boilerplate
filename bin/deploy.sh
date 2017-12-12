@@ -121,7 +121,7 @@ function add_remote {
 function test_ssh {
   printf "\xF0\x9F\x94\x91     Preview permissions... "
   echo "If you don't see $ENV/$INSTANCE below, you need to add your public key
-        to the WP Engine portal my.wpengine.com/installs/accessnyc/git_push"
+        to the WP Engine portal my.wpengine.com/installs/$INSTANCE/git_push"
   echo "This will be skipped in the future."
   ssh git@git.wpengine.com info
 }
