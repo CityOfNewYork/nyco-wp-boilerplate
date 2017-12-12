@@ -20,13 +20,13 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'wordpress');
+define('DB_NAME', 'example'); /** replace 'example' with the password you defined in docker-compose.yml */
 
 /** MySQL database username */
-define('DB_USER', 'wordpress');
+define('DB_USER', 'example'); /** replace 'example' with the password you defined in docker-compose.yml */
 
 /** MySQL database password */
-define('DB_PASSWORD', 'wordpress');
+define('DB_PASSWORD', 'example'); /** replace 'example' with the password you defined in docker-compose.yml */
 
 /** MySQL hostname */
 define('DB_HOST', 'db:3306');
