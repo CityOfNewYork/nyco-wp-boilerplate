@@ -1,4 +1,4 @@
-# Proposal
+# NYCO WP Docker Boilerplate
 This [tutorial](https://codeable.io/wordpress-developers-intro-docker/) introduces
 the reasoning for using Docker really well;
 
@@ -7,13 +7,8 @@ the reasoning for using Docker really well;
 > computers, in a CI (continuous integration) environment or in production - it will
 > work exactly the same, because it will use the same environment and code.
 
-There are more specific details on that page but the basic proposal is this; utilizing
-Docker will help us more professionally manage our products.
+Utilizing Docker will help us more easily and consistently manage our products,
+specifically, ACCESS NYC and Growing Up NYC.
 
-Here is a [Google Doc](https://docs.google.com/document/d/1tOjk_6aBxLurST5QDz-dV00yezt5i-cBbSAM6kf-W8U/edit)
-where we can work on creating a consitent Wordpress Docker boilerplate that will
-work with our agency's products. Specifically AccesNYC and Growing Up NYC.
-
-Eventually, we can replace this readme with documentation on how to set up our products
-generally so we have an agreement on the kind of configuration that is best suited
-for each product.
+Explore the different [branches](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/branches)
+of this repository for different configurations and their instructions
