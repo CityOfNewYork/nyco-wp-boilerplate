@@ -7,11 +7,12 @@ This image will install the latest version of Wordpress to be served by nginx.
 
 # Use
 Place your Wordpress site in the `wp` directory. Place your development database
-`.sql` file in the `/data` directory. There's no need to rename it as the mysql
+`.sql` file in the `./data` directory. There's no need to rename it as the mysql
 image will look for any `.sql` file and execute it when the image is built.
 
 Generate your [Salts](https://api.wordpress.org/secret-key/1.1/salt/) and place
-them in the `wp-config.php` file.
+them in the `wp-config.php` file. Move the configuration file to the Wordpress
+directory (by default `./wp`).
 
 Run `docker-compose build` to build your images then `docker-compose up` to
 start them. You can use `docker-compose up -d` to run in detatched mode.
@@ -20,9 +21,19 @@ After a few moments, you will be able to open up `localhost:8080` to visit your
 site.
 
 # Configuration
-If you would like to configure the variables, you can do so in the
-`docker-compose.yml` and the `wp-config.php` file. Be sure to make sure the
-database configuration is the same in both.
+`.env` The configuration for `docker-compose.yml`.
+
+`wp.cfg`
+* `WP` The directory of the Wordpress site.
+* `THEME` The path to the main working theme.
+
+`sftp.cfg` SFTP Settings for getting the uploads directory with `bin/get-uploads.sh` (to be tested).
+
+`deploy.cfg` Slack message settings for the `bin/deploy.sh`.
+
+If you install Wordpress in a directory other than `./wp` you will need to change
+the configuration in `.env` and `wp.cfg`.
+
 
 # wp-cli
 To use `wp-cli`, run `docker-compose exec wordpress /bin/wp` before your
@@ -47,16 +58,17 @@ in your configuration if you change the config file.
 
 # Deployment
 You can deploy to a WP Engine environment and alert the team by modifing the configuration
-file `../deploy.cfg` then running `bin/deploy.sh <branch> <env> <optional message>`.
+file `deploy.cfg` then running `bin/deploy.sh -i <WP Engine remote origin> -b <branch> -m <optional message> -f <force push true or false(default)>`.
 
 Be sure review [WP Engine's git push](https://wpengine.com/git/) protocol. You will
-need to add your SSH Key to the User Portal. Also, always backup the environment
-before you deploy.
+need to add your SSH Key to the User Portal. Also, always backup the instance before
+you deploy.
 
 # Todo
-- [ ] Configure `wp-config.php` to use `.env` variables
-- [x] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
 - [ ] SSL Configuration
-- [ ] The nginx image doesn't seem to work on the first initialization but when
+- [ ] Test the get uploads script
+- [ ] ~~Configure `wp-config.php` to use `.env` variables~~
+- [x] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
+- [x] The nginx image doesn't seem to work on the first initialization but when
       restart it will. Need to debug
 
