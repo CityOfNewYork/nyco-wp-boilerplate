@@ -25,9 +25,11 @@ services:
       - mysql
     restart: always
     volumes:
-      - $WP/wp-content:/var/www/html/wp-content
-      - $WP/wp-config.php:/var/www/html/wp-config.php
+      - $WP/:/var/www/html/
       - ./info.php:/var/www/html/info.php
+      # To use the latest Wordpress version, only mount the content
+      # - $WP/wp-content:/var/www/html/wp-content
+      # - $WP/wp-config.php:/var/www/html/wp-config.php
 
   mysql:
     image: mysql:5.7

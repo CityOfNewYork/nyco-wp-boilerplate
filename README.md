@@ -6,13 +6,21 @@
 This image will install the latest version of Wordpress to be served by nginx.
 
 # Use
-Place your Wordpress site in the `wp` directory. Place your development database
-`.sql` file in the `./data` directory. There's no need to rename it as the mysql
-image will look for any `.sql` file and execute it when the image is built.
+If you are controlling the versioning of Wordpress, place your Wordpress core
+in the `wp` directory. Otherwise you can drop in only the core files needed for
+your site to run. The Docker image will pull the latest version of Wordpress
+and mount any files you do not include.
+
+Place your development database `.sql` file in the `./data` directory. There's
+no need to rename it as the mysql image will look for any `.sql` file and
+execute it when the image is built.
 
 Generate your [Salts](https://api.wordpress.org/secret-key/1.1/salt/) and place
 them in the `wp-config.php` file. Move the configuration file to the Wordpress
 directory (by default `./wp`).
+
+If you are working behind a proxy, uncomment lines in the main `Dockerfile` and
+enter it in the appropriate areas.
 
 Run `docker-compose build` to build your images then `docker-compose up` to
 start them. You can use `docker-compose up -d` to run in detatched mode.
@@ -57,8 +65,9 @@ You can look at the database with tools like
 in your configuration if you change the config file.
 
 # Deployment
-You can deploy to a WP Engine environment and alert the team by modifing the configuration
-file `deploy.cfg` then running `bin/deploy.sh -i <WP Engine remote origin> -b <branch> -m <optional message> -f <force push true or false(default)>`.
+You can deploy to a WP Engine environment and alert the team by modifing the
+configuration file `deploy.cfg` then running
+`bin/deploy.sh -i <WP Engine remote origin> -b <branch> -m <optional message> -f <force push true or false(default)>`.
 
 Be sure review [WP Engine's git push](https://wpengine.com/git/) protocol. You will
 need to add your SSH Key to the User Portal. Also, always backup the instance before
