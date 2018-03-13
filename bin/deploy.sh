@@ -10,8 +10,8 @@
 # @optional -f force    - use git push --force.
 # bin/deploy.sh growingupdev sprint-4-develop production
 
-source deploy.cfg
-source wp.cfg
+source config/deploy.cfg
+source config/wp.cfg
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
@@ -96,6 +96,14 @@ function commit_hash_short {
 
 function commit_hash_full {
   git rev-parse --verify HEAD
+}
+
+function version {
+  $(cat wp-content/themes/${THEME}/package.json \
+    | grep version \
+    | head -1 \
+    | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g')
 }
 
 function find_wp {
@@ -204,6 +212,28 @@ function success() {
   echo ""
 }
 
+function post_rollbar() {
+  # Rollbar deployment notifier
+  ROLLBAR_LOCAL_USERNAME=`whoami`
+  ROLLBAR_REVISION=`git log -n 1 --pretty=format:"%H"`
+
+  printf "${ROLLBAR_ICON_BYTE}     Notifying Rollbar and uploading sourcemaps... ";
+  curl -X POST https://api.rollbar.com/api/1/deploy/ \
+    -F access_token=${ROLLBAR_ACCESS_TOKEN} \
+    -F environment=${INSTANCE} \
+    -F revision=${ROLLBAR_REVISION} \
+    -F local_username=${ROLLBAR_LOCAL_USERNAME}
+
+  # curl https://api.rollbar.com/api/1/sourcemap \
+  #   -F access_token=${ROLLBAR_ACCESS_TOKEN} \
+  #   -F version=${version} \
+  #   -F minified_url=http://example.com/static/js/example.min.js \
+  #   -F source_map=@static/js/example.min.map \
+  #   -F static/js/site.js=@static/js/site.js \
+  #   -F static/js/util.js=@static/js/util.js
+  echo ""
+}
+
 function fail() {
   MESSAGE="Deployment failed, could not push to remote."
   COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
@@ -233,6 +263,7 @@ function fail() {
 IFS='%'
 find_wp
 add_remote
+post_rollbar
 post_slack
 git_push
 unset IFS

@@ -1,7 +1,6 @@
 # Images
 - nginx:alpine
-- wordpress:fpm
-- mysql:5.7
+- wordpress:php5.6-fpm
 
 This image will install the latest version of Wordpress to be served by nginx.
 
@@ -75,7 +74,7 @@ you deploy.
 
 # Todo
 - [ ] SSL Configuration
-- [ ] Test the get uploads script
+- [ ] ~~Test the get uploads script~~
 - [ ] ~~Configure `wp-config.php` to use `.env` variables~~
 - [x] Set up `wp-cli` to manage users and plugins on initilization of the wordpress image
 - [x] The nginx image doesn't seem to work on the first initialization but when
