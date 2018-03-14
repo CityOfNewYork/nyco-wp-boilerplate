@@ -77,7 +77,9 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
+
 define('WP_DEBUG', true);
+
 
 /**
  * WP_SITEURL allows the WordPress address (URL) to be defined. The value
@@ -89,8 +91,40 @@ define('WP_DEBUG', true);
  *
  * @link https://codex.wordpress.org/Changing_The_Site_URL
  */
+
 define('WP_SITEURL', 'http://localhost:8080');
+
 define('WP_HOME', 'http://localhost:8080');
+
+
+/**
+ * Set the environment variable
+ */
+
+putenv('WP_ENV=development');
+
+$_ENV['WP_ENV'] = getenv('WP_ENV');
+
+define('WP_ENV', getenv('WP_ENV'));
+
+
+/**
+ * Autoload Composer dependencies
+ */
+
+require __DIR__ . '/vendor/autoload.php';
+
+
+/**
+ * Set up Whoops
+ */
+
+$whoops = new \Whoops\Run;
+
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+
+$whoops->register();
+
 
 /* That's all, stop editing! Happy blogging. */
 

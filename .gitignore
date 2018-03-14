@@ -7,3 +7,5 @@ wp-includes/*
 !data/.gitkeep
 !wp-config.php
 !wp-config-sample.php
+
+.DS_Store

@@ -1,0 +1,12 @@
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "filp/whoops": "^2.1",
+    "whoops/soap": "^1.0"
+  }
+}
