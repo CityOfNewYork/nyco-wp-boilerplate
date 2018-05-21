@@ -1,0 +1,9 @@
+{
+  "require": {
+    "johnpbloch/wordpress": "4.9.5",
+    "johnpbloch/wordpress-core-installer": "^1.0"
+  },
+  "extra": {
+    "wordpress-install-dir": "wp"
+  }
+}

@@ -1,4 +1,6 @@
-version: '2'
+# docker-compose.yaml
+
+version: '2' # version of docker-compose to use
 
 services: #container configurations
   db: 
@@ -25,8 +27,8 @@ services: #container configurations
       WORDPRESS_DB_HOST: db:3306 
       WORDPRESS_DB_PASSWORD: example 
     volumes: # persistance - tell Docker to keep these in tact. To replace with the entire wp-content directory
-      - ./wp-content/themes/<theme-name>:/var/www/html/wp-content/themes/<theme-name> 
-      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./wp/wp-content:/var/www/html/wp-content
+      - ./wp/wp-config.php:/var/www/html/wp-config.php
     networks:
       - back
 
