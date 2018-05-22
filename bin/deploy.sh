@@ -35,6 +35,8 @@ elif [[ $selection == 1 ]]; then
 	syncHead
 elif [[ $selection == 2 ]]; then
 	updateHead
+
+	coreUpdate
 else
 	echo "Nothing was selected... exiting."
 	exit 1
