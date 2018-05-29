@@ -8,7 +8,7 @@
 # get the absolute path of the script
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
-# source the environmental variables
+# source the environmental variables and scripts
 source "${SCRIPT_PATH}/../.env"
 source "${SCRIPT_PATH}/headers.sh"
 source "${SCRIPT_PATH}/functions.sh"

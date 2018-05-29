@@ -8,24 +8,24 @@ services: #container configurations
     volumes: 
       - ./data:/docker-entrypoint-initdb.d 
     restart: always 
-    environment: # environment varialbes. User can replace 'example'
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: example
-      MYSQL_USER: example
-      MYSQL_PASSWORD: example
+    environment: # environment varialbes. User can replace 'user-to-set'
+      MYSQL_ROOT_PASSWORD: user-to-set
+      MYSQL_DATABASE: user-to-set
+      MYSQL_USER: user-to-set
+      MYSQL_PASSWORD: user-to-set
     networks:
       -back
 
   wordpress: 
     depends_on: 
       - db
-    image: wordpress:latest 
+    image: wordpress:latest #if you want a specific image, you can replace with wordpress:4.9.5-php5.6
     ports:
       - "8000:80" 
     restart: always
     environment: # can be replaced with env_file
       WORDPRESS_DB_HOST: db:3306 
-      WORDPRESS_DB_PASSWORD: example 
+      WORDPRESS_DB_PASSWORD: user-to-set 
     volumes: # persistance - tell Docker to keep these in tact. To replace with the entire wp-content directory
       - ./wp/wp-content:/var/www/html/wp-content
       - ./wp/wp-config.php:/var/www/html/wp-config.php
@@ -41,7 +41,7 @@ services: #container configurations
       - 8181:80
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: example #replace if not using 'example' in db section
+      MYSQL_ROOT_PASSWORD: user-to-set #this must match you entered under 'db'
     networks:
       - back
 
