@@ -1,13 +1,19 @@
+# NYCO WordPress Docker Boilerplate
 
+This repo contains a Docker image will install the latest version of WordPress
+to be served by nginx. It is the Boilerplate for running and maintaining all of
+our WordPress products and contains scripts for deployment, syncing,
+configuration, and notifications with all product environments hosted on WP
+Engine.
 
-# Images
+## Docker Images
+
 - nginx:alpine
+
 - wordpress:php5.6-fpm
 
-This image will install the latest version of WordPress to be served by nginx.
+## Use
 
-
-# Use
 If you are controlling the versioning of WordPress, place your WordPress core
 in the `wp` directory. Otherwise you can drop in only the core files needed for
 your site to run. The Docker image will pull the latest version of WordPress
@@ -30,45 +36,69 @@ start them. You can use `docker-compose up -d` to run in detatched mode.
 After a few moments, you will be able to open up `localhost:8080` to visit your
 site.
 
+## Configuration
 
-# Configuration
-`.env` The configuration for `docker-compose.yml`.
+`.env` contains the configuration for `docker-compose.yml`.
 
-`wp.cfg`
-* `WP` The directory of the WordPress site.
-* `THEME` The path to the main working theme.
+`config/colors.cfg`
+These are the colors used for Slack and other message highlighting. They currently
+are set to match the NYC Opportunity brand.
 
-`deploy.cfg` Slack message settings for the `bin/deploy.sh`.
+`config/github.cfg`
+
+- `GITHUB_URL` The url for the product repository.
+
+`config/projects.cfg`
+All of the product environment instance names should be added here.
+
+`config/rollbar.cfg`
+We use [Rollbar](https://rollbar.com) for error monitoring. The access token for
+the products Rollbar account go here.
+
+`config/slack.cfg`
+Deployment and syncronisation scripts post to Slack to alert the team on various
+tasks. Settings for Slack are managed here.
+
+`config/wp.cfg`
+
+- `WP` The directory of the WordPress site.
+
+- `THEME` The path to the main working theme.
 
 If you install WordPress in a directory other than `./wp` you will need to change
 the configuration in `.env` and `wp.cfg`.
 
+## NYCO WP Config
 
-# wp-cli
+`config/config.yml`
+This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config)
+WordPress plugin for environment configuration. Environment variables can be
+managed here and uploaded to each environment by running
+
+```
+bin/rsync-config.sh -i <WP Engine install>
+```
+
+## wp-cli
+
 To use `wp-cli`, run `docker-compose exec wordpress /bin/wp` before your
 command. Optionally, create an alias `alias docker-wp="docker-compose exec wordpress /bin/wp"`
 so you don't have to type out the entire command.
 
 You can use `wp-cli` to replace strings in the database...
+
 ```
 docker-wp search-replace 'http://production.com' 'http://localhost:8080'
 ```
 
 ... and add an administrative user.
+
 ```
 docker-wp user create username username@domain.com --role=administrator --send-email
 ```
 
-To automate the set up of your local configuration, such as replace urls in
-the database or update settings, add WP CLI commands to the `bin/config.sh`
-and run them in the new container's shell:
+## Composer
 
-```
-docker-compose run wordpress /bin/bash
-bin/config.sh
-```
-
-# Composer
 This boilerplate comes with a composer package that you may use to get your
 site started and includes the whoops error handler framework for PHP to start.
 If your site already has Composer or you do not want the error handling framework,
@@ -77,25 +107,30 @@ delete the wp/composer.json file and remove the `$whoops` set up in the `wp-conf
 To use composer, install it on your machine and run `composer update` to install
 the vendor package. You may also want to add `/vendor` to your WordPress `.gitignore` file.
 
+## Database
 
-# Database
 You can look at the database with tools like
 [Sequel Pro](https://www.sequelpro.com/). The connection host will be
 `127.0.0.1` and the db username/password/name will be `wp` or whatever you set
 in your configuration if you change the config file.
 
+## Deployment
 
-# Deployment
-You can deploy to a WP Engine environment and alert the team by modifing the
-configuration file `deploy.cfg` then running
-`bin/deploy.sh -i <WP Engine remote origin> -b <branch> -m <optional message> -f <force push true or false(default)>`.
+You can deploy to a WP Engine environment and post a message to Slack by modifing
+the configuration files then running
 
-Be sure review [WP Engine's git push](https://wpengine.com/git/) protocol. You will
-need to add your SSH Key to the User Portal. Also, always backup the instance before
-you deploy.
-
+```
+bin/deploy.sh -i <WP Engine install> -b <branch> -m <message(optional)>
+```
 
 # Todo
+
 - [ ] SSL Configuration
+
+- [ ] Rollbar Deployment notification
+
 - [ ] Automate Composer install
-- [ ] Automate WP CLI Configuration runner
+
+# About NYCO
+
+NYC Opportunity is the [New York City Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity). We are committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback. Follow @nycopportunity on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity), [Twitter](https://twitter.com/nycopportunity), [Facebook](https://www.facebook.com/NYCOpportunity/), and [Instagram](https://www.instagram.com/nycopportunity/).
