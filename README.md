@@ -100,12 +100,14 @@ docker-wp user create username username@domain.com --role=administrator --send-e
 ## Composer
 
 This boilerplate comes with a composer package that you may use to get your
-site started and includes the whoops error handler framework for PHP to start.
-If your site already has Composer or you do not want the error handling framework,
-delete the wp/composer.json file and remove the `$whoops` set up in the `wp-config.php`.
+site started and includes the [Whoops error handler framework](https://github.com/filp/whoops)
+for PHP to start. If your site already has Composer or you do not want the error
+handling framework, delete the wp/composer.json file and remove the `$whoops`
+set up in the `wp-config.php`.
 
 To use composer, install it on your machine and run `composer update` to install
-the vendor package. You may also want to add `/vendor` to your WordPress `.gitignore` file.
+the vendor package. You may also want to add `/vendor` to your WordPress `.gitignore`
+file.
 
 ## Database
 
@@ -123,7 +125,7 @@ the configuration files then running
 bin/deploy.sh -i <WP Engine install> -b <branch> -m <message(optional)>
 ```
 
-# Todo
+## Todo
 
 - [ ] SSL Configuration
 
@@ -133,4 +135,8 @@ bin/deploy.sh -i <WP Engine install> -b <branch> -m <message(optional)>
 
 # About NYCO
 
-NYC Opportunity is the [New York City Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity). We are committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback. Follow @nycopportunity on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity), [Twitter](https://twitter.com/nycopportunity), [Facebook](https://www.facebook.com/NYCOpportunity/), and [Instagram](https://www.instagram.com/nycopportunity/).
+NYC Opportunity is the [New York City Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity).
+We are committed to sharing open source software that we use in our products.
+Feel free to ask questions and share feedback. Follow @nycopportunity on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity),
+[Twitter](https://twitter.com/nycopportunity), [Facebook](https://www.facebook.com/NYCOpportunity/),
+and [Instagram](https://www.instagram.com/nycopportunity/).
