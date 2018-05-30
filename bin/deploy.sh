@@ -5,8 +5,10 @@
 # bin/deploy.sh
 # ../bin/deploy.sh
 
-# get the absolute path of the script
+# get the absolute path of deploy.sh
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+# get parent directory of script
+BASE_PATH=$(dirname "$SCRIPT_PATH")
 
 # source the environmental variables and scripts
 source "${SCRIPT_PATH}/config.sh"
@@ -24,6 +26,7 @@ welcomeHead
 destProj
 echo "You selected:" $userProj
 
+# prompt user for action
 echo "What do you want to do?"
 echo "[0] Deploy"
 echo "[1] Sync"
@@ -34,8 +37,8 @@ if [[ $selection == 0 ]]; then
 	deployHead
 elif [[ $selection == 1 ]]; then
 	syncHead
-	echo "[0] Upload configuration"
-	echo "[1] Download uploads directory"
+	echo "[0] Upload config.yml"
+	echo "[1] Download uploads"
 	printf "Selection: "
 	read selection2
 	if [[ $selection2 == 0 ]]; then

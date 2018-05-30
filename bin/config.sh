@@ -1,8 +1,8 @@
 
 # source the environmental variables and scripts
-source config/slack.cfg
-source config/projects.cfg
-source config/colors.cfg
-source config/github.cfg
-source config/rollbar.cfg
-source config/wp.cfg
+source $BASE_PATH/config/slack.cfg
+source $BASE_PATH/config/projects.cfg
+source $BASE_PATH/config/colors.cfg
+source $BASE_PATH/config/github.cfg
+source $BASE_PATH/config/rollbar.cfg
+source $BASE_PATH/config/wp.cfg

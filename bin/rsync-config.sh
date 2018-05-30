@@ -4,9 +4,6 @@
 # Usage
 # bin/rsync-config.sh <instance>
 
-source config/slack.cfg
-source config/colors.cfg
-
 INSTANCE=$1
 COMMAND="rsync -azP config/config.yml ${INSTANCE}@${INSTANCE}.ssh.wpengine.net:sites/${INSTANCE}/wp-content/mu-plugins/config/"
 DOMAIN="https://${INSTANCE}.wpengine.com"
