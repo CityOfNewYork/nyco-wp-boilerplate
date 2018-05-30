@@ -20,6 +20,7 @@ ARR=(${!PROJ_*})
 # Execute the functions
 welcomeHead
 
+# prompt user for target project
 destProj
 echo "You selected:" $userProj
 
@@ -33,9 +34,17 @@ if [[ $selection == 0 ]]; then
 	deployHead
 elif [[ $selection == 1 ]]; then
 	syncHead
+	echo "[0] Upload configuration"
+	echo "[1] Download uploads directory"
+	printf "Selection: "
+	read selection2
+	if [[ $selection2 == 0 ]]; then
+		source $SCRIPT_PATH/rsync-config.sh $userProj
+	elif [[ $selection2 == 1 ]]; then
+		source $SCRIPT_PATH/rsync-uploads.sh $userProj
+	fi
 elif [[ $selection == 2 ]]; then
 	updateHead
-
 	coreUpdate
 else
 	echo "Nothing was selected... exiting."
