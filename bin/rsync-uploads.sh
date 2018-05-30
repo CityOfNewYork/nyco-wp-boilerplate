@@ -4,6 +4,8 @@
 # Usage
 # bin/get-uploads.sh <instance>
 
+source config/wp.cfg
+
 INSTANCE=$1
 COMMAND="rsync -azP ${INSTANCE}@${INSTANCE}.ssh.wpengine.net:sites/${INSTANCE}/wp-content/uploads ${WP}wp-content/"
 
