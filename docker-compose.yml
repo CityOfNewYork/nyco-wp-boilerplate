@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.6'
 
 services:
 
@@ -19,6 +19,21 @@ services:
       - ./nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
       - $WP:/var/www/html/:ro
 
+  wordpress:
+    build:
+      context: .
+      dockerfile: wordpress-fpm/Dockerfile
+    depends_on:
+      - mysql
+    restart: always
+    volumes:
+      - $WP/:/var/www/html/
+      - ./info.php:/var/www/html/info.php
+      - ./bin/config.sh:/var/www/html/bin/config.sh
+      # To use the latest Wordpress version, only mount the content
+      # - $WP/wp-content:/var/www/html/wp-content
+      # - $WP/wp-config.php:/var/www/html/wp-config.php
+
   mysql:
     image: mysql:5.7
     restart: always
@@ -32,19 +47,6 @@ services:
     volumes:
       - ./data:/docker-entrypoint-initdb.d
       - db:/var/lib/mysql
-
-  wordpress:
-    build: .
-    depends_on:
-      - mysql
-    restart: always
-    volumes:
-      - $WP/:/var/www/html/
-      - ./info.php:/var/www/html/info.php
-      - ./bin/config.sh:/var/www/html/bin/config.sh
-      # To use the latest Wordpress version, only mount the content
-      # - $WP/wp-content:/var/www/html/wp-content
-      # - $WP/wp-config.php:/var/www/html/wp-config.php
 
 volumes:
   db:

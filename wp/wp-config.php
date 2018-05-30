@@ -116,7 +116,8 @@ require __DIR__ . '/vendor/autoload.php';
 
 
 /**
- * Set up Whoops
+ * Set up Whoops, PHP errors for cool kids.
+ * @link https://github.com/filp/whoops
  */
 
 $whoops = new \Whoops\Run;

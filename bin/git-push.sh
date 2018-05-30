@@ -8,10 +8,12 @@
 # @optional -e env      - staging or production(default), the instance environment.
 # @optional -m message  - an optional message to post to slack.
 # @optional -f force    - use git push --force.
-# bin/deploy.sh growingupdev sprint-4-develop production
 
-source config/deploy.cfg
+source config/github.cfg
+source config/slack.cfg
+source config/rollbar.cfg
 source config/wp.cfg
+source config/colors.cfg
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
