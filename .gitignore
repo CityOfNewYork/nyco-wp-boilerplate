@@ -1,0 +1,11 @@
+# Wordpress
+*.sql
+wp-admin/*
+wp-content/*
+wp-includes/*
+
+!data/.gitkeep
+!wp-config.php
+!wp-config-sample.php
+
+.DS_Store
