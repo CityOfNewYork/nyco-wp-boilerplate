@@ -1,4 +1,4 @@
-FROM wordpress:php5.6-fpm
+FROM wordpress:php7.0-fpm
 
 # If you are working behind a proxy, uncomment and enter proxy here;
 # ENV http_proxy <proxy here>
