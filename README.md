@@ -10,7 +10,7 @@ Engine.
 
 - nginx:alpine
 
-- wordpress:php5.6-fpm
+- wordpress:php7.0-fpm
 
 ## Use
 
