@@ -1,19 +1,16 @@
 #!/bin/sh
 
 # Usage
-# Modify configuration file ../deploy.cfg
-# Then run `bin/deploy.sh -i <instance> -b <branch> -e <env> -m <optional message> -f true`
+# Run `bin/deploy.sh -i <instance> -b <branch> -e <env> -m <optional message> -f true`
 # @required -i instance - the wpengine instance and git remote alias.
-# @required -b branch   - the branch to deploy from.
+# @optional -b branch   - if the branch is different from env/$INSTANCE, this must be specified
 # @optional -e env      - staging or production(default), the instance environment.
 # @optional -m message  - an optional message to post to slack.
 # @optional -f force    - use git push --force.
+# bin/deploy.sh growingupdev sprint-4-develop production
 
-source config/github.cfg
-source config/slack.cfg
-source config/rollbar.cfg
+source config/deploy.cfg
 source config/wp.cfg
-source config/colors.cfg
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
@@ -41,11 +38,6 @@ if [ "$i" = "" ]; then
   exit 0
 fi
 
-if [ "$b" = "" ]; then
-  echo "-b (branch) is required"
-  exit 0
-fi
-
 INSTANCE=$i
 BRANCH=$b
 MESSAGE=$m
@@ -70,8 +62,7 @@ else
   FORCE_BOOL="false"
 fi
 
-# Configure the command
-COMMAND="git push $INSTANCE $BRANCH:master $FORCE"
+
 
 # Configure the URL
 if [ ENV = "staging" ] ; then
@@ -80,12 +71,11 @@ else
   DOMAIN="https://${INSTANCE}.wpengine.com"
 fi
 
-
 ###/
 # Functions
 ##/
 function branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+  git rev-parse --abbrev-ref HEAD
 }
 
 function commit_message {
@@ -113,8 +103,21 @@ function find_wp {
   if cd $WP ; then
     echo "Found!"
   else
-    echo "Couldn't find your application directory, be sure to add it to config.cfg"
+    echo "Couldn't find your application directory, be sure to add it to config.cfg."
     exit 0
+  fi
+}
+
+function env_branch {
+  printf "\xF0\x9F\x94\xAD     Checking branch... "
+  if [[ "$b" != "" ]]; then
+    BRANCH=$b
+  elif [[ "$(branch)" == "env/$INSTANCE" ]]; then
+    echo "None specified. Deploying from env/$INSTANCE.";
+    BRANCH="env/$INSTANCE"
+  else
+    echo "Incorrect branch. Check out env/$INSTANCE or specify the branch to deploy from.";
+    exit 0;
   fi
 }
 
@@ -137,6 +140,7 @@ function test_ssh {
 }
 
 function git_push {
+  COMMAND="git push $INSTANCE $BRANCH:master $FORCE"
   echo "\xF0\x9F\x9A\x80     ${COMMAND}... ";
   if eval $COMMAND; then
     echo "Success."
@@ -208,33 +212,31 @@ function success() {
     ]
   }"
 
-  # printf "\xF0\x9F\x99\x8C Success!"
-  # echo ""
   curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
   echo ""
 }
 
-function post_rollbar() {
-  # Rollbar deployment notifier
-  ROLLBAR_LOCAL_USERNAME=`whoami`
-  ROLLBAR_REVISION=`git log -n 1 --pretty=format:"%H"`
+# function post_rollbar() {
+#   # Rollbar deployment notifier
+#   ROLLBAR_LOCAL_USERNAME=`whoami`
+#   ROLLBAR_REVISION=`git log -n 1 --pretty=format:"%H"`
 
-  printf "${ROLLBAR_ICON_BYTE}     Notifying Rollbar and uploading sourcemaps... ";
-  curl -X POST https://api.rollbar.com/api/1/deploy/ \
-    -F access_token=${ROLLBAR_ACCESS_TOKEN} \
-    -F environment=${INSTANCE} \
-    -F revision=${ROLLBAR_REVISION} \
-    -F local_username=${ROLLBAR_LOCAL_USERNAME}
+#   printf "${ROLLBAR_ICON_BYTE}     Notifying Rollbar and uploading sourcemaps... ";
+#   curl -X POST https://api.rollbar.com/api/1/deploy/ \
+#     -F access_token=${ROLLBAR_ACCESS_TOKEN} \
+#     -F environment=${INSTANCE} \
+#     -F revision=${ROLLBAR_REVISION} \
+#     -F local_username=${ROLLBAR_LOCAL_USERNAME}
 
-  # curl https://api.rollbar.com/api/1/sourcemap \
-  #   -F access_token=${ROLLBAR_ACCESS_TOKEN} \
-  #   -F version=${version} \
-  #   -F minified_url=http://example.com/static/js/example.min.js \
-  #   -F source_map=@static/js/example.min.map \
-  #   -F static/js/site.js=@static/js/site.js \
-  #   -F static/js/util.js=@static/js/util.js
-  echo ""
-}
+#   # curl https://api.rollbar.com/api/1/sourcemap \
+#   #   -F access_token=${ROLLBAR_ACCESS_TOKEN} \
+#   #   -F version=${version} \
+#   #   -F minified_url=http://example.com/static/js/example.min.js \
+#   #   -F source_map=@static/js/example.min.map \
+#   #   -F static/js/site.js=@static/js/site.js \
+#   #   -F static/js/util.js=@static/js/util.js
+#   echo ""
+# }
 
 function fail() {
   MESSAGE="Deployment failed, could not push to remote."
@@ -252,8 +254,6 @@ function fail() {
     ]
   }"
 
-  # printf "\xF0\x9F\x93\x89     Failed!"
-  # echo $MESSAGE
   curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
   echo ""
 }
@@ -264,8 +264,9 @@ function fail() {
 ##/
 IFS='%'
 find_wp
+env_branch
 add_remote
-post_rollbar
+# post_rollbar
 post_slack
 git_push
 unset IFS

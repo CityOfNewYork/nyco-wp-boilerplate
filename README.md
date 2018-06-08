@@ -1,4 +1,5 @@
 # NYCO WordPress Docker Boilerplate
+
 At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC) and Growing Up NYC.
 
 This repository contains a Docker image that will install the latest version of WordPress to be served by nginx. It is the Boilerplate for running and maintaining all of our WordPress products and contains scripts for deployment, syncing, configuration, and notifications with all product environments hosted on WP Engine.
@@ -10,9 +11,10 @@ This repository contains a Docker image that will install the latest version of 
 - mysql:5.7
 
 ## Use
-Download a zip or clone this repository (be sure to delete the `.git` directory if you do the latter).
 
-You can either clone your entire WordPress site into the `wp` directory or select specific directories to mount (`wp-content/your-theme`). The Docker image will pull the latest version of WordPress and mount any files you do not include.
+Download a zip or clone this repository.
+
+The `wp` is where you place your WordPress installation. The Docker image will pull the latest version of WordPress and mount any files you do not include. You can clone your project directly into the boilerplate, and swap out `wp` with your project
 
 If you have a database dump to work with, place a `.sql` file in the `./data` directory. There's no need to rename it as the mysql image will look for any `.sql` file and execute it when the image is built.
 
@@ -21,6 +23,7 @@ Generate your [Salts](https://api.wordpress.org/secret-key/1.1/salt/) and place 
 If you are working behind a proxy, uncomment lines in the main `Dockerfile` and enter it in the appropriate areas.
 
 If your site has Composer dependencies and they have not been installed or you are using the default Composer package that comes with this repository, cd in the the `wp` directory and run...
+
 ```
 composer install
 ```
@@ -28,6 +31,12 @@ composer install
 Run `docker-compose build` to build your images then `docker-compose up` to start them. You can use `docker-compose up -d` to run in detached mode.
 
 After a few moments, you will be able to open up `localhost:8080` to visit your site.
+
+To create an interactive shell with the WordPress container, you can run...
+
+```
+docker-compose exec wordpress sh
+```
 
 ### Configuration
 
@@ -55,23 +64,27 @@ If you install WordPress in a directory other than `./wp` you will need to chang
 
 ### NYCO WP Config
 
-`config/config.yml` This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) WordPress plugin for environment configuration.
+`config/config.yml` This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) WordPress plugin for environment configuration. [See that repository](https://github.com/cityofnewyork/nyco-wp-config) for details on integrating with WordPress.
 
-### wp-cli
+### WP-CLI
 
-To use `wp-cli`, run `docker-compose exec wordpress /bin/wp` before your command. Optionally, create an alias `alias docker-wp="docker-compose exec wordpress /bin/wp"` so you don't have to type out the entire command.
+WP-CLI is a command line interface for WordPress. It is set up to work with your WordPress installation through this Boilerplate. [Read more about WP-CLI at it's website](https://wp-cli.org/).
 
-You can use `wp-cli` to replace strings in the database...
+To use WP-CLI, you need to run `docker-compose exec wordpress /bin/wp` before your command. Optionally, create an alias `alias docker-wp="docker-compose exec wordpress /bin/wp"` so you don't have to type out the entire command.
+
+There a lot of things you can do with the CLI such as replacing strings in a the WordPress database...
 
 ```
 docker-wp search-replace 'http://production.com' 'http://localhost:8080'
 ```
 
-... and add an administrative user.
+... or add an administrative user.
 
 ```
 docker-wp user create username username@domain.com --role=administrator --send-email
 ```
+
+[Refer to the documentation for more commands](https://developer.wordpress.org/cli/commands/).
 
 ### Composer
 
@@ -90,7 +103,7 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 You can use WP Engine's Git Push deployment to a remote installation by running...
 
 ```
-bin/git-push.sh -i <WP Engine install> -b <branch> -m <message (optional)>
+bin/git-push.sh -i <WP Engine install> -m <message (optional)>
 ```
 Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/).
 
@@ -112,7 +125,6 @@ bin/rsync-config.sh <WP Engine install>
 
 ### Todo
 
-- [ ] Document Scripts
 - [ ] SSL Configuration
 - [ ] Rollbar Deployment notification
 - [ ] Automate Composer install
