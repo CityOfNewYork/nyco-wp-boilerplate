@@ -1,4 +1,10 @@
 #!/bin/sh
+# functions.sh
+# Contains functions:
+# destProj - prompts the user to select project
+# coreUpdate - updates the WordPress core based on composer.json
+# Usage:
+# bin/functions.sh <instance>
 
 #####
 # prompt the user for which project they would like to use
@@ -23,77 +29,79 @@ function coreUpdate(){
 	echo "Base directory is:" $baseDir
 
 	# create temp directory
-	mkdir $baseDir/temp
+	tempDir=$baseDir/temp
+	mkdir $tempDir
 
-	# copy the .git and .gitignore into the base directory
-	echo 'copying .git and .gitignore'
-	cp -R $baseDir/wp/.git $baseDir
-	cp $baseDir/wp/.gitignore $baseDir
-	echo '>>>done'
+	# assign the project directory
+	projDir=$baseDir/wp
+	echo $projDir
 
-	# rename the composer.json in the root of the project
-	# copy composer-plugins.json to teh base directory
-	echo 'rename and copy composer.json for plugins'
-	mv $baseDir/wp/composer.json $baseDir/wp/composer-plugins.json
-	mv $baseDir/wp/composer.lock $baseDir/wp/composer-plugins.lock
-	cp $baseDir/wp/composer-plugins.json $baseDir
-	cp $baseDir/wp/composer-plugins.lock $baseDir
-	echo '>>>done'
+	echo '>Copying .git and .gitignore to temporary directory'
+	cp -R $projDir/.git $baseDir
+	cp $projDir/.gitignore $tempDir
+	echo '>>>DONE!'
 
-	# copy the readme to the base directory
-	cp $baseDir/wp/README.md $baseDir
+	echo '>Copying wp-config.php to temporary directory'
+	cp $projDir/wp-config.php $tempDir
+	echo '>>>DONE!'
 
-	# copy index, wp-config.php, and wp-content 
-	# to the base directory
-	echo 'copying wp-content'
-	cp -R $baseDir/wp/wp-content $baseDir
-	echo '>>>done'
+	echo '>Copying composer.json to temporary directory'
+	cp $projDir/composer.json $tempDir
+	cp $projDir/composer.lock $tempDir
+	echo '>>>DONE!'
 
-	# composer install to update the wordpress core
-	echo 'running composer install'
+	echo '>Copying README.md to temporary directory'
+	cp $projDir/README.md $tempDir
+
+	echo '>Copying wp-content to the temporary directory'
+	cp -R $projDir/wp-content $tempDir
+	echo '>>>DONE!'
+
+	echo '>Running composer install'
 	composer install
+	echo '>>>DONE!'
 
-	# copy git and gitignore back into project directory
-	echo 'RESTORE git and gitignore'
-	mv .git $baseDir/wp/
-	mv .gitignore $baseDir/wp/
+	echo '>Moving the .git and .gitignore to the project directory'
+	mv $tempDir/.git $projDir/
+	mv $tempDir/.gitignore $projDir/
+	echo '>>>DONE!'
 
-	# Copy index, config and wp-content into app directory
-	echo 'copying wp-config'
-	cp -rv wp-config.php $baseDir/wp/
+	echo '>Moving wp-config.php to the project directory'
+	mv $tempDir/wp-config.php $projDir/
+	echo '>>>DONE!'
 
-	# Copy plugins composer
-	echo 'remove new and move plugins composer.json'
-	rm $baseDir/wp/composer.json
-	mv composer-plugins.json $baseDir/wp/
-	mv $baseDir/wp/composer-plugins.json $baseDir/wp/composer.json
-	mv composer-plugins.lock $baseDir/wp/
-	mv $baseDir/wp/composer-plugins.lock $baseDir/wp/composer.lock
+	echo '>Moving the plugins composer.json to the project directory'
+	mv $tempDir/composer.json $projDir/
+	mv $tempDir/composer.lock $projDir/
+	echo '>>>DONE!'
 
-	# move the readme back
-	mv README.md $baseDir/wp/
+	echo '>Moving the README.md to the project directory'
+	mv $tempDir/README.md $projDir/
+	echo '>>>DONE!'
 
-	# remove the current wp-content built by composer
-	rm -r $baseDir/wp/wp-content
+	echo '>Removing the wp-content/ built by composer'
+	rm -r $projDir/wp-content
+	echo '>>>DONE!'
 
-	# move wp-content back
-	echo 'adding wp-content'
-	cp -R wp-content $baseDir/wp/
-	rm -r wp-content
-	echo '>>>done'
+	echo '>Moving wp-content/ to the project directory'
+	cp -R $tempDir/wp-content $projDir/
+	echo '>>>DONE!'
 
-	# remove the root vendor and composer.lock
-	rm -r vendor
-	rm composer.lock
+	echo '>Removing vendor and composer.lock from base directory'
+	rm -r $baseDir/vendor
+	rm $baseDir/composer.lock
+	echo '>>>DONE!'
 
-	# mission complete
-	echo 'updating wordpress core complete'
-
-	# remove the temp dir
+	# remove the tempDir
 	if [ -z "$(ls -A $baseDir/temp)" ]; then
-		echo "temp directory is empty... Removing."
-		rmdir temp/
+		echo ">Temporary directory is empty... Removing."
+		rmdir $tempDir
 	else
-	   echo "temp directory is not empty... Keeping."
+	   echo "ERROR!"
+	   echo ">Temporary directory is not empty... Keeping."
 	fi
+	
+	# mission complete
+	echo '>Updating wordpress core...'
+	echo 'COMPLETE!'
 }
