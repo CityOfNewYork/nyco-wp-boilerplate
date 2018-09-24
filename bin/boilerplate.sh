@@ -1,6 +1,7 @@
 #!/bin/sh
-# Only run this is you want to update the boilerplate
-# boilerplate.sh
+# Allows the user to switch between updating the 
+# boilerplate and the WordPress project
+# bin/boilerplate.sh
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
@@ -45,6 +46,8 @@ function updateBoilerplate() {
     mv $PROJ_PATH/.gitignore $wpTempDir
 		echo ">>>DONE!"
   fi
+
+	echo "You are all set to edit the docker boilerplate!"
 }
 
 # When you want to go back to making edits to the WP,
@@ -71,7 +74,6 @@ function updateWP() {
 	fi
 
 	echo "You are all set to work on your WordPress project!"
-
 }
 
 # --------------------------------------------------------
