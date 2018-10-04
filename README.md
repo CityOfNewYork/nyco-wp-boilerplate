@@ -24,9 +24,7 @@ If you are working behind a proxy, uncomment lines in the main `Dockerfile` and 
 
 If your site has Composer dependencies and they have not been installed or you are using the default Composer package that comes with this repository, cd in the the `wp` directory and run...
 
-```
-composer install
-```
+    composer install
 
 Run `docker-compose build` to build your images then `docker-compose up` to start them. You can use `docker-compose up -d` to run in detached mode.
 
@@ -34,9 +32,7 @@ After a few moments, you will be able to open up `localhost:8080` to visit your 
 
 To create an interactive shell with the WordPress container, you can run...
 
-```
-docker-compose exec wordpress sh
-```
+    docker-compose exec wordpress sh
 
 ### Configuration
 
@@ -74,15 +70,11 @@ To use WP-CLI, you need to run `docker-compose exec wordpress /bin/wp` before yo
 
 There a lot of things you can do with the CLI such as replacing strings in a the WordPress database...
 
-```
-docker-wp search-replace 'http://production.com' 'http://localhost:8080'
-```
+    docker-wp search-replace 'http://production.com' 'http://localhost:8080'
 
 ... or add an administrative user.
 
-```
-docker-wp user create username username@domain.com --role=administrator --send-email
-```
+    docker-wp user create username username@domain.com --role=administrator --send-email
 
 [Refer to the documentation for more commands](https://developer.wordpress.org/cli/commands/).
 
@@ -102,26 +94,29 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 
 You can use WP Engine's Git Push deployment to a remote installation by running...
 
-```
-bin/git-push.sh -i <WP Engine install> -m <message (optional)>
-```
+    bin/git-push.sh -i <WP Engine install> -m <message (optional)>
+
 Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/).
 
 ### Uploads
 
 You can `rsync` remote `wp-content/uploads` from a WP Engine installation to your local and vise versa by running...
-```
-bin/rsync-uploads.sh <WP Engine install> -d
-```
+
+    bin/rsync-uploads.sh <WP Engine install> -d
+
 The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
 
 ### Config
 
 You can `rsync` the local `config/config.yml` to a remote environment's `wp-content/mu-plugins/config` directory by running...
 
-```
-bin/rsync-config.sh <WP Engine install>
-```
+    bin/rsync-config.sh <WP Engine install>
+
+### Versioning
+
+You can version the repository with the latest release number. This will update the `composer.json`, `package.json`, and regenerate the `package-lock.json` file. It will then commit the file changes and tag the repository.
+
+    bin/version.sh <Release Number>
 
 ### Todo
 
