@@ -9,8 +9,8 @@
 # @optional -f force    - use git push --force.
 # bin/deploy.sh growingupdev sprint-4-develop production
 
-source config/deploy.cfg
-source config/wp.cfg
+source config.sh
+source find_wp.sh
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
@@ -96,16 +96,6 @@ function version {
     | head -1 \
     | awk -F: '{ print $2 }' \
   | sed 's/[",]//g')
-}
-
-function find_wp {
-  printf "\xF0\x9F\x94\xAC     Finding application source... ";
-  if cd $WP ; then
-    echo "Found!"
-  else
-    echo "Couldn't find your application directory, be sure to add it to config.cfg."
-    exit 0
-  fi
 }
 
 function env_branch {
