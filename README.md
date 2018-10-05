@@ -40,13 +40,15 @@ To create an interactive shell with the WordPress container, you can run...
 
 `config/colors.cfg` These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
 
+`config/domain.cfg` The production domain, CDN, and path for distributed `.js` files go here.
+
 `config/github.cfg`
 
 - `GITHUB_URL` The url for the product repository.
 
 `config/projects.cfg` All of the product environment instance names should be added here.
 
-`config/rollbar.cfg` We use [Rollbar](https://rollbar.com) for error monitoring. The access token for the products Rollbar account go here.
+`config/rollbar.cfg` The access token for the product's Rollbar account and your local Rollbar username go here.
 
 `config/slack.cfg` Deployment and syncronisation scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
 
@@ -114,15 +116,15 @@ You can `rsync` the local `config/config.yml` to a remote environment's `wp-cont
 
 ### Versioning
 
-You can version the repository with the latest release number. This will update the `composer.json`, `package.json`, and regenerate the `package-lock.json` file. It will then commit the file changes and tag the repository.
+You can version the repository with the latest release number. This will update the `composer.json`, `style.css` (WordPress theme file), `package.json`, and regenerate the `package-lock.json` file. It will then commit the file changes and tag the repository.
 
     bin/version.sh <Release Number>
 
-### Todo
+### Rollbar Sourcemaps
 
-- [ ] SSL Configuration
-- [ ] Rollbar Deployment notification
-- [ ] Automate Composer install
+We use [Rollbar](https://rollbar.com) for error monitoring. After every deployment to production we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's `assets/js` folder and will attempt to upload sourcemaps for all files with the extension `.min.js`. It will assume there is a sourcemap with the same name and extension `.min.js.map`. A version number is also supplied through the `bin/get-version.sh` which uses the version number in the root `composer.json` file.
+
+    bin/rollbar-sourcemaps.sh
 
 # About NYCO
 

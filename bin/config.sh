@@ -6,3 +6,4 @@ source $BASE_PATH/config/colors.cfg
 source $BASE_PATH/config/github.cfg
 source $BASE_PATH/config/rollbar.cfg
 source $BASE_PATH/config/wp.cfg
+source $BASE_PATH/config/domain.cfg
