@@ -206,27 +206,17 @@ function success() {
   echo ""
 }
 
-# function post_rollbar() {
-#   # Rollbar deployment notifier
-#   ROLLBAR_LOCAL_USERNAME=`whoami`
-#   ROLLBAR_REVISION=`git log -n 1 --pretty=format:"%H"`
+function post_rollbar {
+  revision=`git log -n 1 --pretty=format:"%H"`
 
-#   printf "${ROLLBAR_ICON_BYTE}     Notifying Rollbar and uploading sourcemaps... ";
-#   curl -X POST https://api.rollbar.com/api/1/deploy/ \
-#     -F access_token=${ROLLBAR_ACCESS_TOKEN} \
-#     -F environment=${INSTANCE} \
-#     -F revision=${ROLLBAR_REVISION} \
-#     -F local_username=${ROLLBAR_LOCAL_USERNAME}
-
-#   # curl https://api.rollbar.com/api/1/sourcemap \
-#   #   -F access_token=${ROLLBAR_ACCESS_TOKEN} \
-#   #   -F version=${version} \
-#   #   -F minified_url=http://example.com/static/js/example.min.js \
-#   #   -F source_map=@static/js/example.min.map \
-#   #   -F static/js/site.js=@static/js/site.js \
-#   #   -F static/js/util.js=@static/js/util.js
-#   echo ""
-# }
+  printf "${ROLLBAR_ICON_BYTE}     Sending deployment to Rollbar... ";
+  curl -X POST https://api.rollbar.com/api/1/deploy/ \
+    -F access_token=${ROLLBAR_ACCESS_TOKEN} \
+    -F environment=${INSTANCE} \
+    -F revision=${revision} \
+    -F local_username=`${ROLLBAR_LOCAL_USERNAME}`
+  echo ""
+}
 
 function fail() {
   MESSAGE="Deployment failed, could not push to remote."
@@ -256,7 +246,7 @@ IFS='%'
 find_wp
 env_branch
 add_remote
-# post_rollbar
+post_rollbar
 post_slack
 git_push
 unset IFS

@@ -98,7 +98,7 @@ You can use WP Engine's Git Push deployment to a remote installation by running.
 
     bin/git-push.sh -i <WP Engine install> -m <message (optional)>
 
-Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/).
+Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/). This will also post a tracked deployment to Rollbar.
 
 ### Uploads
 
