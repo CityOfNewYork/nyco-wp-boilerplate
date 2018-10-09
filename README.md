@@ -116,7 +116,7 @@ You can `rsync` the local `config/config.yml` to a remote environment's `wp-cont
 
 ### Versioning
 
-You can version the repository with the latest release number. This will update the `composer.json`, `style.css` (WordPress theme file), `package.json`, and regenerate the `package-lock.json` file. It will then commit the file changes and tag the repository.
+You can version the repository with the latest release number. This will update the `composer.json`, `style.css` (WordPress theme file), `package.json`, and regenerate the `package-lock.json` file. Then, it will run an NPM Script named "version" that should be defined in the theme's `package.json` file. This script can run any any process that requires an update to the front-end styles or scripts dependent on the version of the `package.json`. Finally, it will commit the file changes and tag the repository.
 
     bin/version.sh <Release Number>
 

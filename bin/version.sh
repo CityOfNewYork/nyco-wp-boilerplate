@@ -7,6 +7,8 @@
 # wp-content/themes/$THEME/package.json
 # wp-content/themes/$THEME/package-lock.json
 #
+# It will then run a "version" script defined in the package.json file
+#
 # It then commits the changes and tags the commit.
 #
 # Usage;
@@ -14,7 +16,7 @@
 # ex;
 # bin/version.sh 3.1.0
 
-source config.sh
+source config/wp.cfg
 source bin/find_wp.sh
 source bin/git.sh
 
@@ -23,6 +25,7 @@ COMMAND_PACKAGE_LOCK="npm install --package-lock-only"
 COMMAND_ADD="git add -A"
 COMMAND_COMMIT="git commit -m \"v$VERSION\""
 COMMAND_TAG="git tag v$VERSION"
+COMMAND_NPM="npm run version"
 
 function version_composer {
   echo "\xF0\x9F\x94\xAC     Versioning site... ";
@@ -46,6 +49,15 @@ function regen_package_lock {
   fi
 }
 
+function npm_version_script {
+  if eval $COMMAND_NPM ; then
+    printf ""
+  else
+    echo "NPM Script failed."
+    exit 0
+  fi
+}
+
 function success {
   echo "Successfully versioned and tagged v$VERSION release. You can push your commit to origin and pull into master."
 }
@@ -55,6 +67,7 @@ find_wp
 version_composer
 version_theme
 regen_package_lock
+npm_version_script
 git_add $COMMAND_ADD
 git_commit $COMMAND_COMMIT
 git_tag $COMMAND_TAG
