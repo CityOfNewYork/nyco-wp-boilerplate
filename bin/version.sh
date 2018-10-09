@@ -28,19 +28,19 @@ COMMAND_TAG="git tag v$VERSION"
 COMMAND_NPM="npm run version"
 
 function version_composer {
-  echo "\xF0\x9F\x94\xAC     Versioning site... ";
+  echo "\xF0\x9F\x93\x9D     Versioning site... ";
   sed -i "" -E "s|\"version\": \"([0-9.-]*)\"|\"version\": \"$VERSION\"|g" composer.json
 }
 
 function version_theme {
-  echo "\xF0\x9F\x94\xAC     Finding and versioning theme... ";
+  echo "\xF0\x9F\x93\x9B     Finding and versioning theme... ";
   cd "wp-content/themes/$THEME/"
   sed -i "" -E "s|Version: ([0-9.-]*)|Version: $VERSION|g" style.css
   sed -i "" -E "s|\"version\": \"([0-9.-]*)\"|\"version\": \"$VERSION\"|g" package.json
 }
 
 function regen_package_lock {
-  echo "\xF0\x9F\x94\xAC     Regenerating package-lock.json... ";
+  echo "\xF0\x9F\x94\x92     Regenerating package-lock.json... ";
   if eval $COMMAND_PACKAGE_LOCK ; then
     printf ""
   else
@@ -50,10 +50,11 @@ function regen_package_lock {
 }
 
 function npm_version_script {
+  echo "\xF0\x9F\x8D\x92     Running '$COMMAND_NPM'... ";
   if eval $COMMAND_NPM ; then
-    printf ""
+    printf "'$COMMAND_NPM' finished"
   else
-    echo "NPM Script failed."
+    echo "'$COMMAND_NPM' failed."
     exit 0
   fi
 }

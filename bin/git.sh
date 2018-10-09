@@ -1,6 +1,6 @@
 
 function git_clean {
-  printf "\xF0\x9F\x94\xAC     Git status... ";
+  printf "\xE2\x9A\xA0     Git status... ";
   if [ -z "$(git status --porcelain)" ]; then
     echo "Working directory clean!"
   else
@@ -10,7 +10,7 @@ function git_clean {
 }
 
 function git_add {
-  printf "\xF0\x9F\x94\xAC     Staging commit... ";
+  printf "\xF0\x9F\x8E\x92     Staging commit... ";
   if eval $1 ; then
     echo "Staged!"
   else
@@ -20,7 +20,7 @@ function git_add {
 }
 
 function git_commit {
-  printf "\xF0\x9F\x94\xAC     Committing changes... ";
+  printf "\xE2\x9C\x8C     Committing changes... ";
   if eval $1 ; then
     printf ""
   else
@@ -30,7 +30,7 @@ function git_commit {
 }
 
 function git_tag {
-  printf "\xF0\x9F\x94\xAC     Tagging repository... ";
+  printf "\xE2\x9C\xA8     Tagging repository... ";
   if eval $1 ; then
     echo "Tagged!"
   else
