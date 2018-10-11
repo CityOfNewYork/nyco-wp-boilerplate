@@ -1,33 +1,61 @@
 #!/bin/sh
 
 # Uploads all unique sourcemaps to Rollbar. It will scan the assets/js
-# directory for all files with .min.js extensions. It will use this name to
+# directory for all files with .min.js extensions. It will use the file name to
 # upload sourcemaps with the .min.js.map extension.
 #
-# Requires that the CDN is set in the domain.cfg and the wp.cfg WP and THEME
-# are set. Uses get-version.sh which requires a composer.json file in the root
-# of the site.
+# The local source map must match the remote sourcemap.
 #
 # Usage
-# bin/rollbar-sourcemaps.sh
+# bin/rollbar-sourcemaps.sh <instance>
+#
+# The scripts need to match a specific pattern; script.hash.min.js
+# Example; main.485af636c4bfedaf8ebe1b38e556b27d.min.js
+#
+# The source map should match the filename, but should have the .map postfix.
+# Example; main.485af636c4bfedaf8ebe1b38e556b27d.min.js.map
+#
+# If the instance has a CDN, that will need to be set in the domain.cfg.
+# Example; CDN_INSTANCE or CDN_ACCESSNYC
+#
+# If there is no CDN, it will assume that the script is hosted on the default
+# instance on WP Engine; https://instance.wpengine.com or https://accessnycstage.wpengine.com
 
 source bin/config.sh
 source bin/get-version.sh
+source bin/get-instance-config.sh
+
+INSTANCE=$1
+
+# Check for CDN configuration
+CDN=$(get_instance_config 'CDN' $INSTANCE)
+
+if [[ "$CDN" != "" ]]; then
+  CDN=$CDN
+else
+  CDN="https://${INSTANCE}.wpengine.com"
+fi
+
+
+# Functions
 
 function rollbar_sourcemap {
-  files=${WP}${SCRIPTS_DIRECTORY}*.min.js
+  files=${WP}wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}*.min.js
 
   for f in $files; do
-    minified_url="${CDN}/wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}$(basename $f)"
-    source_map="${WP}/wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}$(basename $f).map"
+    file=${f##*/}
+    remote_minified_script="${CDN}/wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}${file}"
+    local_source_map="${WP}wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}${file}.map"
 
-    printf "${ROLLBAR_ICON_BYTE}     Uploading v$(get_version) $(basename $f) sourcemaps to Rollbar... ";
+    hash="$(cut -d'.' -f2 <<<"${file}")"
+
+    printf "${ROLLBAR_ICON_BYTE}     Uploading ${file}.map to Rollbar as version ${hash}... "
 
     curl https://api.rollbar.com/api/1/sourcemap \
       -F access_token=${ROLLBAR_ACCESS_TOKEN} \
-      -F version=$(get_version) \
-      -F minified_url=${minified_url} \
-      -F source_map=@${source_map}
+      -F version=${hash} \
+      -F minified_url=${remote_minified_script} \
+      -F source_map=@${local_source_map}
     echo ""
   done
 
@@ -35,6 +63,7 @@ function rollbar_sourcemap {
 }
 
 IFS='%'
+echo "\xF0\x9F\x93\xA6     CDN detected; ${CDN} "
 rollbar_sourcemap
 unset IFS
 

@@ -122,9 +122,9 @@ You can version the repository with the latest release number. This will update 
 
 ### Rollbar Sourcemaps
 
-We use [Rollbar](https://rollbar.com) for error monitoring. After every deployment to production we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's `assets/js` folder and will attempt to upload sourcemaps for all files with the extension `.min.js`. It will assume there is a sourcemap with the same name and extension `.min.js.map`. A version number is also supplied through the `bin/get-version.sh` which uses the version number in the root `composer.json` file.
+We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's `assets/js` folder and will attempt to upload sourcemaps for all files with the extension `.min.js`. The script files need to match the pattern `script.hash.min.js`, ex; `main.485af636c4bfedaf8ebe1b38e556b27d.min.js`. It will assume there is a sourcemap with the same name and extension `.map`, ex; `main.485af636c4bfedaf8ebe1b38e556b27d.min.js.map`. If the instance has a CDN, that will need to be set in the `domain.cfg`, ex; `CDN_INSTANCE` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://instance.wpengine.com` or `https://accessnycstage.wpengine.com`.
 
-    bin/rollbar-sourcemaps.sh
+    bin/rollbar-sourcemaps.sh <WP Engine install>
 
 # About NYCO
 
