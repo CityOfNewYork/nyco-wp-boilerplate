@@ -3,6 +3,7 @@
 # Updates the version of the following files using the supplied version;
 #
 # composer.json
+# composer-lock.json
 # wp-content/themes/$THEME/style.css
 # wp-content/themes/$THEME/package.json
 # wp-content/themes/$THEME/package-lock.json
@@ -21,6 +22,7 @@ source bin/find_wp.sh
 source bin/git.sh
 
 VERSION=$1
+COMMAND_COMPOSER_LOCK="composer update nothing"
 COMMAND_PACKAGE_LOCK="npm install --package-lock-only"
 COMMAND_ADD="git add -A"
 COMMAND_COMMIT="git commit -m \"v$VERSION\""
@@ -28,12 +30,22 @@ COMMAND_TAG="git tag v$VERSION"
 COMMAND_NPM="npm run version"
 
 function version_composer {
-  echo "\xF0\x9F\x93\x9D     Versioning site... ";
+  echo "\xF0\x9F\x93\x9D     Versioning site (composer.json)... ";
   sed -i "" -E "s|\"version\": \"([0-9.-]*)\"|\"version\": \"$VERSION\"|g" composer.json
 }
 
+function regen_composer_lock {
+  echo "\xF0\x9F\x94\x92     Regenerating composer-lock.json... ";
+  if eval $COMMAND_COMPOSER_LOCK ; then
+    printf ""
+  else
+    echo "composer-lock.json regen failed."
+    exit 0
+  fi
+}
+
 function version_theme {
-  echo "\xF0\x9F\x93\x9B     Finding and versioning theme... ";
+  echo "\xF0\x9F\x93\x9B     Finding and versioning theme (package.json)... ";
   cd "wp-content/themes/$THEME/"
   sed -i "" -E "s|Version: ([0-9.-]*)|Version: $VERSION|g" style.css
   sed -i "" -E "s|\"version\": \"([0-9.-]*)\"|\"version\": \"$VERSION\"|g" package.json
@@ -66,6 +78,7 @@ function success {
 IFS='%'
 find_wp
 version_composer
+regen_composer_lock
 version_theme
 regen_package_lock
 npm_version_script
