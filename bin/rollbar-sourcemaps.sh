@@ -24,6 +24,7 @@
 source bin/config.sh
 source bin/get-version.sh
 source bin/get-instance-config.sh
+source bin/slack-notifications.sh
 
 INSTANCE=$1
 
@@ -35,7 +36,6 @@ if [[ "$CDN" != "" ]]; then
 else
   CDN="https://${INSTANCE}.wpengine.com"
 fi
-
 
 # Functions
 
@@ -64,7 +64,9 @@ function rollbar_sourcemap {
 
 IFS='%'
 echo "\xF0\x9F\x93\xA6     CDN detected; ${CDN} "
+post_slack 'Uploading sourcemaps to Rollbar.'
 rollbar_sourcemap
+post_slack_success 'Uploading complete.'
 unset IFS
 
 exit 0
