@@ -9,8 +9,9 @@
 # @optional -f force    - use git push --force.
 # bin/deploy.sh growingupdev sprint-4-develop production
 
-source config.sh
-source find_wp.sh
+source bin/config.sh
+source bin/find_wp.sh
+source bin/slack-notifications.sh
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
@@ -142,9 +143,10 @@ function git_push {
   fi
 }
 
-function post_slack() {
+function post_slack_with_attachments() {
   COMMIT="$(commit_message)"
   COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
+
   PAYLOAD="payload={
     \"channel\": \"${SLACK_CHANNEL}\",
     \"icon_emoji\": \"${SLACK_ICON}\",
@@ -189,21 +191,8 @@ function post_slack() {
 function success() {
   MESSAGE="Deployment complete"
   COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
-  PAYLOAD="payload={
-    \"channel\": \"${SLACK_CHANNEL}\",
-    \"username\": \"${SLACK_USERNAME}\",
-    \"icon_emoji\": \"${SLACK_ICON}\",
-    \"attachments\": [
-      {
-        \"mrkdwn_in\": [\"text\", \"pretext\"],
-        \"color\": \"${COLOR_BLUE}\",
-        \"text\": \"${COMMIT_URL} ${MESSAGE}\"
-      }
-    ]
-  }"
 
-  curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
-  echo ""
+  post_slack_success "${COMMIT_URL} ${MESSAGE}"
 }
 
 function post_rollbar {
@@ -221,21 +210,8 @@ function post_rollbar {
 function fail() {
   MESSAGE="Deployment failed, could not push to remote."
   COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
-  PAYLOAD="payload={
-    \"channel\": \"${SLACK_CHANNEL}\",
-    \"username\": \"${SLACK_USERNAME}\",
-    \"icon_emoji\": \"${SLACK_ICON}\",
-    \"attachments\": [
-      {
-        \"mrkdwn_in\": [\"text\", \"pretext\"],
-        \"color\": \"${COLOR_RED}\",
-        \"text\": \"${COMMIT_URL} ${MESSAGE}\"
-      }
-    ]
-  }"
 
-  curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
-  echo ""
+  post_slack_fail "${COMMIT_URL} ${MESSAGE}"
 }
 
 
@@ -247,7 +223,7 @@ find_wp
 env_branch
 add_remote
 post_rollbar
-post_slack
+post_slack_with_attachments
 git_push
 unset IFS
 
