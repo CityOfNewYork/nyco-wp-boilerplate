@@ -1,4 +1,4 @@
-FROM wordpress:php7.0-fpm
+FROM wordpress:php7.2-fpm-alpine
 
 # If you are working behind a proxy, uncomment and enter proxy here;
 # ENV http_proxy <proxy here>
