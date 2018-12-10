@@ -6,18 +6,35 @@
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
+source "${SCRIPT_PATH}/headers.sh"
+boilerWPHead
+
 source "${BASE_PATH}/config/wp.cfg"
 PROJ_PATH=$WP
 
 bpTempDir=$BASE_PATH/temp/bp
 wpTempDir=$BASE_PATH/temp/wp
 
+# creates temporary directory if it does not exist
+function tempDirs() {
+	echo 'Making temporary directories'
+	if [ ! -d $bpTempDir ]; then
+	  mkdir -p $bpTempDir
+	fi
+	if [ ! -d $wpTempDir ]; then
+	  mkdir -p $wpTempDir
+	fi
+}
+
 # function will move the .git/ and .gitignore of the WP
 # into the temporary folder so that you'll be able to 
 # make updates to the boilerplate
 function updateBoilerplate() {
-	echo "\nGreat! You've chosen update the boilerplate. We're gonna get that setup for you right now."
-	echo "If you made a mistake, hit Ctrl-C"
+	echo "\n========================"
+	echo "Great! You've chosen update the boilerplate. We're gonna get that setup for you right now."
+
+	confirmAction
+	tempDirs
 	echo "\nMoving the boilerplate back to ${BASE_PATH} from ${bpTempDir}\n"
 
 	# checking existence of repo in root
@@ -47,15 +64,19 @@ function updateBoilerplate() {
 		echo ">>>DONE!"
   fi
 
-	echo "You are all set to edit the docker boilerplate!"
+	echo "========================"
+	echo "You are all set to edit the nyco-wp-docker-boilerplate!\n"
 }
 
 # When you want to go back to making edits to the WP,
 # move the boilerplate git repo and gitignore back 
 # into the temp directory
 function updateWP() {
+	echo "\n========================"
 	echo "\nAwesome! You want to get back to your WordPress project. We're working on it!"
-	echo "If you made a mistake, hit Ctrl-C"
+
+	confirmAction
+	tempDirs
 
 	# checking existence of repo in root
 	if [ -d $BASE_PATH/.git ] || [ -e $BASE_PATH/.gitignore ] ; then
@@ -73,11 +94,13 @@ function updateWP() {
 		echo ">>>DONE!"
 	fi
 
-	echo "You are all set to work on your WordPress project!"
+	echo "========================"
+	echo "You are all set to work on your WordPress project!\n"
 }
 
 # --------------------------------------------------------
 function promptUser(){
+	echo "========================\n"
 	echo "What do you want to do?"
 	echo "[1] Update the nyco-wp-docker-boilerplate"
 	echo "[2] Update your Wordpress Project"
@@ -90,6 +113,18 @@ function promptUser(){
 	else
 		echo "You didn't make a valid selection... Exiting."
 		exit 1
+	fi
+}
+
+function confirmAction(){
+	echo "Shall we proceed?"
+	echo "[1] Yes"
+	echo "[2] No"
+	printf "Selection: "
+	read selection
+	if [[ $selection == 2 ]]; then
+		echo "You selected [2] No. ... Exiting."
+		exit 1		
 	fi
 }
 
