@@ -38,3 +38,19 @@ function git_tag {
     exit 0
   fi
 }
+
+function git_str_branch {
+  git rev-parse --abbrev-ref HEAD
+}
+
+function git_str_commit_message {
+  git log -1 --pretty=%B
+}
+
+function git_str_commit_hash_short {
+  git rev-parse --verify --short HEAD
+}
+
+function git_str_commit_hash_full {
+  git rev-parse --verify HEAD
+}

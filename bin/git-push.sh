@@ -63,8 +63,6 @@ else
   FORCE_BOOL="false"
 fi
 
-
-
 # Configure the URL
 if [ ENV = "staging" ] ; then
   DOMAIN="https://${INSTANCE}.${ENV}.wpengine.com"
@@ -75,35 +73,11 @@ fi
 ###/
 # Functions
 ##/
-function branch {
-  git rev-parse --abbrev-ref HEAD
-}
-
-function commit_message {
-  git log -1 --pretty=%B
-}
-
-function commit_hash_short {
-  git rev-parse --verify --short HEAD
-}
-
-function commit_hash_full {
-  git rev-parse --verify HEAD
-}
-
-function version {
-  $(cat wp-content/themes/${THEME}/package.json \
-    | grep version \
-    | head -1 \
-    | awk -F: '{ print $2 }' \
-  | sed 's/[",]//g')
-}
-
 function env_branch {
   printf "\xF0\x9F\x94\xAD     Checking branch... "
   if [[ "$b" != "" ]]; then
     BRANCH=$b
-  elif [[ "$(branch)" == "env/$INSTANCE" ]]; then
+  elif [[ "$(git_str_branch)" == "env/$INSTANCE" ]]; then
     echo "None specified. Deploying from env/$INSTANCE.";
     BRANCH="env/$INSTANCE"
   else
@@ -144,8 +118,8 @@ function git_push {
 }
 
 function post_slack_with_attachments() {
-  COMMIT="$(commit_message)"
-  COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
+  COMMIT="$(git_str_commit_message)"
+  COMMIT_URL="\`<${GITHUB_URL}/commit/$(git_str_commit_hash_full)|$(git_str_commit_hash_short)>\`"
 
   PAYLOAD="payload={
     \"channel\": \"${SLACK_CHANNEL}\",
@@ -190,7 +164,7 @@ function post_slack_with_attachments() {
 
 function success() {
   MESSAGE="Deployment complete"
-  COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
+  COMMIT_URL="\`<${GITHUB_URL}/commit/$(git_str_commit_hash_full)|$(git_str_commit_hash_short)>\`"
 
   post_slack_success "${COMMIT_URL} ${MESSAGE}"
 }
@@ -209,7 +183,7 @@ function post_rollbar {
 
 function fail() {
   MESSAGE="Deployment failed, could not push to remote."
-  COMMIT_URL="\`<${GITHUB_URL}/commit/$(commit_hash_full)|$(commit_hash_short)>\`"
+  COMMIT_URL="\`<${GITHUB_URL}/commit/$(git_str_commit_hash_full)|$(git_str_commit_hash_short)>\`"
 
   post_slack_fail "${COMMIT_URL} ${MESSAGE}"
 }
