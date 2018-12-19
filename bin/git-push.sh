@@ -222,9 +222,9 @@ IFS='%'
 find_wp
 env_branch
 add_remote
-post_rollbar
 post_slack_with_attachments
 git_push
+post_rollbar
 unset IFS
 
 exit 0
