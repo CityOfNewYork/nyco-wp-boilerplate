@@ -9,6 +9,11 @@ RUN apt-get update \
   && apt-get install -y sudo less mysql-client \
   && rm -rf /var/lib/apt/lists/*
 
+# uncomment if building alpine image
+# RUN apk update \
+#   && apk add sudo less mysql-client \
+#   && rm -rf /var/lib/apt/lists/*
+
 # Install wp-cli
 # If you are working behind a proxy, uncomment 13, enter proxy, then comment out line 15;
 # RUN curl -x <proxy here> -o /bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
