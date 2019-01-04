@@ -8,10 +8,16 @@
 # @optional -m message  - an optional message to post to slack.
 # @optional -f force    - use git push --force.
 # bin/deploy.sh growingupdev sprint-4-develop production
+####
+# To run individually from the main deploy.sh, use the following
+# bin/git-push.sh -i growingupdev -b sprint-4-develop - e production
 
-source bin/config.sh
-source bin/find_wp.sh
-source bin/slack-notifications.sh
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "${SCRIPT_PATH}/config.sh"
+source "${SCRIPT_PATH}/find_wp.sh"
+source "${SCRIPT_PATH}/slack-notifications.sh"
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
