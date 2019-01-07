@@ -22,12 +22,7 @@ ARR=(${!PROJ_*})
 # Execute the functions
 welcomeHead
 
-# prompt user for target project
-destProj
-echo "You selected:" $userProj
-echo $(pwd)
 
-deploy_cmd="${SCRIPT_PATH}/git-push.sh -i ${userProj}"
 
 # prompt user for action
 echo "\nWhat do you want to do?"
@@ -38,6 +33,11 @@ printf "Selection: "
 read selection
 if [[ $selection == 0 ]]; then
   deployHead
+  # prompt user for target project
+  destProj
+  echo "You selected:" $userProj
+
+  deploy_cmd="${SCRIPT_PATH}/git-push.sh -i ${userProj}"
   echo "\nWhich branch would you like to push to ${!ARR[$userProj]}?"
   BRANCHES=($(git branch | grep "[^* ]+" -Eo))
   for i in ${!BRANCHES[@]}
@@ -107,6 +107,11 @@ if [[ $selection == 0 ]]; then
 # ###
 elif [[ $selection == 1 ]]; then
 	syncHead
+  # prompt user for target project
+  destProj
+  echo "You selected:" $userProj
+
+  deploy_cmd="${SCRIPT_PATH}/git-push.sh -i ${userProj}"
 	echo "[0] Upload config.yml"
 	echo "[1] Download uploads"
 	printf "Selection: "
@@ -116,6 +121,7 @@ elif [[ $selection == 1 ]]; then
 	elif [[ $selection2 == 1 ]]; then
 		source $SCRIPT_PATH/rsync-uploads.sh $userProj
 	fi
+# ###
 elif [[ $selection == 2 ]]; then
 	updateHead
 	coreUpdate
