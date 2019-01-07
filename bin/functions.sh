@@ -92,15 +92,18 @@ function coreUpdate(){
 	rm $baseDir/composer.lock
 	echo '>>>DONE!'
 
-	# remove the tempDir
-	if [ -z "$(ls -A $baseDir/temp)" ]; then
-		echo ">Temporary directory is empty... Removing."
-		rmdir $tempDir
-	else
-	   echo "ERROR!"
-	   echo ">Temporary directory is not empty... Keeping."
-	fi
+	# # remove the tempDir
+	# if [ -z "$(ls -A $baseDir/temp)" ]; then
+	# 	echo ">Temporary directory is empty... Removing."
+	# 	rmdir $tempDir
+	# else
+	#    echo "ERROR!"
+	#    echo ">Temporary directory is not empty... Keeping."
+	# fi
 	
+	# removing the temporary wp-content/
+	rmdir $tempDir/wp-content
+
 	# mission complete
 	echo '>Updating wordpress core...'
 	echo 'COMPLETE!'

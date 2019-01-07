@@ -6,3 +6,4 @@
 !/wp/wp-config.php
 
 .DS_Store
+temp/
