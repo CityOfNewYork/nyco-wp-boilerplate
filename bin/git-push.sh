@@ -18,6 +18,7 @@ BASE_PATH=$(dirname "$SCRIPT_PATH")
 source "${SCRIPT_PATH}/config.sh"
 source "${SCRIPT_PATH}/find_wp.sh"
 source "${SCRIPT_PATH}/slack-notifications.sh"
+source "${SCRIPT_PATH}/git.sh"
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
@@ -93,6 +94,7 @@ function env_branch {
 }
 
 function add_remote {
+  echo "add_remote"
   printf "\xF0\x9F\x94\xAD     Adding remote... "
   if git remote add $INSTANCE git@git.wpengine.com:$ENV/$INSTANCE.git 2> /dev/null; then
     echo "Added!"
