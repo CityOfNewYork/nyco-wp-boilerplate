@@ -1,9 +1,16 @@
 #!/bin/sh
-# Deployment script that you can run from anywhere in this project
 
-# Example commands:
+# Description:
+# Gives user the option to deploy their project, sync project media,
+# or upgrade the Wordpress core of their project
+####
+# Usage:
+# Run `bin/deploy.sh` and follow the prompts
+####
+# Sample commands:
 # bin/deploy.sh
 # ../bin/deploy.sh
+####
 
 # get the absolute path of deploy.sh
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
@@ -21,8 +28,6 @@ ARR=(${!PROJ_*})
 ###################
 # Execute the functions
 welcomeHead
-
-
 
 # prompt user for action
 echo "\nWhat do you want to do?"
