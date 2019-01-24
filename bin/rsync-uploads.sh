@@ -2,14 +2,17 @@
 
 # Syncs remote uploads with local uploads
 # Usage
-# bin/get-uploads.sh <instance> -u
+# bin/rsync-uploads.sh <instance> -u
 # or
-# bin/get-uploads.sh <instance> -u
+# bin/rsync-uploads.sh <instance> -u
 # @required -u or -d upload or download - Wether to sync local with remote or vise versa.
 
-source config/wp.cfg
-source config/deploy.cfg
-source bin/slack-notifications.sh
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source $BASE_PATH/config/wp.cfg
+# source $BASE_PATH/config/deploy.cfg
+source $SCRIPT_PATH/slack-notifications.sh
 
 INSTANCE=$1
 SYNC=$2

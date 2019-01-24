@@ -111,23 +111,34 @@ if [[ $selection == 0 ]]; then
   eval $deploy_cmd
 
 # ###
+# Sync Files
 elif [[ $selection == 1 ]]; then
   syncHead
-  # prompt user for target project
-  destProj
-  echo "You selected:" $userProj
 
-  deploy_cmd="${SCRIPT_PATH}/git-push.sh -i ${userProj}"
   echo "[0] Upload config.yml"
   echo "[1] Download uploads"
+  echo "[2] Upload uploads"
   printf "Selection: "
   read selection2
+
   if [[ $selection2 == 0 ]]; then
-    source $SCRIPT_PATH/rsync-config.sh $userProj
+    echo "You have chosen to upload your config.yml"
+    eval $SCRIPT_PATH/rsync-config.sh $userProj
   elif [[ $selection2 == 1 ]]; then
-    source $SCRIPT_PATH/rsync-uploads.sh $userProj
+    echo "You have chosen to download uploads"
+      rsync_action="-d"
+  elif [[ $selection2 == 2 ]]; then
+    echo "You have chosen to upload uploads"
+      rsync_action="-u"
   fi
+    # prompt user for target project
+    destProj
+    echo "You selected:" $userProj
+
+    rsync_cmd="${SCRIPT_PATH}/rsync-uploads.sh ${userProj} ${rsync_action}"
+    eval $rsync_cmd
 # ###
+# Core Update
 elif [[ $selection == 2 ]]; then
   updateHead
   coreUpdate
