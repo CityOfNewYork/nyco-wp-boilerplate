@@ -1,17 +1,22 @@
 #!/bin/sh
 
+# Description
 # Syncs remote uploads with local uploads
+####
 # Usage
-# bin/rsync-uploads.sh <instance> -u
+# bin/rsync-uploads.sh <instance> -d
 # or
 # bin/rsync-uploads.sh <instance> -u
-# @required -u or -d upload or download - Wether to sync local with remote or vise versa.
+# @required -u or -d upload or download - Whether to sync local with remote or vise versa.
+####
+# Sample commands:
+# bin/rsync-uploads.sh growingupdev -d
+####
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
-source $BASE_PATH/config/wp.cfg
-# source $BASE_PATH/config/deploy.cfg
+source $SCRIPT_PATH/config.sh
 source $SCRIPT_PATH/slack-notifications.sh
 
 INSTANCE=$1
