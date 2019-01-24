@@ -1,16 +1,24 @@
 #!/bin/sh
 
+# Description
+# Executes a `git push` of a specified branch to the user's desired remote (staging or production),
+# sends a deployment message to Slack, and sends a deployment notification to Rollbar
+####
 # Usage
-# Run `bin/deploy.sh -i <instance> -b <branch> -e <env> -m <optional message> -f true`
+# Run `bin/deploy.sh` and follow the prompts
+####
+# To run individually from the main deploy.sh:
+# Run `bin/git-push.sh -i <instance> -b <branch> -e <env> -m <optional message> -f true`
 # @required -i instance - the wpengine instance and git remote alias.
 # @optional -b branch   - if the branch is different from env/$INSTANCE, this must be specified
 # @optional -e env      - staging or production(default), the instance environment.
 # @optional -m message  - an optional message to post to slack.
 # @optional -f force    - use git push --force.
-# bin/deploy.sh growingupdev sprint-4-develop production
 ####
-# To run individually from the main deploy.sh, use the following
-# bin/git-push.sh -i growingupdev -b sprint-4-develop - e production
+# Sample commands:
+# bin/git-push.sh -i growingupdev -b sprint-4-develop -e staging
+# bin/git-push.sh -i growingupdev -b sprint-4-develop
+####
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
@@ -18,6 +26,7 @@ BASE_PATH=$(dirname "$SCRIPT_PATH")
 source "${SCRIPT_PATH}/config.sh"
 source "${SCRIPT_PATH}/find_wp.sh"
 source "${SCRIPT_PATH}/slack-notifications.sh"
+source "${SCRIPT_PATH}/git.sh"
 
 while getopts ":i:b:e:m:f:" option; do
   case "${option}" in
@@ -55,7 +64,7 @@ if [ "$e" = "" ]; then
 else
   ENV="$e"
   if [ "$ENV" != "staging" ]; then
-    echo "-e (environment) must be staging or production. Defaults to production."
+    echo "-e (environment) must be staging or production. Removing the -e option defaults to production."
     exit 0
   fi
 fi

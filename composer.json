@@ -1,6 +1,6 @@
 {
   "require": {
-    "roots/wordpress": "5.0.2",
+    "roots/wordpress": "5.0.3",
     "roots/wordpress-core-installer": "^1.0"
   },
   "extra": {
