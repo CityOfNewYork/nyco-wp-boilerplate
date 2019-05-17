@@ -29,7 +29,7 @@ function coreUpdate(){
 	echo "Base directory is:" $baseDir
 
 	# create temp directory
-	tempDir=$baseDir/temp
+	tempDir=$baseDir/temp/wp
 	mkdir $tempDir
 
 	# assign the project directory
@@ -37,7 +37,7 @@ function coreUpdate(){
 	echo $projDir
 
 	echo '>Copying .git and .gitignore to temporary directory'
-	cp -R $projDir/.git $baseDir
+	cp -Rf $projDir/.git $tempDir
 	cp $projDir/.gitignore $tempDir
 	echo '>>>DONE!'
 
@@ -54,7 +54,7 @@ function coreUpdate(){
 	cp $projDir/README.md $tempDir
 
 	echo '>Copying wp-content to the temporary directory'
-	cp -R $projDir/wp-content $tempDir
+	cp -Rf $projDir/wp-content $tempDir
 	echo '>>>DONE!'
 
 	echo '>Running composer install'
@@ -80,27 +80,30 @@ function coreUpdate(){
 	echo '>>>DONE!'
 
 	echo '>Removing the wp-content/ built by composer'
-	rm -r $projDir/wp-content
+	rm -rf $projDir/wp-content
 	echo '>>>DONE!'
 
 	echo '>Moving wp-content/ to the project directory'
-	cp -R $tempDir/wp-content $projDir/
+	cp -Rf $tempDir/wp-content $projDir/
 	echo '>>>DONE!'
 
 	echo '>Removing vendor and composer.lock from base directory'
-	rm -r $baseDir/vendor
+	rm -rf $baseDir/vendor
 	rm $baseDir/composer.lock
 	echo '>>>DONE!'
 
-	# remove the tempDir
-	if [ -z "$(ls -A $baseDir/temp)" ]; then
-		echo ">Temporary directory is empty... Removing."
-		rmdir $tempDir
-	else
-	   echo "ERROR!"
-	   echo ">Temporary directory is not empty... Keeping."
-	fi
+	# # remove the tempDir
+	# if [ -z "$(ls -A $baseDir/temp)" ]; then
+	# 	echo ">Temporary directory is empty... Removing."
+	# 	rmdir $tempDir
+	# else
+	#    echo "ERROR!"
+	#    echo ">Temporary directory is not empty... Keeping."
+	# fi
 	
+	# removing the temporary wp-content/
+	rm -rf $tempDir/wp-content
+
 	# mission complete
 	echo '>Updating wordpress core...'
 	echo 'COMPLETE!'

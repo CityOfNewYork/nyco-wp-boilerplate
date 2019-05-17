@@ -1,0 +1,18 @@
+#!bin/sh
+
+# This will check for a configuration variable based on a supplied instance
+# Usage
+# cdn=$(check_instance_config 'CDN' 'accessnyc')
+#
+# If a config variable 'CDN_ACCESSNYC' exists, it will return the value of it.
+# If it does not exist, it will return an empty string
+
+function uppercase {
+  echo $1 | awk '{print toupper($0)}'
+}
+
+function get_instance_config {
+  config="${1}_${2}"
+  key=$(uppercase $config)
+  echo ${!key}
+}

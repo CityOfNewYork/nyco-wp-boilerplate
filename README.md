@@ -30,9 +30,7 @@ If you are working behind a proxy, uncomment lines in the main `Dockerfile` and 
 
 If your site has Composer dependencies and they have not been installed or you are using the default Composer package that comes with this repository, cd into the `wp` directory (our your project directory) and run...
 
-```
-composer install
-```
+    composer install
 
 If running `composer install` fails and you have a `composer.phar` file in your root directory, run `php composer.phar i`. If you do not have Composer installed, see the Composer section below.
 
@@ -42,9 +40,7 @@ After a few moments, you will be able to open up `localhost:8080` to visit your 
 
 To create an interactive shell with the WordPress container, you can run...
 
-```
-docker-compose exec wordpress sh
-```
+    docker-compose exec wordpress sh
 
 ### Configuration
 
@@ -52,13 +48,15 @@ docker-compose exec wordpress sh
 
 `config/colors.cfg` These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
 
+`config/domain.cfg` The production domain, CDN, and path for distributed `.js` files go here.
+
 `config/github.cfg`
 
 - `GITHUB_URL` The url for the product repository.
 
 `config/projects.cfg` All of the product environment instance names should be added here.
 
-`config/rollbar.cfg` We use [Rollbar](https://rollbar.com) for error monitoring. The access token for the products Rollbar account go here.
+`config/rollbar.cfg` The access token for the product's Rollbar account and your local Rollbar username go here.
 
 `config/slack.cfg` Deployment and syncronisation scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
 
@@ -82,15 +80,11 @@ To use WP-CLI, you need to run `docker-compose exec wordpress /bin/wp` before yo
 
 There a lot of things you can do with the CLI such as replacing strings in a the WordPress database...
 
-```
-docker-wp search-replace 'http://production.com' 'http://localhost:8080'
-```
+    docker-wp search-replace 'http://production.com' 'http://localhost:8080'
 
 ... or add an administrative user.
 
-```
-docker-wp user create username username@domain.com --role=administrator --send-email
-```
+    docker-wp user create username username@domain.com --role=administrator --send-email
 
 [Refer to the documentation for more commands](https://developer.wordpress.org/cli/commands/).
 
@@ -110,26 +104,35 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 
 You can use WP Engine's Git Push deployment to a remote installation by running...
 
-```
-bin/git-push.sh -i <WP Engine install> -m <message (optional)>
-```
-Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/).
+    bin/git-push.sh -i <WP Engine install> -m <message (optional)>
+
+Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/). This will also post a tracked deployment to Rollbar.
 
 ### Uploads
 
 You can `rsync` remote `wp-content/uploads` from a WP Engine installation to your local and vise versa by running...
-```
-bin/rsync-uploads.sh <WP Engine install> -d
-```
+
+    bin/rsync-uploads.sh <WP Engine install> -d
+
 The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
 
 ### Config
 
 You can `rsync` the local `config/config.yml` to a remote environment's `wp-content/mu-plugins/config` directory by running...
 
-```
-bin/rsync-config.sh <WP Engine install>
-```
+    bin/rsync-config.sh <WP Engine install>
+
+### Versioning
+
+You can version the repository with the latest release number. This will update the root `composer.json`, the theme's `style.css`, the theme's `package.json`, and regenerate `package-lock.json` file. Then, it will run an NPM Script named "version" that should be defined in the theme's `package.json` file. This script can run any any process that requires an update to the front-end styles or scripts dependent on the version of the `package.json`. Finally, it will commit the file changes and tag the repository.
+
+    bin/version.sh <Release Number>
+
+### Rollbar Sourcemaps
+
+We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's `assets/js` folder and will attempt to upload sourcemaps for all files with the extension `.min.js`. The script files need to match the pattern `script.hash.min.js`, ex; `main.485af636c4bfedaf8ebe1b38e556b27d.min.js`. It will assume there is a sourcemap with the same name and extension `.map`, ex; `main.485af636c4bfedaf8ebe1b38e556b27d.min.js.map`. If the instance has a CDN, that will need to be set in the `domain.cfg`, ex; `CDN_INSTANCE` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://instance.wpengine.com` or `https://accessnycstage.wpengine.com`.
+
+    bin/rollbar-sourcemaps.sh <WP Engine install>
 
 ### Troubleshooting
 
@@ -154,12 +157,6 @@ If you're getting a Git related error, make sure Git has been removed from your 
 #### Composer Error
 
 If you're getting a Composer related error, make sure you have Composer installed (check Composer section above). You should have two `composer.json` files: one in your root directory and one in your project (`wp`) directory.
-
-### Todo
-
-- [ ] SSL Configuration
-- [ ] Rollbar Deployment notification
-- [ ] Automate Composer install
 
 # About NYCO
 

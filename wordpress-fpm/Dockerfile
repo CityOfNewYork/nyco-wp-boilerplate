@@ -1,13 +1,13 @@
-FROM wordpress:php7.0-fpm
+FROM wordpress:php7.2-fpm-alpine
 
 # If you are working behind a proxy, uncomment and enter proxy here;
 # ENV http_proxy <proxy here>
 # ENV https_proxy <proxy here>
 
 # Install requirements for wp-cli support
-RUN apt-get update \
-  && apt-get install -y sudo less mysql-client \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache --update \
+  sudo \
+  mysql-client
 
 # Install wp-cli
 # If you are working behind a proxy, uncomment 13, enter proxy, then comment out line 15;
