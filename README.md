@@ -134,7 +134,7 @@ We use [Rollbar](https://rollbar.com) for error monitoring. After every new scri
 
     bin/rollbar-sourcemaps.sh <WP Engine install>
 
-### Troubleshooting
+## Troubleshooting
 
 #### Nginx Error
 
