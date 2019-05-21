@@ -12,29 +12,29 @@ This repository contains a Docker image that will install the latest version of 
 
 ## Use
 
-Download a zip or clone this repository.
+Download a zip of this repository, or clone it.
 
-If you clone the repository, you will need to delete Git to prevent potential conflicts. In your root directory run `rm -rf .git` to remove Git. If you run `git status` you should get an error message.
+If you clone the repository, you will need to delete Git to prevent potential conflicts. In your root directory run `rm -rf .git` to remove Git. When you run `git status` you should now get an error message.
 
-The `wp` directory is where you place your WordPress installation. The Docker image will pull the latest version of WordPress and mount any files you do not include. You can clone your project directly into the boilerplate, and swap out `wp` with your project or rename your project to `wp`, overwriting the `wp` directory provided for you.
+The `wp` directory is where you place your project WordPress installation. The Docker image will pull the latest version of WordPress and mount any files you do not include. You can clone your project directly into the boilerplate root and swap out `wp` with your project or rename your project to `wp`, overwriting the `wp` directory provided for you (see note).
 
-In the `wp` directory provided for you you'll find `composer.json` and `wp-config.php` files. Copy the `wp-config.php` file into your project. Delete the `composer.json` file if one is provided in your project or you do not want error handling (see the Composer section below for more information).
+Note:
+- In the `wp` directory provided for you you'll find the `composer.json` and `wp-config.php` files. Copy the `wp-config.php` file into your project root. Delete the `composer.json` file if one is provided in your project or you do not want error handling (see the Composer section below for more information).
+- If you do not rename your project to `wp`, update `WP=./wp` in the `.env` file within your root directory to `WP=./<project-name>`.
 
-If you do not rename your project to `wp`, update `WP=./wp` in the `.env` file within your root directory to `WP=./<project-name>`.
-
-If you have a database dump to work with, place a `.sql` file in the `./data` directory. There's no need to rename it as the mysql image will look for any `.sql` file and execute it when the image is built. You will need to Find and replace the site url value in the `.sql` file to match your expected localhost.
+If you have a database dump to work with, place your `.sql` file in the `./data` directory. There's no need to rename it as the mysql image will look for any `.sql` file and execute it when the image is built. You will need to 'Find and Replace' the site url value in the `.sql` file to match your expected localhost.
 
 Generate your [Salts](https://api.wordpress.org/secret-key/1.1/salt/), copy, and place them in their corresponding fields within the `wp-config.php` file.
 
-If you are working behind a proxy, uncomment lines in the main `Dockerfile` and enter it in the appropriate areas.
+If you are working behind a proxy, uncomment associated lines in the main `Dockerfile` and enter your proxy in the appropriate areas.
 
-If your site has Composer dependencies and they have not been installed or you are using the default Composer package that comes with this repository, cd into the `wp` directory (our your project directory) and run...
+If your site has Composer dependencies and they have not been installed or you are using the default Composer package that comes with this repository, cd into the `wp` directory (or your project directory) and run...
 
     composer install
 
 If running `composer install` fails and you have a `composer.phar` file in your root directory, run `php composer.phar i`. If you do not have Composer installed, see the Composer section below.
 
-Run `docker-compose build` to build your images then `docker-compose up` to start them. You can use `docker-compose up -d` to run in detached mode.
+From the root directory, run `docker-compose build` to build your images. Then run `docker-compose up` to start them. You can use `docker-compose up -d` to run in detached mode.
 
 After a few moments, you will be able to open up `localhost:8080` to visit your site.
 
@@ -44,33 +44,33 @@ To create an interactive shell with the WordPress container, you can run...
 
 ### Configuration
 
-`.env` contains the configuration for `docker-compose.yml`.
+`.env` - This contains the configuration for `docker-compose.yml`.
 
-`config/colors.cfg` These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
+`config/colors.cfg` - This contains the colors used for Slack and other message highlighting. They are currently set to match the NYC Opportunity brand.
 
-`config/domain.cfg` The production domain, CDN, and path for distributed `.js` files go here.
+`config/domain.cfg` - The production domain, CDN, and path for distributed `.js` files go here.
 
 `config/github.cfg`
 
-- `GITHUB_URL` The url for the product repository.
+- `GITHUB_URL` - The url for the product repository.
 
-`config/projects.cfg` All of the product environment instance names should be added here.
+`config/projects.cfg` - All of the product environment instance names should be added here.
 
-`config/rollbar.cfg` The access token for the product's Rollbar account and your local Rollbar username go here.
+`config/rollbar.cfg` - The access token for the product's Rollbar account and your local Rollbar username go here.
 
-`config/slack.cfg` Deployment and syncronisation scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
+`config/slack.cfg` - Deployment and syncronisation scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
 
-`config/wp.cfg` Local WordPress directory configuration.
+`config/wp.cfg` - Local WordPress directory configuration.
 
-- `WP` The directory of the WordPress site.
+- `WP` - The directory of the WordPress site.
 
-- `THEME` The path to the main working theme.
+- `THEME` - The path to the main working theme.
 
 If you install WordPress in a directory other than `./wp` you will need to change the configuration in `.env` and `wp.cfg`.
 
 ### NYCO WP Config
 
-`config/config.yml` This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) WordPress plugin for environment configuration. [See that repository](https://github.com/cityofnewyork/nyco-wp-config) for details on integrating with WordPress.
+`config/config.yml` - This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) WordPress plugin for environment configuration. [See that repository](https://github.com/cityofnewyork/nyco-wp-config) for details on integrating with WordPress.
 
 ### WP-CLI
 
@@ -78,11 +78,11 @@ WP-CLI is a command line interface for WordPress. It is set up to work with your
 
 To use WP-CLI, you need to run `docker-compose exec wordpress /bin/wp` before your command. Optionally, create an alias `alias docker-wp="docker-compose exec wordpress /bin/wp"` so you don't have to type out the entire command.
 
-There a lot of things you can do with the CLI such as replacing strings in a the WordPress database...
+There are a lot of things you can do with the CLI such as, replacing strings in the WordPress database...
 
     docker-wp search-replace 'http://production.com' 'http://localhost:8080'
 
-... or add an administrative user.
+... or adding an administrative user.
 
     docker-wp user create username username@domain.com --role=administrator --send-email
 
@@ -96,7 +96,7 @@ To use Composer, [install it on your machine](https://getcomposer.org/doc/00-int
 
 ### Database
 
-You can look at the database with tools like [Sequel Pro](https://www.sequelpro.com/). The connection host will be `127.0.0.1` and the db username/password/name will be `wp` or whatever you set in your configuration if you change the config file.
+You can look at the database with tools like [Sequel Pro](https://www.sequelpro.com/). The connection host will be `127.0.0.1` and the db username/password/name will be `wp` or whatever you set in your configuration if you changed the config file.
 
 ## Scripts
 
@@ -124,13 +124,13 @@ You can `rsync` the local `config/config.yml` to a remote environment's `wp-cont
 
 ### Versioning
 
-You can version the repository with the latest release number. This will update the root `composer.json`, the theme's `style.css`, the theme's `package.json`, and regenerate `package-lock.json` file. Then, it will run an NPM Script named "version" that should be defined in the theme's `package.json` file. This script can run any any process that requires an update to the front-end styles or scripts dependent on the version of the `package.json`. Finally, it will commit the file changes and tag the repository.
+You can version the repository with the latest release number. This will update the root `composer.json`, the theme's `style.css`, the theme's `package.json`, and regenerate the `package-lock.json` file. Then, it will run an NPM Script named "version" that should be defined in the theme's `package.json` file. This script can run any process that requires an update to the front-end styles or scripts dependent on the version of the `package.json`. Finally, it will commit the file changes and tag the repository.
 
     bin/version.sh <Release Number>
 
 ### Rollbar Sourcemaps
 
-We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's `assets/js` folder and will attempt to upload sourcemaps for all files with the extension `.min.js`. The script files need to match the pattern `script.hash.min.js`, ex; `main.485af636c4bfedaf8ebe1b38e556b27d.min.js`. It will assume there is a sourcemap with the same name and extension `.map`, ex; `main.485af636c4bfedaf8ebe1b38e556b27d.min.js.map`. If the instance has a CDN, that will need to be set in the `domain.cfg`, ex; `CDN_INSTANCE` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://instance.wpengine.com` or `https://accessnycstage.wpengine.com`.
+We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's `assets/js` folder and will attempt to upload sourcemaps for all files with the extension `.min.js`. The script files need to match the pattern `script.hash.min.js`, ex: `main.485af636c4bfedaf8ebe1b38e556b27d.min.js`. It will assume there is a sourcemap with the same name and extension `.map`, ex: `main.485af636c4bfedaf8ebe1b38e556b27d.min.js.map`. If the instance has a CDN, that will need to be set in the `domain.cfg`, ex: `CDN_INSTANCE` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine: `https://instance.wpengine.com` or `https://accessnycstage.wpengine.com`.
 
     bin/rollbar-sourcemaps.sh <WP Engine install>
 
@@ -148,7 +148,7 @@ If that doesn't work, check your `.env` file in the root directory. The WP var s
 
 >The configuration file or secret could not be found at /var/www/html/wp-content/mu-plugins/config/
 
-Create an empty `config.yml` file inside mu-plugins/config and rerun `docker-compose up`. There might specific config settings or secret required for your project, so if this fails again check with your project lead.
+Create an empty `config.yml` file inside `mu-plugins/config` and rerun `docker-compose up`. There might be specific config settings or a secret required for your project, so if this fails again check with your project lead.
 
 #### Git Conflict Error
 
