@@ -7,6 +7,20 @@
   ],
   "require": {
     "filp/whoops": "^2.1",
-    "whoops/soap": "^1.0"
+    "whoops/soap": "^1.0",
+    "rarst/wps": "^1.2",
+    "wpackagist-plugin/redis-cache": "^1.4",
+    "wpackagist-plugin/query-monitor": "^3.3"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.3"
+  },
+  "scripts": {
+    "lint": [
+      "vendor/bin/phpcs --standard=phpcs.xml"
+    ],
+    "fix": [
+      "vendor/bin/phpcbf --standard=phpcs.xml"
+    ]
   }
 }

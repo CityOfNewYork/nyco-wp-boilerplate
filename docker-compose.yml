@@ -17,7 +17,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
-      - $WP:/var/www/html/:ro
+      - ./wp:/var/www/html/:ro
 
   wordpress:
     build:
@@ -27,24 +27,11 @@ services:
       - mysql
     restart: always
     volumes:
-      - $WP/:/var/www/html/
+      - ./wp:/var/www/html/
       - ./info.php:/var/www/html/info.php # Do not let this get committed to your repository
       # To use the latest Wordpress version, only mount the content
-      # - $WP/wp-content:/var/www/html/wp-content
-      # - $WP/wp-config.php:/var/www/html/wp-config.php
-
-  # wordpress:
-  #   depends_on:
-  #     - db
-  #   image: wordpress:latest #if you want a specific image, you can replace with wordpress:4.9.5-php5.6
-  #   ports:
-  #     - "8000:80"
-  #   restart: always
-  #   volumes: # persistance - tell Docker to keep these in tact. To replace with the entire wp-content directory
-  #     - $WP/wp-content:/var/www/html/wp-content
-  #     - $WP/wp-config.php:/var/www/html/wp-config.php
-  #   networks:
-  #     - back
+      # - ./wp/wp-content:/var/www/html/wp-content
+      # - ./wp/wp-config.php:/var/www/html/wp-config.php
 
   mysql:
     image: mysql:5.7
@@ -59,6 +46,13 @@ services:
     volumes:
       - ./data:/docker-entrypoint-initdb.d
       - db:/var/lib/mysql
+
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   restart: always
+  #   ports:
+  #     - '6379:6379'
 
   # phpmyadmin:
   #   depends_on:
