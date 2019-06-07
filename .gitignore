@@ -3,6 +3,7 @@
 
 /wp/*
 !/wp/composer.json
+!/wp/phpcs.php
 !/wp/wp-config.php
 
 .DS_Store

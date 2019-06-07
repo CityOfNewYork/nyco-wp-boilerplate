@@ -1,18 +1,21 @@
-FROM wordpress:php7.2-fpm-alpine
+FROM wordpress:php7.3-fpm-alpine
 
-# If you are working behind a proxy, uncomment and enter proxy here;
-# ENV http_proxy <proxy here>
-# ENV https_proxy <proxy here>
+# If you are working behind a proxy, uncomment the next block and replace {{ proxy }} with your proxy
+# ENV PROXY {{ proxy }}
+# ENV http_proxy $PROXY
+# ENV https_proxy $PROXY
 
-# Install requirements for wp-cli support
-RUN apk add --no-cache --update \
-  sudo \
-  mysql-client
+# Location of the WP CLI executable
+ENV WP_CLI_PHAR https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
-# Install wp-cli
-# If you are working behind a proxy, uncomment 13, enter proxy, then comment out line 15;
-# RUN curl -x <proxy here> -o /bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN curl -o /bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+# Install requirements for wp-cli
+RUN apk add --no-cache --update sudo mysql-client
+
+# Install wp-cli and add executable permissions. Commands can be run with
+# "docker-compose exec wordpress /bin/wp {{ command }}"
+RUN curl -o /bin/wp-cli.phar $WP_CLI_PHAR
+# RUN curl -x $PROXY -o /bin/wp-cli.phar $WP_CLI_PHAR
+
 COPY bin/wp.sh /bin/wp
 RUN chmod +x /bin/wp
 RUN chmod +x /bin/wp-cli.phar
