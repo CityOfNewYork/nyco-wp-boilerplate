@@ -4,6 +4,26 @@ At NYC Opportunity, we are utilizing Docker to help us more easily and consisten
 
 This repository contains a Docker image that will install the latest version of WordPress to be served by nginx. It is the Boilerplate for running and maintaining all of our WordPress products and contains scripts for deployment, syncing, configuration, and notifications with all product environments hosted on WP Engine.
 
+## Contents
+
+* [Docker Images](#docker-images)
+* [Usage](#usage)
+* [Configuration](#configuration)
+    * [NYCO WP Config](#nyco-wp-config)
+* [WP-CLI](#wp-cli)
+* [Composer](#composer)
+    * [Developer Tools](#developer-tools)
+    * [Security Plugins](#security-plugins)
+    * [Scripts](#scripts)
+* [Database](#database)
+* [Bin Scripts](#bin-scripts)
+  * [Git Push](#git-push)
+  * [SSH](#ssh)
+  * [Uploads](#uploads)
+  * [Config](#config)
+  * [Versioning](#versioning)
+  * [Rollbar Sourcemaps](#rollbar-sourcemaps)
+
 ## Docker Images
 
 - NGinx Alpine
@@ -49,25 +69,25 @@ to start them. You can use the *-d* flag (`docker-compose up -d`) to run in deta
 
     docker-compose exec wordpress sh
 
-### Configuration
+## Configuration
 
-Config                | Description
-----------------------|-
-`config/colors.cfg`   | These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
-`config/domain.cfg`   | The production domain, CDN, and path for distributed *.js* files go here.
-`config/github.cfg`   | `GITHUB_URL` The url for the product repository.
-`config/projects.cfg` | All of the product environment instance names should be added here.
-`config/rollbar.cfg`  | The access token for the product's Rollbar account and your local Rollbar username go here.
-`config/slack.cfg`    | Deployment and syncronisation scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
-`config/wp.cfg`       | Local WordPress directory configuration. `WP` The directory of the WordPress site. `THEME` The path to the main working theme.
+The [Bin Scripts](#bin-scripts) use a configuration file in [**/config/bin.cfg**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/config.cfg) for interacting with the local WordPress site and remote services.
 
-If you install WordPress in a directory other than **/wp** you will need to change the configuration in **wp.cfg**.
+Config Section    | Description
+------------------|-
+Colors            | These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
+Domain            | The production domain, CDN, and path for distributed *.js* files go here.
+GitHub            | `GITHUB_URL` The url for the product repository.
+Projects          | All of the product environment instance names should be added here.
+Rollbar           | The access token for the product's Rollbar account and your local Rollbar username go here.
+Slack             | Deployment and syncronisation scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
+WordPress         | Local WordPress directory configuration. `WP` The directory of the WordPress site. `THEME` The path to the main working theme.
 
 ### NYCO WP Config
 
-[config/config.yml](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/config.yml) - This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) WordPress plugin for environment configuration. [See that repository](https://github.com/cityofnewyork/nyco-wp-config) for details on integrating with WordPress. If a site uses that plugin it needs to be present in the **wp-content/mu-plugins/config/** directory.
+[**config/config.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/config.yml) - This file is used in conjunction with the [NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) WordPress plugin for environment configuration. [See that repository](https://github.com/cityofnewyork/nyco-wp-config) for details on integrating with WordPress. If a site uses that plugin it needs to be present in the **wp-content/mu-plugins/config/** directory.
 
-### WP-CLI
+## WP-CLI
 
 WP-CLI is a command line interface for WordPress. It is set up to work with your WordPress installation through this Boilerplate. [Read more about WP-CLI at it's website](https://wp-cli.org/). To use WP-CLI, you need to run...
 
@@ -87,39 +107,60 @@ before your command. Optionally, create an alias...
 
 [Refer to the documentation for more commands](https://developer.wordpress.org/cli/commands/).
 
-### Composer
+## Composer
 
-This boilerplate comes with a composer package that you may use to get your site started that includes the following plugins for local development.
-
-Plugin                                                        | Description
---------------------------------------------------------------|-
-[Whoops](https://github.com/filp/whoops)                      | PHP Errors for cool kids.
-[WPS](https://github.com/Rarst/wps)                           | Whoops plugin for WordPress.
-[Query Monitor](https://wordpress.org/plugins/query-monitor/) | The developer tools panel for WordPress.
-[Redis Cache](https://wordpress.org/plugins/redis-cache/)     | A persistent object cache backend powered by Redis. Using Object Caching is optional but it is recommended for site speed.
-[Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)  | Code linting for PHP.
-
-To use composer, install it on your machine and run...
+This boilerplate comes with a composer package that you may use to get your site started. To use composer, install it on your machine and run...
 
     composer update
 
 ... to install the vendor package (or `php composer.phar i` depending on your setup). You may also want to add **/vendor** to your WordPress **.gitignore** file, if it hasn't been already.
 
-#### Code Sniffer
-PHP can be linted using [Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) with the [PSR-2 standard](https://www.php-fig.org/psr/psr-2/). The configuration can be found in the [phpcs.xml](https://github.com/CityOfNewYork/ACCESS-NYC/blob/master/phpcs.xml) file. The [composer.json](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/composer.json) file includes two scripts for linting and fixing code. Each can be run via the command:
+### Developer Tools
+
+The following packages are included for local development.
+
+Developer Packages                                            | Description
+--------------------------------------------------------------|-
+[Whoops](https://github.com/filp/whoops)                      | Much nicer error log for PHP.
+[WPS](https://github.com/Rarst/wps)                           | Whoops plugin for WordPress.
+[Query Monitor](https://wordpress.org/plugins/query-monitor/) | A developer tools panel plugin for WordPress.
+[Redis Cache](https://wordpress.org/plugins/redis-cache/)     | A persistent object cache backend plugin powered by Redis. Using Object Caching is optional but it is recommended for site speed.
+[Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)  | Code linting for PHP.
+
+### Security Plugins
+
+Additionally, the Composer Package includes the following plugins for enhancing WordPress security. These augment and complement some of the security measures provided by WordPress and WP Engine, however, using these plugins is by no means a comprehensive solution for securing WordPress websites.
+
+Plugin                                                                                        | Description
+----------------------------------------------------------------------------------------------|-
+[Google Authenticator](https://wordpress.org/plugins/google-authenticator/)                   | Enables 2-Factor Authentication for WordPress Users.
+[Limit Login Attempts Reloaded](https://wordpress.org/plugins/limit-login-attempts-reloaded/) | Limits the number of login attempts a user can have if they use the wrong password or authenticator token.
+[WP Security Question](https://wordpress.org/plugins/wp-security-questions/)                  | Enables security question feature on registration, login, and forgot password screens.
+[WPS Hide Login](https://wordpress.org/plugins/wps-hide-login/)                               | Lets site adminstrators customize the url of the WordPress admin login screen.
+
+### Scripts
+
+The Composer package comes with scripts that can be run via the command:
 
     composer run {{ script }}
 
-Script | Description
--------|-
-`lint` | This will run Code Sniffer which will display violations of the standard defined in the phpcs.xml file.
-`fix`  | This will run Code Sniffer in fix mode which will attempt to fix violations automatically.
+Script        | Description
+--------------|-
+`development` | Rebuilds the autoloader including development dependencies.
+`production`  | Rebuilds the autoloader omitting development dependencies.
+`predeploy`   | Rebuilds the autoloader using the `production` script then runs [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the `lint` script (described below).
+`lint`        | Runs PHP Code Sniffer which will display violations of the standard defined in the [phpcs.xml](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/phpcs.xml) file.
+`fix`         | Runs PHP Code Sniffer in fix mode which will attempt to fix violations automatically. It is not necessarily recommended to run this on large scripts because if it fails it will leave a script partially formatted and malformed.
+`version`     | Regenerates the **composer.lock** file and rebuilds the autoloader for production.
+`deps`        | This is a shorthand for `composer show --tree` for illustrating package dependencies.
 
-### Database
+## Database
 
 You can look at the database with tools like [Sequel Pro](https://www.sequelpro.com/). The connection host will be `127.0.0.1` and the db username/password/name will be `wp` or whatever you set in your configuration if you changed the config file.
 
 ## Bin Scripts
+
+Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/) directory. Be sure to fill out the [configuration](#configuration) file before using these scripts.
 
 ### Git Push
 
@@ -127,7 +168,7 @@ You can use WP Engine's Git Push deployment to a remote installation by running.
 
     bin/git-push.sh -i {{ WP Engine install }} -m {{ message (optional) }}
 
-Adding the *-f* flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/). This will also post a tracked deployment to Rollbar. The `{{ WP Engine install }}` argument should be the same as the git remote repository. Adding remotes is also described in the [WP Engine's Git Push tutorial](https://wpengine.com/git/).
+Adding the `-f` flag will perform a force push. You can [read more about WP Engine's Git Push](https://wpengine.com/git/). This will also post a tracked deployment to Rollbar. The `{{ WP Engine install }}` argument should be the same as the git remote repository. Adding remotes is also described in the [WP Engine's Git Push tutorial](https://wpengine.com/git/).
 
 ### SSH
 
@@ -141,7 +182,7 @@ You can `rsync` remote **wp-content/uploads** from a WP Engine installation to y
 
     bin/rsync-uploads.sh {{ WP Engine install }} -d
 
-The *-u* flag will sync local to remote (upload) and *-d* will sync remote to local (download).
+The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
 
 ### Config
 
@@ -151,9 +192,13 @@ You can rsync the local [config/config.yml](https://github.com/CityOfNewYork/nyc
 
 ### Versioning
 
-You can version the repository with the latest release number. This will update the root [composer.json](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/composer.json), the theme's **style.css**, the theme's **package.json**, and regenerate **package-lock.json** file. Then, it will run an NPM Script named "version" that should be defined in the theme's **package.json** file. This script can run any any process that requires an update to the front-end styles or scripts dependent on the version of the **package.json**. Finally, it will commit the file changes and tag the repository.
+You can version the repository with the latest release number. This will update the root [composer.json](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/composer.json) then run the `version` Composer script, which is set by default to regenerate the **composer.lock** file and regenerate the autoloader for production.
 
-    bin/version.sh {{ Release Number }}
+It will also update the theme's **style.css**, the theme's **package.json**, and regenerate **package-lock.json** file. Then, it will run an NPM Script named "version" that should be defined in the theme's **package.json** file. This script can run any any process that requires an update to the front-end styles or scripts dependent on the version of the **package.json**.
+
+Finally, it will commit the file changes and tag the repository.
+
+    bin/version.sh {{ Version Number }}
 
 ### Rollbar Sourcemaps
 

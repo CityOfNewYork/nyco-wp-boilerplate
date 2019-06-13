@@ -6,7 +6,7 @@
 # Usage
 # bin/pull.sh <instance>
 
-source config/wp.cfg
+source config/bin.cfg
 
 INSTANCE=$1
 COMMAND="git pull ${INSTANCE} master"

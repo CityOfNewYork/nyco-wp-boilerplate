@@ -5,6 +5,7 @@
 !/wp/composer.json
 !/wp/phpcs.php
 !/wp/wp-config.php
+!/wp/phpcs.xml
 
 .DS_Store
 temp/
