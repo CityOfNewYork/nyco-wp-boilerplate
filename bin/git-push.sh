@@ -3,22 +3,21 @@
 # Description
 # Executes a `git push` of a specified branch to the user's desired remote (staging or production),
 # sends a deployment message to Slack, and sends a deployment notification to Rollbar
-####
+#
 # Usage
-# Run `bin/deploy.sh` and follow the prompts
-####
+# Run `bin/git-push.sh` and follow the prompts
+#
 # To run individually from the main deploy.sh:
-# Run `bin/git-push.sh -i <instance> -b <branch> -e <env> -m <optional message> -f true`
-# @required -i instance - the wpengine instance and git remote alias.
-# @optional -b branch   - if the branch is different from env/$INSTANCE, this must be specified
-# @optional -e env      - staging or production(default), the instance environment.
+# Run `bin/git-push.sh {{ WP Engine Install }} -b {{ branch }} -m {{ optional message }} -f true -e {{ env }}`
+# @required instance    - the wpengine instance and git remote alias.
+# @optional -b branch   - if the branch is different from env/{{ WP Engine Install }}, this must be specified
 # @optional -m message  - an optional message to post to slack.
 # @optional -f force    - use git push --force.
-####
+# @optional -e env      - staging or production(default), the WP Engine environment.
+#
 # Sample commands:
-# bin/git-push.sh -i growingupdev -b sprint-4-develop -e staging
-# bin/git-push.sh -i growingupdev -b sprint-4-develop
-####
+# bin/git-push.sh accessnyctest
+# This will run git push to the remote "accessnyctest" from the branch "env/accessnyctest"
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
@@ -28,11 +27,16 @@ source "${SCRIPT_PATH}/find_wp.sh"
 source "${SCRIPT_PATH}/slack-notifications.sh"
 source "${SCRIPT_PATH}/git.sh"
 
-while getopts ":i:b:e:m:f:" option; do
+if [ "$1" = "" ]; then
+  echo "The first option {{ WP Engine Install }} is required"
+  exit 0
+fi
+
+INSTANCE=$1
+shift # Shift the instance from the options
+
+while getopts "b:e:m:f:" option; do
   case "${option}" in
-    i)
-      i=${OPTARG}
-      ;;
     b)
       b=${OPTARG}
       ;;
@@ -49,12 +53,6 @@ while getopts ":i:b:e:m:f:" option; do
 done
 shift $((OPTIND-1))
 
-if [ "$i" = "" ]; then
-  echo "-i (instance) is required"
-  exit 0
-fi
-
-INSTANCE=$i
 BRANCH=$b
 MESSAGE=$m
 
@@ -172,8 +170,13 @@ function post_slack_with_attachments() {
     ]
   }"
 
-  printf "${SLACK_ICON_BYTE}     Alerting the team on ${SLACK_CHANNEL}... ";
-  curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
+  if [[ "$SLACK_INCOMMING_WEBHOOK" != "" ]]; then
+    printf "${SLACK_ICON_BYTE}     Alerting the team on ${SLACK_CHANNEL}... ";
+    curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
+  else
+    printf "${SLACK_ICON_BYTE}     Slack is not configured in config/bin.cfg... ";
+  fi
+
   echo ""
 }
 
@@ -187,12 +190,17 @@ function success() {
 function post_rollbar {
   revision=`git log -n 1 --pretty=format:"%H"`
 
-  printf "${ROLLBAR_ICON_BYTE}     Sending deployment to Rollbar... ";
-  curl -X POST https://api.rollbar.com/api/1/deploy/ \
-    -F access_token=${ROLLBAR_ACCESS_TOKEN} \
-    -F environment=${INSTANCE} \
-    -F revision=${revision} \
-    -F local_username=`${ROLLBAR_LOCAL_USERNAME}`
+  if [[ "$ROLLBAR_ACCESS_TOKEN" != "" ]]; then
+    printf "${ROLLBAR_ICON_BYTE}     Sending deployment to Rollbar... ";
+    curl -X POST https://api.rollbar.com/api/1/deploy/ \
+      -F access_token=${ROLLBAR_ACCESS_TOKEN} \
+      -F environment=${INSTANCE} \
+      -F revision=${revision} \
+      -F local_username=`${ROLLBAR_LOCAL_USERNAME}`
+  else
+    printf "${ROLLBAR_ICON_BYTE}     Rollbar is not configured in config/bin.cfg... ";
+  fi
+
   echo ""
 }
 

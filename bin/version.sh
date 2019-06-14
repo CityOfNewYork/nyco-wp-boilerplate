@@ -18,7 +18,7 @@
 # bin/version.sh 3.1.0
 
 source config/bin.cfg
-source bin/find_wp.sh
+source bin/find-wp.sh
 source bin/git.sh
 
 VERSION=$1

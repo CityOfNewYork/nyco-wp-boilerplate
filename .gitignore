@@ -2,6 +2,7 @@
 !data/.gitkeep
 
 /wp/*
+!/wp/.gitignore
 !/wp/composer.json
 !/wp/phpcs.php
 !/wp/wp-config.php
