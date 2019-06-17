@@ -72,7 +72,7 @@ to start them. After a few moments, you will be able to open up `localhost:8080`
 
 * **/wp directory**: You can clone a WordPress site directly into the boilerplate root and delete the [**/wp**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/) directory. You will need to update the [**/config/bin.cfg**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/bin.cfg) WP setting and the instances of **./wp** in the [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file.
 
-* **Database Seeding**: The name for the **.sql** dump does not matter as the mysql image will look for any **.sql** file in the [**/data**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/data/) and execute it on the database defined in the [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file. You will may need to 'Find and Replace' the site url value in the **.sql** file to match your expected host (the default expected host is `http://localhost:8080`). This can be done manually before import in any text editing program or after using the [WP-CLI](#wp-cli). If there is no SQL file present when the image is created it will create an empty database which you can import data into using [Sequel Pro](https://www.sequelpro.com/) or *phpMyAdmin*.
+* **Database Seeding**: The name for the **.sql** dump does not matter as the mysql image will look for any **.sql** file in the [**/data**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/data/) and execute it on the database defined in the [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file. You will may need to 'Find and Replace' the site url value in the **.sql** file to match your expected host (the default expected host is `http://localhost:8080`). This can be done manually before import in any text editing program or after using the [WP-CLI](#wp-cli). If there is no SQL file present when the image is created it will create an empty database which you can import data into using the [WP-CLI](#wp-cli), [Sequel Pro](https://www.sequelpro.com/), or *phpMyAdmin*.
 
 * **Proxy**: If you are working behind a proxy, uncomment associated lines in the main [**wordpress-fpm/Dockerfile**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wordpress-fpm/Dockerfile) and enter your proxy in the appropriate areas.
 
@@ -114,11 +114,15 @@ before your command. Optionally, create an alias...
 
     alias dcwp="docker-compose exec wordpress /bin/wp"
 
-... so you don't have to type out the entire command. There a lot of things you can do with the CLI such as replacing strings in a the WordPress database...
+... so you don't have to type out the entire command. There a lot of things you can do with the CLI such as import a database...
+
+    dcwp db import database.sql
+
+.. replace strings in a the database...
 
     dcwp search-replace 'https://production.com' 'http://localhost:8080'
 
-... or add an administrative user.
+... and add a local administrative user:
 
     dcwp user create username username@domain.com --role=administrator --user_pass=wp
 
