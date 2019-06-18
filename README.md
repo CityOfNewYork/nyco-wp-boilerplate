@@ -93,7 +93,7 @@ The [Bin Scripts](#bin-scripts) use a configuration file in [**/config/bin.cfg**
 Config Section    | Description
 ------------------|-
 Colors            | These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
-Domain            | The production domain and CDN for the WP Engine Installation go here.
+Domain            | The production domain and CDN for the WP Engine installation go here.
 WordPress         | WordPress directory configuration including the `WP` path, theme directory name, minified *.js* directory path, and matching pattern for minified *.js* files.
 GitHub            | `GITHUB_URL` The url for the product repository.
 Projects          | All of the product environment instance names should be added here.
@@ -190,13 +190,13 @@ You can use push a deployment to a remote WP Engine installation by running...
 
     bin/git-push.sh {{ WP Engine install }} -m {{ Slack message (optional) }} -b {{ branch (optional) }} -f {{ true (optional) }}
 
-If you have git push permissions set up and [configured](#configuration) with Slack and Rollbar correctly, this will post a message to the team that a deployment is being made and when it is complete, push to the appropriate WP Engine installation, post a deployment to Rollbar. Adding the `-f` flag will perform a forced git push.
+If you have git push permissions set up and [configured](#configuration) with Slack and Rollbar correctly, this will post a message to the team that a deployment is being made and when it is complete, push to the appropriate WP Engine installation, and post a deployment to Rollbar for tracking. Adding the `-f` flag will perform a forced git push.
 
-The `{{ WP Engine install }}` argument should be the same as the git remote repository for the WP Engine installation. Use
+The `{{ WP Engine install }}` argument should be the same as the git remote repository for the WP Engine installation. Use ...
 
     git remote add {{ WP Engine install }} git@git.wpengine.com:production/{{ WP Engine install }}.git
 
-The Git Push service and adding remotes is also described in further detail in [WP Engine's Git Push tutorial](https://wpengine.com/git/).
+... when adding remotes. The Git Push service and adding remotes is also described in further detail in [WP Engine's Git Push tutorial](https://wpengine.com/git/).
 
 ### SSH
 
@@ -214,7 +214,7 @@ The `-u` flag will sync local to remote (upload) and `-d` will sync remote to lo
 
 ### Config
 
-You can rsync the local [config/config.yml](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/config.yml) to a remote environment's **wp-content/mu-plugins/config** directory by running...
+You can rsync the local [**config/config.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/config.yml) to a remote environment's **wp-content/mu-plugins/config** directory by running...
 
     bin/rsync-config.sh {{ WP Engine install }}
 
@@ -226,7 +226,7 @@ It will also update the theme's **style.css**, the theme's **package.json**, and
 
 Finally, it will commit the file changes and tag the repository.
 
-    bin/version.sh {{ Version Number }}
+    bin/version.sh {{ semantic version number }}
 
 ### Rollbar Sourcemaps
 
