@@ -40,10 +40,11 @@ fi
 # Functions
 
 function rollbar_sourcemap {
-  files=${WP}wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}*.min.js
+  files=${WP}wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}${SCRIPTS_FORMAT}
 
-  for f in $files; do
+  for f in $files ; do
     file=${f##*/}
+
     remote_minified_script="${CDN}/wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}${file}"
     local_source_map="${WP}wp-content/themes/${THEME}/${SCRIPTS_DIRECTORY}${file}.map"
 
