@@ -70,7 +70,7 @@ to start them. After a few moments, you will be able to open up `localhost:8080`
 
 * **Bootstrapping**: In the [**/wp**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/) directory provided you'll find sample [**composer.json**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/composer.json), [**phpcs.xml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/phpcs.xml), [**.gitignore**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/.gitignore), [**wp-config.php**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/wp-config.php) files to help bootstrap a new WordPress project. You may delete, replace, or modify any boilerplate files in the [**/wp**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/) directory to meet your project's needs.
 
-* **/wp directory**: You can clone a WordPress site directly into the boilerplate root and delete the [**/wp**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/) directory. You will need to update the [**/config/bin.cfg**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/bin.cfg) WP setting and the instances of **./wp** in the [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file.
+* **/wp directory**: You can clone a WordPress site directly into the boilerplate root and delete the [**/wp**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/) directory. You will need to update the [**/config/bin.cfg**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/bin.cfg) `WP` setting and the instances of **./wp** in the [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file.
 
 * **Database Seeding**: The name for the **.sql** dump does not matter as the mysql image will look for any **.sql** file in the [**/data**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/data/) and execute it on the database defined in the [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file. You will may need to 'Find and Replace' the site url value in the **.sql** file to match your expected host (the default expected host is `http://localhost:8080`). This can be done manually before import in any text editing program or after using the [WP-CLI](#wp-cli). If there is no SQL file present when the image is created it will create an empty database which you can import data into using the [WP-CLI](#wp-cli), [Sequel Pro](https://www.sequelpro.com/), or *phpMyAdmin*.
 
@@ -93,12 +93,12 @@ The [Bin Scripts](#bin-scripts) use a configuration file in [**/config/bin.cfg**
 Config Section    | Description
 ------------------|-
 Colors            | These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
-Domain            | The production domain, CDN, and path for distributed *.js* files go here.
+Domain            | The production domain and CDN for the WP Engine Installation go here.
+WordPress         | WordPress directory configuration including the `WP` path, theme directory name, minified *.js* directory path, and matching pattern for minified *.js* files.
 GitHub            | `GITHUB_URL` The url for the product repository.
 Projects          | All of the product environment instance names should be added here.
 Rollbar           | The access token for the product's [Rollbar](https://rollbar.com) account and your local Rollbar username go here.
 Slack             | Deployment and synchronization scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
-WordPress         | Local WordPress directory configuration. `WP` The directory of the WordPress site. `THEME` The path to the main working theme.
 
 ### NYCO WP Config
 
@@ -186,7 +186,7 @@ Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/ny
 
 ### Git Push
 
-You can use push a deployment to a remote WP Engin installation by running...
+You can use push a deployment to a remote WP Engine installation by running...
 
     bin/git-push.sh {{ WP Engine install }} -m {{ Slack message (optional) }} -b {{ branch (optional) }} -f {{ true (optional) }}
 
@@ -230,11 +230,11 @@ Finally, it will commit the file changes and tag the repository.
 
 ### Rollbar Sourcemaps
 
-We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's **assets/js** folder and will attempt to upload sourcemaps for all files with the extension **.min.js**. The script files need to match the pattern **script.hash.min.js**, ex; **main.485af636.min.js**. It will assume there is a sourcemap with the same name and extension **.map**, ex; **main.485af636.min.js.map**.
+We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's **assets/js** folder and will attempt to upload sourcemaps for all files with the extension **.js**. The script files need to match the pattern **{{ script }}.{{ hash }}.js**, ex; **main.485af636.js**. It will assume there is a sourcemap with the same name and extension **.map**, ex; **main.485af636.js.map**. The theme and paths to minified scripts can be modified in the [configuration](#configuration).
 
     bin/rollbar-sourcemaps.sh {{ WP Engine install }}
 
-If the WP Engine install has a CDN, that will need to be set in the **domain.cfg**, ex; `CDN_{{ WP ENGINE INSTALL }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ WP Engine install }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
+If the WP Engine install is using the CDN feature, that will need to be set in the [configuration](#configuration), ex; `CDN_{{ WP ENGINE INSTALL }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ WP Engine install }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
 
 # About NYCO
 
