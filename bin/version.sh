@@ -17,12 +17,12 @@
 # ex;
 # bin/version.sh 3.1.0
 
-source config/wp.cfg
-source bin/find_wp.sh
+source config/bin.cfg
+source bin/find-wp.sh
 source bin/git.sh
 
 VERSION=$1
-COMMAND_COMPOSER_LOCK="composer update nothing"
+COMMAND_COMPOSER_LOCK="composer run version"
 COMMAND_PACKAGE_LOCK="npm install --package-lock-only"
 COMMAND_ADD="git add -A"
 COMMAND_COMMIT="git commit -m \"v$VERSION\""

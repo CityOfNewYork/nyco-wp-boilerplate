@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source config/wp.cfg
+source config/bin.cfg
 
 function find_wp {
   printf "\xF0\x9F\x94\xAC     Finding application source... ";

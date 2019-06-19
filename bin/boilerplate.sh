@@ -1,5 +1,5 @@
 #!/bin/sh
-# Allows the user to switch between updating the 
+# Allows the user to switch between updating the
 # boilerplate and the WordPress project
 # bin/boilerplate.sh
 
@@ -9,7 +9,7 @@ BASE_PATH=$(dirname "$SCRIPT_PATH")
 source "${SCRIPT_PATH}/headers.sh"
 boilerWPHead
 
-source "${BASE_PATH}/config/wp.cfg"
+source "${BASE_PATH}/config/bin.cfg"
 PROJ_PATH=$WP
 
 bpTempDir=$BASE_PATH/temp/bp
@@ -27,7 +27,7 @@ function tempDirs() {
 }
 
 # function will move the .git/ and .gitignore of the WP
-# into the temporary folder so that you'll be able to 
+# into the temporary folder so that you'll be able to
 # make updates to the boilerplate
 function updateBoilerplate() {
 	echo "\n========================"
@@ -69,7 +69,7 @@ function updateBoilerplate() {
 }
 
 # When you want to go back to making edits to the WP,
-# move the boilerplate git repo and gitignore back 
+# move the boilerplate git repo and gitignore back
 # into the temp directory
 function updateWP() {
 	echo "\n========================"
@@ -124,7 +124,7 @@ function confirmAction(){
 	read selection
 	if [[ $selection == 2 ]]; then
 		echo "You selected [2] No. ... Exiting."
-		exit 1		
+		exit 1
 	fi
 }
 

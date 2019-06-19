@@ -2,9 +2,12 @@
 !data/.gitkeep
 
 /wp/*
+!/wp/.gitignore
 !/wp/composer.json
 !/wp/phpcs.php
 !/wp/wp-config.php
+!/wp/phpcs.xml
+!/wp/wpscan.yml
 
 .DS_Store
 temp/

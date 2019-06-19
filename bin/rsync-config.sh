@@ -4,8 +4,7 @@
 # Usage
 # bin/rsync-config.sh <instance>
 
-source config/slack.cfg
-source config/colors.cfg
+source config/bin.cfg
 source bin/slack-notifications.sh
 
 INSTANCE=$1
