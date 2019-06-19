@@ -160,6 +160,8 @@ Plugin                                                                          
 [WP Security Question](https://wordpress.org/plugins/wp-security-questions/)                  | Enables security question feature on registration, login, and forgot password screens.
 [WPS Hide Login](https://wordpress.org/plugins/wps-hide-login/)                               | Lets site adminstrators customize the url of the WordPress admin login screen.
 
+Additionally, the Composer.json includes a package for checking plugins against the [WPScan Vunerability Database](https://wpvulndb.com/). Details in [Scripts](#scripts).
+
 ### Scripts
 
 The Composer package comes with scripts that can be run via the command:
@@ -170,9 +172,10 @@ Script        | Description
 --------------|-
 `development` | Rebuilds the autoloader including development dependencies.
 `production`  | Rebuilds the autoloader omitting development dependencies.
-`predeploy`   | Rebuilds the autoloader using the `production` script then runs [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the `lint` script (described below).
+`predeploy`   | Rebuilds the autoloader using the `development` script for the code checking tasks, runs [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the `lint` script (described below), then runs [WordPress Vunerability Check](https://github.com/umutphp/wp-vulnerability-check) using the `wpscan` script (described below), then rebuilds the autoloader using the `production` script.
 `lint`        | Runs PHP Code Sniffer which will display violations of the standard defined in the [phpcs.xml](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/phpcs.xml) file.
 `fix`         | Runs PHP Code Sniffer in fix mode which will attempt to fix violations automatically. It is not necessarily recommended to run this on large scripts because if it fails it will leave a script partially formatted and malformed.
+`wpscan`      | Runs WordPress Vunerability Check on the plugin directory. It will display information of vunerable plugins in the [WPScan Vunerability Database](https://wpvulndb.com/). This script requires a token to be set in the [WPScan config file](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/wpscan.yml). Tokens can be acquired by creating a [WPScan account](https://wpvulndb.com/users/sign_up). Since this file will contain a token, it should not be committed to your project's repository. Uncomment the line in the included [**.gitignore**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/.gitignore).
 `version`     | Regenerates the **composer.lock** file and rebuilds the autoloader for production.
 `deps`        | This is a shorthand for `composer show --tree` for illustrating package dependencies.
 
@@ -182,7 +185,7 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 
 ## Bin Scripts
 
-Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/) directory. Be sure to fill out the [configuration](#configuration) file before using these scripts.
+Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/bin) directory. Be sure to fill out the [configuration](#configuration) file before using these scripts.
 
 ### Git Push
 
