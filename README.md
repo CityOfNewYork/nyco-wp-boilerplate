@@ -42,7 +42,7 @@ Below is simplified set of steps for getting started. Look at the [notes for spe
 
 **$1** Download a zip of this repository, or clone it.
 
-**$2** Place any WordPress site in the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** directory.
+**$2** Place or clone any WordPress site in the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** directory.
 
 **$3** *Optional*. If you have a database dump to work with, place any **.sql** file in the [**/data**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/data/) directory. See [notes below for details on seeding the database](#notes).
 

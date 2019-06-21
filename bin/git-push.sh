@@ -196,7 +196,7 @@ function post_rollbar {
       -F access_token=${ROLLBAR_ACCESS_TOKEN} \
       -F environment=${INSTANCE} \
       -F revision=${revision} \
-      -F local_username=`${ROLLBAR_LOCAL_USERNAME}`
+      -F local_username=`${ROLLBAR_USERNAME}`
   else
     printf "${ROLLBAR_ICON_BYTE}     Rollbar is not configured in config/bin.cfg... ";
   fi
