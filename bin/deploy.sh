@@ -30,7 +30,7 @@ ARR=(${!PROJ_*})
 welcomeHead
 
 # prompt user for action
-echo "\nWhat do you want to do?"
+printf "\nWhat do you want to do?\n"
 echo "[0] Deploy"
 echo "[1] Sync"
 echo "[2] Update"
@@ -42,8 +42,8 @@ if [[ $selection == 0 ]]; then
   destProj
   echo "You selected:" $userProj
 
-  deploy_cmd="${SCRIPT_PATH}/git-push.sh -i ${userProj}"
-  echo "\nWhich branch would you like to push to ${!ARR[$userProj]}?"
+  deploy_cmd="${SCRIPT_PATH}/git-push.sh \"${userProj}\""
+  printf "\nWhich branch would you like to push to ${!ARR[$userProj]}?\n"
   BRANCHES=($(cd $WP; git branch | grep "[^* ]+" -Eo))
   for i in ${!BRANCHES[@]}
   do
@@ -55,24 +55,25 @@ if [[ $selection == 0 ]]; then
   echo "You chose ${BRANCHES[selected_branch]}"
   deploy_cmd="${deploy_cmd} -b \"${BRANCHES[selected_branch]}\""
   
-  echo "\nWould you like to push to staging or production"
+  printf "\nWould you like to push to the staging or production environment?\n"
   echo "[0] staging"
   echo "[1] production"
   printf "Selection: "
   read num_env
   if [[ $num_env == 0 ]]; then
     selected_env="-e staging"
+    echo "You chose the staging environment"
   elif [[ $num_env == 1 ]]; then
     selected_env=""
+    echo "You chose the production environment"
   else
-    echo "You did not make a valid selection... Exting"
+    echo "You did not make a valid selection... Exiting"
     exit 1
   fi
-  echo "You chose the environment ${selected_env}"
   # deploy_cmd="${deploy_cmd} -e \"${selected_env}\""
   deploy_cmd="${deploy_cmd} \"${selected_env}\""
 
-  echo "\nWould you like to include a message?"
+  printf "\nWould you like to include a message?\n"
   echo "[0] Yes"
   echo "[1] No"
   printf "Selection: "
@@ -84,14 +85,13 @@ if [[ $selection == 0 ]]; then
   elif [[ $num_msg == 1 ]]; then
     selected_msg=""
   else
-    echo "You did not make a valid selection... Exting"
+    echo "You did not make a valid selection... Exiting"
     exit 1
   fi
   echo "You chose the message ${selected_msg}"
   deploy_cmd="${deploy_cmd} ${selected_msg}"
 
-
-  echo "\nWould you like to force this push?"
+  printf "\nWould you like to force this push?\n"
   echo "[0] Yes"
   echo "[1] No"
   printf "Selection: "
@@ -101,13 +101,13 @@ if [[ $selection == 0 ]]; then
   elif [[ $num_force == 1 ]]; then
     selected_force=""
   else
-    echo "You did not make a valid selection... Exting"
+    echo "You did not make a valid selection... Exiting"
     exit 1
   fi
   echo "You chose to force push ${selected_force}"
   deploy_cmd="${deploy_cmd} ${selected_force}"
-  echo "\nYou're all set. The following command will be executed:\n"
-  echo "${deploy_cmd}\n"
+  printf "\nYou're all set. The following command will be executed:\n"
+  printf "${deploy_cmd}\n"
   eval $deploy_cmd
 
 # ###
