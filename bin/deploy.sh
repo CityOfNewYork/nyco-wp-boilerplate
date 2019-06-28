@@ -141,7 +141,35 @@ elif [[ $selection == 1 ]]; then
 # Core Update
 elif [[ $selection == 2 ]]; then
   updateHead
-  coreUpdate
+  printf "Are you sure you want to upgrade the version of WordPress? This can be destructive.\n"
+  echo "[0] I am sure. Upgrade!"
+  echo "[1] No, I would like to exit."
+  printf "Selection: "
+  read selection3
+  if [[ $selection3 == 0 ]]; then
+    printf "While the Wordpress core is being upgraded, it is advised to not interfere with the process. For an extra layer of certaintly, shall we continue?\n"
+    echo "[0] Do it!"
+    echo "[1] No, I would like to exit."
+    read selection4
+    if [[ $selection4 == 0 ]]; then
+      echo "Cool, here we go! Upgrade commencing..."
+      coreUpdate
+    elif [[ $selection4 == 1 ]]; then
+      echo "Not upgrading WordPress core... Exiting"
+      exit 1
+    else
+      echo "You did not make a valid selection... Exiting"
+      exit 1
+    fi
+    coreUpdate
+  elif [[ $selection3 == 1 ]]; then
+    echo "Not upgrading WordPress core... Exiting"
+    exit 1
+  else
+    echo "You did not make a valid selection... Exiting"
+    exit 1
+  fi
+
 else
   echo "Nothing was selected... exiting."
   exit 1
