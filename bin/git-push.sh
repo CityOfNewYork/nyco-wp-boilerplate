@@ -23,7 +23,7 @@ SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
 source "${SCRIPT_PATH}/config.sh"
-source "${SCRIPT_PATH}/find_wp.sh"
+source "${SCRIPT_PATH}/find-wp.sh"
 source "${SCRIPT_PATH}/slack-notifications.sh"
 source "${SCRIPT_PATH}/git.sh"
 

@@ -18,12 +18,14 @@ This repository contains a Docker image that will install the latest version of 
     * [Scripts](#scripts)
 * [Database](#database)
 * [Bin Scripts](#bin-scripts)
+  * [Prompted Actions](#prompted-actions)
   * [Git Push](#git-push)
   * [SSH](#ssh)
   * [Uploads](#uploads)
   * [Config](#config)
   * [Versioning](#versioning)
   * [Rollbar Sourcemaps](#rollbar-sourcemaps)
+  * [Dual Project Development](#dual-project-development)
 
 ## Docker Images
 
@@ -187,9 +189,25 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 
 Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/bin) directory. Be sure to fill out the [configuration](#configuration) file before using these scripts.
 
+### Prompted Actions
+With `bin/deploy.sh`, you will be given the option to do the following actions:
+
+
+| Action | Description |
+| -------- | -------- |
+| Deploy     | Deploy your local branch to a remote environment; calls [Git Push](#git-push)     |
+| Sync     | Sync your uploads to/from a remote; calls [Uploads](#uploads) or [Config](#config) based on selection      |
+| Update     | Upgrade the entire Wordpress core to a specified version detailed in the root composer.json     |
+
+To run the executable, at the root of the boilerplate, enter the following:
+```
+bin/deploy.sh
+```
+Make your selections based on the values in the square brackets.
+
 ### Git Push
 
-You can use push a deployment to a remote WP Engine installation by running...
+You can push a deployment to a remote WP Engine installation by running...
 
     bin/git-push.sh {{ WP Engine install }} -m {{ Slack message (optional) }} -b {{ branch (optional) }} -f {{ true (optional) }}
 
@@ -238,6 +256,13 @@ We use [Rollbar](https://rollbar.com) for error monitoring. After every new scri
     bin/rollbar-sourcemaps.sh {{ WP Engine install }}
 
 If the WP Engine install is using the CDN feature, that will need to be set in the [configuration](#configuration), ex; `CDN_{{ WP ENGINE INSTALL }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ WP Engine install }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
+
+### Dual Project Development
+With `bin/boilerplate.sh`, you are able to switch between development on your WordPress site or this boilerplate project. This will allow you to fetch the latest changes to the boilerplate or contribute! To run this executable, enter the following at the root of this project:
+```
+bin/boilerplate.sh
+```
+Based on your selection, the git tracking for the project that you were not working on will be placed in the `temp/bp/` for the boilerplate or `temp/wp/` for WordPress.
 
 # About NYCO
 
