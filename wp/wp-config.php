@@ -188,11 +188,14 @@ define('QM_ENABLE_CAPS_PANEL', WP_DEBUG);
 /**
  * PHP Headers
  * X-Frame-Options: SAMEORIGIN - Prevent web pages from being loaded inside iFrame
+ * X-Content-Type-Options: nosniff - Prevent MIME Type sniffing
  * CSP: Frame source - Disable iFrames
  * CSP: Object source - Disable Flash
  */
 
 header('X-Frame-Options: SAMEORIGIN');
+
+header('X-Content-Type-Options: nosniff');
 
 header("Content-Security-Policy: frame-src 'none'; object-src 'none'");
 
