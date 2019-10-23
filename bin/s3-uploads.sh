@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# Description
+# Syncs remote uploads with local uploads
+####
+# Usage
+# bin/s3-uploads.sh -d
+# or
+# bin/s3-uploads.sh -u
+# @required -u or -d upload or download - Whether to sync local with remote or vise versa.
+####
+# Sample commands:
+# bin/s3-uploads.sh growingupdev -d
+####
+
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source $SCRIPT_PATH/config.sh
+source $SCRIPT_PATH/slack-notifications.sh
+
+SYNC=$1
+INSTANCE="s3://${S3_BUCKET}"
+DOMAIN="https://${S3_BUCKET}.s3.amazonaws.com"
+COMMAND_UPLOAD="aws s3 sync ${WP}wp-content/uploads ${INSTANCE}"
+COMMAND_DOWNLOAD="aws s3 sync ${INSTANCE} ${WP}wp-content/"
+
+function download() {
+  echo $COMMAND_DOWNLOAD
+  if eval $COMMAND_DOWNLOAD; then
+    echo "Success."
+    post_slack_success "Successfully downloaded from ${INSTANCE}"
+  else
+    echo "Failed."
+    post_slack_fail "Failed to download from ${INSTANCE}"
+    exit 0
+  fi
+}
+
+function upload() {
+  echo $COMMAND_UPLOAD
+  if eval $COMMAND_UPLOAD; then
+    echo "Success."
+    post_slack_success "Successfully uploaded to ${INSTANCE}"
+  else
+    echo "Failed."
+    post_slack_fail "Failed to upload to ${INSTANCE}"
+    exit 0
+  fi
+}
+
+IFS='%'
+if [ "${SYNC}" == "-u" ]; then
+  post_slack "Syncing remote uploads with local"
+  upload
+elif [ "${SYNC}" == "-d" ]; then
+  post_slack "Syncing local uploads with remote"
+  download
+fi
+unset IFS
+
+exit 0

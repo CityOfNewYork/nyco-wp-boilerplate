@@ -101,6 +101,7 @@ GitHub            | `GITHUB_URL` The url for the product repository.
 Projects          | All of the product environment instance names should be added here.
 Rollbar           | The access token for the product's [Rollbar](https://rollbar.com) account and your local Rollbar username go here.
 Slack             | Deployment and synchronization scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
+S3 Uploads        | The name of an S3 bucket where uploads may be stored. Only needed if using a media offloader plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads).
 
 ### NYCO WP Config
 
@@ -159,6 +160,7 @@ Plugin                                                                          
 ----------------------------------------------------------------------------------------------|-
 [Google Authenticator](https://wordpress.org/plugins/google-authenticator/)                   | Enables 2-Factor Authentication for WordPress Users.
 [Limit Login Attempts Reloaded](https://wordpress.org/plugins/limit-login-attempts-reloaded/) | Limits the number of login attempts a user can have if they use the wrong password or authenticator token.
+[LoggedIn](https://wordpress.org/plugins/loggedin/)                                           | Allows the setting for number of active logins a user can have.
 [WP Security Question](https://wordpress.org/plugins/wp-security-questions/)                  | Enables security question feature on registration, login, and forgot password screens.
 [WPS Hide Login](https://wordpress.org/plugins/wps-hide-login/)                               | Lets site adminstrators customize the url of the WordPress admin login screen.
 
@@ -190,8 +192,8 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/bin) directory. Be sure to fill out the [configuration](#configuration) file before using these scripts.
 
 ### Prompted Actions
-With `bin/deploy.sh`, you will be given the option to do the following actions:
 
+With `bin/deploy.sh`, you will be given the option to do the following actions:
 
 | Action | Description |
 | -------- | -------- |
@@ -200,9 +202,9 @@ With `bin/deploy.sh`, you will be given the option to do the following actions:
 | Update     | Upgrade the entire Wordpress core to a specified version detailed in the root composer.json     |
 
 To run the executable, at the root of the boilerplate, enter the following:
-```
-bin/deploy.sh
-```
+
+    bin/deploy.sh
+
 Make your selections based on the values in the square brackets.
 
 ### Git Push
@@ -231,7 +233,11 @@ You can `rsync` remote **wp-content/uploads** from a WP Engine installation to y
 
     bin/rsync-uploads.sh {{ WP Engine install }} -d
 
-The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
+The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download). If using a plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads) to offload your media library to a static S3 bucket, you can use the S3 Uploads command to sync uploads (up or down) to a specified bucket. The script assumes you are using a single bucket for all of your installations...
+
+    bin/s3-uploads.sh -d
+
+The `s3-uploads` script uses the [AWS CLI](https://aws.amazon.com/cli/) which must be installed on your computer. Additionally, you may need to configure [authenticating with a session token](https://aws.amazon.com/premiumsupport/knowledge-center/authenticate-mfa-cli/) if your AWS account requires users to use MFA. There are several [scripts](https://medium.com/@bixlerm/aws-mfa-bash-script-f59e2b33093c ) to help with this.
 
 ### Config
 
@@ -258,10 +264,11 @@ We use [Rollbar](https://rollbar.com) for error monitoring. After every new scri
 If the WP Engine install is using the CDN feature, that will need to be set in the [configuration](#configuration), ex; `CDN_{{ WP ENGINE INSTALL }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ WP Engine install }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
 
 ### Dual Project Development
+
 With `bin/boilerplate.sh`, you are able to switch between development on your WordPress site or this boilerplate project. This will allow you to fetch the latest changes to the boilerplate or contribute! To run this executable, enter the following at the root of this project:
-```
-bin/boilerplate.sh
-```
+
+    bin/boilerplate.sh
+
 Based on your selection, the git tracking for the project that you were not working on will be placed in the `temp/bp/` for the boilerplate or `temp/wp/` for WordPress.
 
 # About NYCO
