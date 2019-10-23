@@ -22,7 +22,7 @@ source $SCRIPT_PATH/slack-notifications.sh
 SYNC=$1
 INSTANCE="s3://${S3_BUCKET}"
 DOMAIN="https://${S3_BUCKET}.s3.amazonaws.com"
-COMMAND_UPLOAD="aws s3 sync ${WP}wp-content/uploads ${INSTANCE}"
+COMMAND_UPLOAD="aws s3 sync ${WP}wp-content/uploads ${INSTANCE}/uploads"
 COMMAND_DOWNLOAD="aws s3 sync ${INSTANCE} ${WP}wp-content/"
 
 function download() {
