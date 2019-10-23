@@ -8,6 +8,7 @@
   "require": {
     "wpackagist-plugin/google-authenticator": "^0.52.0",
     "wpackagist-plugin/limit-login-attempts-reloaded": "^2.9",
+    "wpackagist-plugin/loggedin": "^1.2",
     "wpackagist-plugin/wp-security-questions": "^1.0",
     "wpackagist-plugin/wps-hide-login": "1.5.2.1"
   },
