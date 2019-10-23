@@ -29,11 +29,39 @@
  * visit the Codex.
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
+ *
+ * WP_DEBUG_DISPLAY is another companion to WP_DEBUG that controls whether debug
+ * messages are shown inside the HTML of pages or not. The default is ‘true’
+ * which shows errors and warnings as they are generated. Setting this to false
+ * will hide all errors. This should be used in conjunction with WP_DEBUG_LOG so
+ * that errors can be reviewed later.
+ *
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_display
+ *
+ * WP_DEBUG_LOG is a companion to WP_DEBUG that causes all errors to also be
+ * saved to a debug.log log file This is useful if you want to review all
+ * notices later or need to view notices generated off-screen (e.g. during an
+ * AJAX request or wp-cron run).
+ *
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_log
+ *
+ * SCRIPT_DEBUG is a related constant that will force WordPress to use the “dev”
+ * versions of scripts and stylesheets in wp-includes/js, wp-includes/css,
+ * wp-admin/js, and wp-admin/css will be loaded instead of the .min.css and
+ * .min.js versions.. If you are planning on modifying some of WordPress’
+ * built-in JavaScript or Cascading Style Sheets, you should add the following
+ * code to your config file:
+ *
+ * @link https://wordpress.org/support/article/editing-wp-config-php/#script_debug
  */
 
 define('WP_DEBUG', true);
 
 define('WP_DEBUG_DISPLAY', WP_DEBUG);
+
+// define('WP_DEBUG_LOG', WP_DEBUG); // wp-content/debug.log
+
+// define('SCRIPT_DEBUG', WP_DEBUG);
 
 /**
  * Autoload Composer dependencies
@@ -133,6 +161,22 @@ $_ENV['WP_ENV'] = getenv('WP_ENV');
 define('WP_ENV', getenv('WP_ENV'));
 
 /**
+ * Occasionally you may wish to disable the plugin or theme editor to prevent
+ * overzealous users from being able to edit sensitive files and potentially
+ * crash the site. Disabling these also provides an additional layer of security
+ * if a hacker gains access to a well-privileged user account.
+ *
+ * @link https://wordpress.org/support/article/editing-wp-config-php/#disable-the-plugin-and-theme-editor
+ */
+
+define('DISALLOW_FILE_EDIT', true);
+
+/**
+ * Headers
+ * @return  [type]  [return description]
+ */
+
+/**
  * WordPress Query Monitor Plugin Configuration
  * @link https://wordpress.org/plugins/query-monitor/
  *
@@ -142,11 +186,18 @@ define('WP_ENV', getenv('WP_ENV'));
 define('QM_ENABLE_CAPS_PANEL', WP_DEBUG);
 
 /**
- * Log errors
- * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_log
+ * PHP Headers
+ * X-Frame-Options: SAMEORIGIN - Prevent web pages from being loaded inside iFrame
+ * X-Content-Type-Options: nosniff - Prevent MIME Type sniffing
+ * CSP: Frame source - Disable iFrames
+ * CSP: Object source - Disable Flash
  */
 
-define('WP_DEBUG_LOG', WP_DEBUG); // wp-content/debug.log
+header('X-Frame-Options: SAMEORIGIN');
+
+header('X-Content-Type-Options: nosniff');
+
+header("Content-Security-Policy: frame-src 'none'; object-src 'none'");
 
 /* That's all, stop editing! Happy blogging. */
 
