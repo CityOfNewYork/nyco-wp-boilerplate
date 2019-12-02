@@ -1,4 +1,3 @@
-
 function git_clean {
   printf "\xE2\x9A\xA0     Git status... ";
   if [ -z "$(git status --porcelain)" ]; then
@@ -33,6 +32,16 @@ function git_tag {
   printf "\xE2\x9C\xA8     Tagging repository... ";
   if eval $1 ; then
     echo "Tagged!"
+  else
+    printf ""
+    exit 0
+  fi
+}
+
+function git_push {
+  printf "\xE2\x9C\xA8     Pushing changes... ";
+  if eval $1 ; then
+    echo "Pushed!"
   else
     printf ""
     exit 0

@@ -27,6 +27,7 @@ COMMAND_PACKAGE_LOCK="npm install --package-lock-only"
 COMMAND_ADD="git add -A"
 COMMAND_COMMIT="git commit -m \"v$VERSION\""
 COMMAND_TAG="git tag v$VERSION"
+COMMAND_PUSH="git push && git push --tags"
 COMMAND_NPM="npm run version"
 
 function version_composer {
@@ -64,7 +65,7 @@ function regen_package_lock {
 function npm_version_script {
   echo "\xF0\x9F\x8D\x92     Running '$COMMAND_NPM'... ";
   if eval $COMMAND_NPM ; then
-    printf "'$COMMAND_NPM' finished"
+    echo "'$COMMAND_NPM' finished."
   else
     echo "'$COMMAND_NPM' failed."
     exit 0

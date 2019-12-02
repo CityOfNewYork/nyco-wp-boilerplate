@@ -24,6 +24,7 @@ This repository contains a Docker image that will install the latest version of 
   * [Uploads](#uploads)
   * [Config](#config)
   * [Versioning](#versioning)
+  * [Publishing](#publishing)
   * [Rollbar Sourcemaps](#rollbar-sourcemaps)
   * [Dual Project Development](#dual-project-development)
 
@@ -254,6 +255,12 @@ It will also update the theme's **style.css**, the theme's **package.json**, and
 Finally, it will commit the file changes and tag the repository.
 
     bin/version.sh {{ semantic version number }}
+
+### Publishing
+
+Publishing will push committed changes or publish the current branch to the origin repository as well as publish all local tags that do not exist on origin. This can be used to publish newly created versions after the [versioning script](#versioning).
+
+    bin/publish.sh
 
 ### Rollbar Sourcemaps
 
