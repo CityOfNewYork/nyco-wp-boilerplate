@@ -27,6 +27,7 @@ This repository contains a Docker image that will install the latest version of 
   * [Publishing](#publishing)
   * [Rollbar Sourcemaps](#rollbar-sourcemaps)
   * [Dual Project Development](#dual-project-development)
+* [Security](#security)
 
 ## Docker Images
 
@@ -277,6 +278,10 @@ With `bin/boilerplate.sh`, you are able to switch between development on your Wo
     bin/boilerplate.sh
 
 Based on your selection, the git tracking for the project that you were not working on will be placed in the `temp/bp/` for the boilerplate or `temp/wp/` for WordPress.
+
+# Security
+
+The [Open Web Application Security Project](https://www.owasp.org/index.php/About_The_Open_Web_Application_Security_Project) provides [guidelines for implementing security for WordPress sites](https://www.owasp.org/index.php/OWASP_Wordpress_Security_Implementation_Guideline) that includes free and open source resources instead of commercial ones. Some of the practices mentioned are included in this boilerplate through [plugins](#security-plugins) and documentation while others should be implemented on a case by case basis.
 
 # About NYCO
 
