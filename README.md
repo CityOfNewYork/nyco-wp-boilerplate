@@ -283,6 +283,8 @@ Based on your selection, the git tracking for the project that you were not work
 
 The [Open Web Application Security Project](https://www.owasp.org/index.php/About_The_Open_Web_Application_Security_Project) provides [guidelines for implementing security for WordPress sites](https://www.owasp.org/index.php/OWASP_Wordpress_Security_Implementation_Guideline) that includes free and open source resources instead of commercial ones. Some of the practices mentioned are included in this boilerplate through [plugins](#security-plugins) and documentation while others should be implemented on a case by case basis.
 
-# About NYCO
+---
 
-NYC Opportunity is the [New York City Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity). We are committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback. Follow @nycopportunity on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity), [Twitter](https://twitter.com/nycopportunity), [Facebook](https://www.facebook.com/NYCOpportunity/), and [Instagram](https://www.instagram.com/nycopportunity/).
+![The Mayor's Office for Economic Opportunity](NYCMOEO_SecondaryBlue256px.png)
+
+[The Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity) (NYC Opportunity) is committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback. **Interested in contributing?** See our open positions on [buildwithnyc.github.io](http://buildwithnyc.github.io/). Follow our team on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity) (if you are part of the [@cityofnewyork](https://github.com/CityOfNewYork/) organization) or [browse our work on Github](https://github.com/search?q=nycopportunity).
