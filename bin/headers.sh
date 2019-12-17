@@ -44,3 +44,12 @@ function boilerWPHead(){
 	echo "|_.__/ \___/|_|_|\___|_|/_/    \_/\_/ | .__/ "
 	echo "                                      |_|    "
 }
+
+function lintPHPHead(){
+  echo ".__  .__        __   "
+  echo "|  | |__| _____/  |_ "
+  echo "|  | |  |/    \   __\\"
+  echo "|  |_|  |   |  \  |  "
+  echo "|____/__|___|  /__|  "
+  echo "             \/      "
+}

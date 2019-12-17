@@ -108,3 +108,24 @@ function coreUpdate(){
 	echo '>Updating wordpress core...'
 	echo 'COMPLETE!'
 }
+
+###
+# Lints all the PHP files in the project directory
+function lintPHP() {
+	baseDir="$(dirname "${SCRIPT_PATH}")"
+  projDir=$baseDir/wp
+
+  for file in `find ${projDir}`
+  do
+    EXTENSION="${file##*.}"
+    if [ "$EXTENSION" == "php" ] || [ "$EXTENSION" == "phtml" ]
+    then
+      RESULTS=`php -l $file`
+
+      if [ "$RESULTS" != "No syntax errors detected in $file" ]
+      then
+        echo 'ERROR!!! ${RESULTS}'
+      fi
+    fi
+  done 
+}
