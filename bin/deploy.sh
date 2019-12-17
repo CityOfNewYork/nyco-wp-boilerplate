@@ -34,6 +34,7 @@ printf "\nWhat do you want to do?\n"
 echo "[0] Deploy"
 echo "[1] Sync"
 echo "[2] Update"
+echo "[3] Lint"
 printf "Selection: "
 read selection
 if [[ $selection == 0 ]]; then
@@ -169,7 +170,9 @@ elif [[ $selection == 2 ]]; then
     echo "You did not make a valid selection... Exiting"
     exit 1
   fi
-
+elif [[ $selection == 3 ]]; then
+  lintPHPHead
+  lintPHP
 else
   echo "Nothing was selected... exiting."
   exit 1
