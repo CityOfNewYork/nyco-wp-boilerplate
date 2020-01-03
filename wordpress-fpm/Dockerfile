@@ -1,4 +1,4 @@
-FROM wordpress:php7.3-fpm-alpine
+FROM wordpress:php7.4-fpm-alpine
 
 # If you are working behind a proxy, uncomment the next block and replace {{ proxy }} with your proxy
 # ENV PROXY {{ proxy }}
