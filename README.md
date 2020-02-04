@@ -111,25 +111,35 @@ S3 Uploads        | The name of an S3 bucket where uploads may be stored. Only n
 
 ## WP-CLI
 
-WP-CLI is a command line interface for WordPress. It is set up to work with your WordPress installation through this Boilerplate. [Read more about WP-CLI at it's website](https://wp-cli.org/). To use WP-CLI, you need to run...
+WP-CLI is a command line interface for WordPress. It is set up to work with your WordPress installation through this Boilerplate. [Read more about WP-CLI at it's website](https://wp-cli.org/). To use WP-CLI commands, you need to run...
 
-    docker-compose exec wordpress /bin/wp
+    docker-compose exec wordpress /bin/wp {{ command }}
 
-before your command. Optionally, create an alias...
+... in place of `wp {{ command }}` to run one off commands on the container. Optionally, create an alias...
 
     alias dcwp="docker-compose exec wordpress /bin/wp"
 
-... so you don't have to type out the entire command. There a lot of things you can do with the CLI such as import a database...
+... so you don't have to type out `docker-compose exec`. **Optionally**, shell into the container to run commands directly in the container.
 
-    dcwp db import database.sql
+    docker-compose exec wordpress sh
+
+Then commands can be run using the normal CLI;
+
+    wp {{ command }}
+
+### Uses
+
+There a lot of things you can do with the CLI such as import a database...
+
+    wp db import database.sql
 
 .. replace strings in a the database...
 
-    dcwp search-replace 'https://production.com' 'http://localhost:8080'
+    wp search-replace 'https://production.com' 'http://localhost:8080'
 
 ... and add a local administrative user:
 
-    dcwp user create username username@domain.com --role=administrator --user_pass=wp
+    wp user create username username@domain.com --role=administrator --user_pass=wp
 
 [Refer to the documentation for more commands](https://developer.wordpress.org/cli/commands/).
 
