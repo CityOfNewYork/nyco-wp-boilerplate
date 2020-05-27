@@ -14,7 +14,9 @@ This repository contains a Docker image that will install the latest version of 
 * [WP-CLI](#wp-cli)
 * [Composer](#composer)
     * [Developer Tools](#developer-tools)
+    * [Plugins](#plugins)
     * [Security Plugins](#security-plugins)
+    * [Must Use Plugins](#must-use-plugins)
     * [Scripts](#scripts)
 * [Database](#database)
 * [Bin Scripts](#bin-scripts)
@@ -153,16 +155,30 @@ This boilerplate comes with a composer package that you may use to manage php pa
 
 ### Developer Tools
 
-The following packages are included for local development.
+The following packages are included for local development and plugin management.
 
-Developer Packages                                            | Description
---------------------------------------------------------------|-
-[Whoops](https://github.com/filp/whoops)                      | Much nicer error log for PHP.
-[WPS](https://github.com/Rarst/wps)                           | Whoops plugin for WordPress.
-[Query Monitor](https://wordpress.org/plugins/query-monitor/) | A developer tools panel plugin for WordPress.
-[Redis Cache](https://wordpress.org/plugins/redis-cache/)     | A persistent object cache backend plugin powered by Redis. Using Object Caching is optional but it is recommended for site speed.
-[WP Crontrol](https://wordpress.org/plugins/wp-crontrol/)     | Lets you view and control what’s happening in the WP-Cron system.
-[Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)  | Code linting for PHP.
+Developer Packages                                                                | Description
+----------------------------------------------------------------------------------|-
+[Timber](https://www.upstatement.com/timber/)                                     | Integrates the Twig Template Engine and more for easier theme developmet.
+[WPML Installer](https://github.com/Enelogic/wpml-installer)                      | Installer for WordPress Multilingual Plugin.
+[ACF Pro Installer](https://github.com/philippbaschke/acf-pro-installer)          | Installer for Advanced Custom Fields Pro.
+[Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)                      | Code linting for PHP.
+[WordPress Vunerability Check](https://github.com/umutphp/wp-vulnerability-check) | A command line tool to identify the security issues of WordPress plugins installed against the [WPScan Vunerability Database](https://wpvulndb.com/).
+[Whoops](https://github.com/filp/whoops)                                          | Much nicer error log for PHP.
+[Query Monitor](https://wordpress.org/plugins/query-monitor/)                     | WordPress Plugin. Creates a developer tools panel for WordPress Admins.
+[Redis Cache](https://wordpress.org/plugins/redis-cache/)                         | WordPress Plugin. A persistent object cache powered by Redis. Using Object Caching is optional but it is recommended for site speed.
+[WordPress Auto Login](https://wordpress.org/plugins/wp-auto-login/)              | WordPress Plugin. Creates a quick login link for local development (this is ignored by the site's .gitignore so it doesn't get added to a live environment).
+[WP Crontrol](https://wordpress.org/plugins/wp-crontrol/)                         | WordPress Plugin. Lets you view and control what’s happening in the WP-Cron system.
+
+### Plugins
+
+The Composer Package includes the following plugins for enhancing WordPress functionality.
+
+Plugin                                                                  | Description
+------------------------------------------------------------------------|-
+[Core Sitemaps](https://wordpress.org/plugins/core-sitemaps/)           | Proposed feature plugin for integrating basic sitemaps into WordPress Core. The boilerplate includes a MU Plugin file for configuration.
+[Duplicate Post](https://wordpress.org/plugins/duplicate-post/)         | Enables the duplicating of posts
+[WordPress Auto Updates](https://wordpress.org/plugins/wp-autoupdates/) | Proposed feature plugin for auto-updating plugins. Best used in a testing environment.
 
 ### Security Plugins
 
@@ -170,13 +186,32 @@ Additionally, the Composer Package includes the following plugins for enhancing 
 
 Plugin                                                                                        | Description
 ----------------------------------------------------------------------------------------------|-
+[Aryo Activity Log](https://wordpress.org/plugins/aryo-activity-log/)                         | Tracks user activity in a dedicated log page.
 [Google Authenticator](https://wordpress.org/plugins/google-authenticator/)                   | Enables 2-Factor Authentication for WordPress Users.
 [Limit Login Attempts Reloaded](https://wordpress.org/plugins/limit-login-attempts-reloaded/) | Limits the number of login attempts a user can have if they use the wrong password or authenticator token.
 [LoggedIn](https://wordpress.org/plugins/loggedin/)                                           | Allows the setting for number of active logins a user can have.
-[WP Security Question](https://wordpress.org/plugins/wp-security-questions/)                  | Enables security question feature on registration, login, and forgot password screens.
+[WP Security Questions](https://wordpress.org/plugins/wp-security-questions/)                 | Enables security question feature on registration, login, and forgot password screens.
 [WPS Hide Login](https://wordpress.org/plugins/wps-hide-login/)                               | Lets site adminstrators customize the url of the WordPress admin login screen.
 
 Additionally, the Composer.json includes a package for checking plugins against the [WPScan Vunerability Database](https://wpvulndb.com/). Details in [Scripts](#scripts).
+
+### Must Use Plugins
+
+These Must Use plugins provide a baseline support for some security concerns, plugin and site configuration. They can be customized for any installation.
+
+Plugin                                                                                                                       | Description
+-----------------------------------------------------------------------------------------------------------------------------|-
+[Add Meta Description to Head](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)        | Adds the description defined in the WordPress Admin settings to the description meta tag in the head for the homepage only.
+[Automatically Update Options](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)        | Disables pingback flag, pings, comments, closes comments for old posts, notifies if there are new comments, and disables user registration.
+[Clean Up Head](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)                       | Remove unecessary scripts, styles, and tags from the default WordPress head tag.
+[Close Attachment Comments and Pings](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/) | Disable future comments and ping status (spam) for attachments as there is no way to close comments in admin settings. For previously uploaded attachments the wp cli can be used to close them (examples are included in the source of this plugin).
+[Configure Core Sitemaps](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)             | Configuration for the proposed WordPress core plugin for simple sitemaps. Filters out users, taxonomies, and other post types that do not have page views.
+[Disable XML-RPC](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)                     | [Disable XML-RPC methods](https://kinsta.com/blog/wordpress-xml-rpc/) that require authentication.
+[Nonce Life](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)                          | Changing the default [WordPress nonce lifetime](https://codex.wordpress.org/WordPress_Nonces#Modifying_the_nonce_system) from 1 day to 30 minutes.
+[Disable Rest Endpoints](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)              | Explicityly disables endpoints related to users.
+[Robots.txt](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)                          | Modifies the default output of WordPress' robots.txt based on the Search Engine Visibility Settings (Settings > Reading).
+[Timber](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)                              | Instantiate and configure Timber
+[Upload Mimes](https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/)                        | Adds SVGs mime type to Media uploader to enable support for SVG files.
 
 ### Scripts
 
