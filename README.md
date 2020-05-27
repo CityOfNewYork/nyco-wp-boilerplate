@@ -197,7 +197,7 @@ Additionally, the Composer.json includes a package for checking plugins against 
 
 ### Must Use Plugins
 
-These Must Use plugins provide a baseline support for some security concerns, plugin and site configuration. They can be customized for any installation.
+These Must Use plugins provide baseline support for some security concerns, plugin and site configuration. They can be customized for any installation.
 
 Plugin                                                                                                                       | Description
 -----------------------------------------------------------------------------------------------------------------------------|-
