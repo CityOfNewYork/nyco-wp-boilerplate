@@ -2,8 +2,8 @@
 
 // phpcs:disable
 /**
- * Plugin Name: Disable Rest Endpoints
- * Description: Explicityly disables endpoints related to users.
+ * Plugin Name: Disable User REST Endpoints
+ * Description: Explicitly disables WordPress REST API endpoints related to users.
  * Plugin URI: https://github.com/cityofnewyork/nyco-wp-docker-boilerplate/wp/wp-content/mu-plugins/rest-endpoints.php
  * Author: NYC Opportunity
  * Author URI: nyc.gov/opportunity
