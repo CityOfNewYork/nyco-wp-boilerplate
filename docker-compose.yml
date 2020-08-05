@@ -28,7 +28,7 @@ services:
     restart: always
     volumes:
       - ./wp:/var/www/html/
-      - ./info.php:/var/www/html/info.php # Do not let this get committed to your repository
+      - ./wordpress-fpm/info.php:/var/www/html/info.php # Do not let this get committed to your repository
       # To use the latest Wordpress version, only mount the content
       # - ./wp/wp-content:/var/www/html/wp-content
       # - ./wp/wp-config.php:/var/www/html/wp-config.php
