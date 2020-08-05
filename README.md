@@ -1,6 +1,6 @@
 # NYCO WordPress Docker Boilerplate
 
-At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC) and Growing Up NYC.
+At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC), [Growing Up NYC](https://growingupnyc.cityofnewyork.us/), and more.
 
 This repository contains a Docker image that will install the latest version of WordPress to be served by nginx. It is the Boilerplate for running and maintaining all of our WordPress products and contains scripts for deployment, syncing, configuration, and notifications with all product environments hosted on WP Engine.
 
@@ -46,21 +46,17 @@ This repository contains a Docker image that will install the latest version of 
 
 Below is simplified set of steps for getting started. Look at the [notes for special details](#notes).
 
-**$1** Download a zip of this repository, or clone it.
+**$1** Download a zip of this repository, or clone it to a new project directory.
+
+    git clone https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate.git your-project-name && cd your-project-name
 
 **$2** Run the `bin/boilerplate.sh` command, select `[2] Update your Wordpress Project` then `[1] Yes` in the prompt to proceed. This will hide the `.git` directory but save it for updating later (see [Dual Project Development](#dual-project-development) for more details).
 
-**$3** Clone or place a WordPress site in the current directory. *Optionally* move your files into the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** starter directory (if skipping this step see the **/wp directory** note below).
+**$3** Move your files into the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** starter directory. *Optionally*, clone or place a WordPress site in the current directory (if doing this see the [**/wp directory** note](#notes) below).
 
-**$4** *Optional*. If you have a database dump to work with, place any **.sql** file in the [**/data**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/data/) directory. See [notes below for details on seeding the database](#notes).
+**$4** *Optional* but important if you have a database dump to work with. Place any **.sql** file in the [**/data**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/data/) directory. See [notes below for details on seeding the database](#notes).
 
-**$5** *Optional*. Generate your [Salts](https://api.wordpress.org/secret-key/1.1/salt/), copy, and paste them in their corresponding fields in the [wp-config.php](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/wp-config.php) file.
-
-**$6** `cd` into the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** directory (or your project directory) and run...
-
-    composer install
-
-**$7** `cd` back into the root directory and run
+**$5** Run
 
     docker-compose build
 
@@ -71,6 +67,8 @@ to build your images. Then run
 to start them. After a few moments, you will be able to open up `localhost:8080` to visit your site.
 
 ### Notes
+
+* **Generate your [Salts](https://api.wordpress.org/secret-key/1.1/salt/)** then copy and paste them in their corresponding fields in the [wp-config.php](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/wp-config.php) file.
 
 * **Mounting files**: The Docker image will pull the latest version of WordPress and mount any files to the WordPress container not included in the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** when running `docker-compose build` so you could have only the **/wp-content** directory in your project if you always want to work with the latest version of WordPress. The [**docker-compose.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/docker-compose.yml) file includes commented out lines that will also achieve the same thing for mounting certain files to the WordPress container.
 
@@ -135,7 +133,7 @@ There a lot of things you can do with the CLI such as import a database...
 
     wp db import database.sql
 
-.. replace strings in a the database...
+... replace strings in a the database...
 
     wp search-replace 'https://production.com' 'http://localhost:8080'
 
