@@ -6,28 +6,27 @@
     }
   ],
   "require": {
-    "timber/timber": "^1.16",
-    "wpackagist-plugin/aryo-activity-log": "^2.5",
-    "wpackagist-plugin/core-sitemaps": "^0.3.0",
-    "wpackagist-plugin/duplicate-post": "^3.2",
-    "wpackagist-plugin/google-authenticator": "^0.52.0",
-    "wpackagist-plugin/limit-login-attempts-reloaded": "^2.9",
-    "wpackagist-plugin/loggedin": "^1.2",
-    "wpackagist-plugin/wp-autoupdates": "^0.8.1",
-    "wpackagist-plugin/wp-security-questions": "^1.0",
-    "wpackagist-plugin/wps-hide-login": "1.5.2.1"
+    "timber/timber": "*",
+    "wpackagist-plugin/aryo-activity-log": "*",
+    "wpackagist-plugin/core-sitemaps": "*",
+    "wpackagist-plugin/defender-security": "*",
+    "wpackagist-plugin/duplicate-post": "*",
+    "wpackagist-plugin/google-authenticator": "*",
+    "wpackagist-plugin/limit-login-attempts-reloaded": "*",
+    "wpackagist-plugin/loggedin": "*",
+    "wpackagist-plugin/wp-autoupdates": "*",
+    "wpackagist-plugin/wp-security-questions": "*",
+    "wpackagist-plugin/wps-hide-login": "*"
   },
   "require-dev": {
-    "enelogic/wpml-installer": "^0.1.6",
-    "filp/whoops": "^2.3",
-    "philippbaschke/acf-pro-installer": "^1.0",
-    "squizlabs/php_codesniffer": "^3.4",
-    "umutphp/wp-vulnerability-check": "^0.1.1",
-    "whoops/soap": "^1.0",
-    "wpackagist-plugin/query-monitor": "^3.3",
-    "wpackagist-plugin/redis-cache": "^1.4",
-    "wpackagist-plugin/wp-auto-login": "^1.0",
-    "wpackagist-plugin/wp-crontrol": "^1.7"
+    "filp/whoops": "*",
+    "squizlabs/php_codesniffer": "*",
+    "umutphp/wp-vulnerability-check": "*",
+    "whoops/soap": "*",
+    "wpackagist-plugin/query-monitor": "*",
+    "wpackagist-plugin/redis-cache": "*",
+    "wpackagist-plugin/wp-auto-login": "*",
+    "wpackagist-plugin/wp-crontrol": "*"
   },
   "scripts": {
     "development": [
@@ -37,10 +36,10 @@
       "composer dump-autoload --no-dev --optimize"
     ],
     "predeploy": [
-      "composer run development",
-      "composer run lint",
-      "composer run wpscan",
-      "composer run production"
+      "@development",
+      "@lint",
+      "@wpscan",
+      "@production"
     ],
     "lint": [
       "vendor/bin/phpcs --standard=phpcs.xml"
@@ -53,7 +52,7 @@
     ],
     "version": [
       "composer update nothing",
-      "composer run production"
+      "@production"
     ],
     "deps": [
       "composer show --tree"
