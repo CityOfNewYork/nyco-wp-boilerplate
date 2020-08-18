@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Headers so you know what type of deployment you are doing
 
 function welcomeHead() {

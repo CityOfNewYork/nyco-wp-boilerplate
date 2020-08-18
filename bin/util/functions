@@ -1,10 +1,11 @@
 #!/bin/sh
-# functions.sh
+
+# functions
 # Contains functions:
 # destProj - prompts the user to select project
 # coreUpdate - updates the WordPress core based on composer.json
 # Usage:
-# bin/functions.sh <instance>
+# bin/functions <instance>
 
 #####
 # prompt the user for which project they would like to use
@@ -24,7 +25,7 @@ function destProj() {
 ###
 # update the wordpress core
 function coreUpdate(){
-	# define base directory 
+	# define base directory
 	baseDir="$(dirname "${SCRIPT_PATH}")"
 	echo "Base directory is:" $baseDir
 
@@ -100,7 +101,7 @@ function coreUpdate(){
 	#    echo "ERROR!"
 	#    echo ">Temporary directory is not empty... Keeping."
 	# fi
-	
+
 	# removing the temporary wp-content/
 	rm -rf $tempDir/wp-content
 
@@ -127,5 +128,5 @@ function lintPHP() {
         echo 'ERROR!!! ${RESULTS}'
       fi
     fi
-  done 
+  done
 }

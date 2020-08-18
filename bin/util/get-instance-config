@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 # This will check for a configuration variable based on a supplied instance
 # Usage

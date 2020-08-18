@@ -5,10 +5,10 @@
 # sends a deployment message to Slack, and sends a deployment notification to Rollbar
 #
 # Usage
-# Run `bin/git-push.sh` and follow the prompts
+# Run `bin/git-push` and follow the prompts
 #
-# To run individually from the main deploy.sh:
-# Run `bin/git-push.sh {{ WP Engine Install }} -b {{ branch }} -m {{ optional message }} -f true -e {{ env }}`
+# To run individually from the main deploy:
+# Run `bin/git-push {{ WP Engine Install }} -b {{ branch }} -m {{ optional message }} -f true -e {{ env }}`
 # @required instance    - the wpengine instance and git remote alias.
 # @optional -b branch   - if the branch is different from env/{{ WP Engine Install }}, this must be specified
 # @optional -m message  - an optional message to post to slack.
@@ -16,16 +16,16 @@
 # @optional -e env      - staging or production(default), the WP Engine environment.
 #
 # Sample commands:
-# bin/git-push.sh accessnyctest
+# bin/git-push accessnyctest
 # This will run git push to the remote "accessnyctest" from the branch "env/accessnyctest"
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
-source "${SCRIPT_PATH}/config.sh"
-source "${SCRIPT_PATH}/find-wp.sh"
-source "${SCRIPT_PATH}/slack-notifications.sh"
-source "${SCRIPT_PATH}/git.sh"
+source "$SCRIPT_PATH/util/config"
+source "$SCRIPT_PATH/util/find-wp"
+source "$SCRIPT_PATH/util/slack-notifications"
+source "$SCRIPT_PATH/util/git"
 
 if [ "$1" = "" ]; then
   echo "The first option {{ WP Engine Install }} is required"

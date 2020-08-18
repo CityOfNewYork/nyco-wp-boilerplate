@@ -4,9 +4,9 @@
 # This can be used to update the local or source repository with WP updates on
 # the remote WP Engine Instances.
 # Usage
-# bin/pull.sh <instance>
+# bin/pull <instance>
 
-source config/bin.cfg
+source "config/bin.cfg"
 
 INSTANCE=$1
 COMMAND="git pull ${INSTANCE} master"

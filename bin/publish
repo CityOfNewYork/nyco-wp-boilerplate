@@ -3,11 +3,11 @@
 # Pushes/publishes the current branch and pushes all missing tags from the local repository.ls
 #
 # Usage;
-# bin/publish.sh
+# bin/publish
 
-source config/bin.cfg
-source bin/find-wp.sh
-source bin/git.sh
+source "config/bin.cfg"
+source "$SCRIPT_PATH/util/find-wp"
+source "$SCRIPT_PATH/util/git"
 
 COMMAND_PUSH="git push && git push --tags"
 

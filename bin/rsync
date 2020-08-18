@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# Description
+# Syncs remote items with local items
+####
+# Usage
+# bin/rsync {{ instance }} {{ item }} -d
+# or
+# bin/rsync {{ instance }} {{ item }} -u
+# @required -u or -d upload or download - Whether to sync local with remote or vise versa.
+####
+# Sample commands:
+# bin/rsync growingupdev wp-content/uploads -d
+####
+
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$SCRIPT_PATH/util/config"
+source "$SCRIPT_PATH/util/slack-notifications"
+
+INSTANCE=$1
+ITEM=$2
+SYNC=$3
+
+DIRNAME="$(dirname "${ITEM}")"
+if [ "${DIRNAME}" == "." ]; then
+  DIRNAME=""
+fi
+
+COMMAND_UPLOAD="rsync -azP ${WP}${ITEM} ${INSTANCE}@${INSTANCE}.ssh.wpengine.net:sites/${INSTANCE}/${DIRNAME}"
+COMMAND_DOWNLOAD="rsync -azP ${INSTANCE}@${INSTANCE}.ssh.wpengine.net:sites/${INSTANCE}/${ITEM} ${WP}${DIRNAME}"
+
+function download() {
+  echo $COMMAND_DOWNLOAD
+
+  if eval $COMMAND_DOWNLOAD; then
+    echo "Successfully downloaded ${ITEM} from ${INSTANCE}"
+  else
+    echo "Failed to download ${ITEM} from ${INSTANCE}"
+    exit 0
+  fi
+}
+
+function upload() {
+  echo $COMMAND_UPLOAD
+
+  if eval $COMMAND_UPLOAD; then
+    echo "Successfully uploaded ${ITEM} to ${INSTANCE}"
+  else
+    echo "Failed to upload ${ITEM} to ${INSTANCE}"
+    exit 0
+  fi
+}
+
+IFS='%'
+if [ "${SYNC}" == "-u" ]; then
+  echo "Syncing local to remote."
+  upload
+elif [ "${SYNC}" == "-d" ]; then
+  echo "Syncing remote to local."
+  download
+fi
+unset IFS
+
+exit 0

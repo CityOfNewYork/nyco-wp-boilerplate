@@ -2,7 +2,7 @@
 
 # Shorthand for using SSH to remote into WP Engine instances
 # Usage
-# bin/s.sh <instance>
+# bin/ssh <instance>
 
 INSTANCE=$1
 
