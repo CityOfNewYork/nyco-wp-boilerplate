@@ -17,9 +17,12 @@
 # ex;
 # bin/version 3.1.0
 
-source config/bin.cfg
-source bin/find-wp
-source bin/git
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$BASE_PATH/config/bin.cfg"
+source "$SCRIPT_PATH/util/find-wp"
+source "$SCRIPT_PATH/util/git"
 
 VERSION=$1
 COMMAND_COMPOSER_LOCK="composer run version"

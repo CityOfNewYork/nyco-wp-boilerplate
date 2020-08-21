@@ -21,6 +21,9 @@
 # If there is no CDN, it will assume that the script is hosted on the default
 # instance on WP Engine; https://instance.wpengine.com or https://accessnycstage.wpengine.com
 
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
 source "$SCRIPT_PATH/util/config"
 source "$SCRIPT_PATH/util/get-version"
 source "$SCRIPT_PATH/util/get-instance-config"

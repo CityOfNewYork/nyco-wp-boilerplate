@@ -4,7 +4,10 @@
 # Usage
 # bin/rsync-config <instance>
 
-source "config/bin.cfg"
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$BASE_PATH/config/bin.cfg"
 source "$SCRIPT_PATH/util/slack-notifications"
 
 INSTANCE=$1
