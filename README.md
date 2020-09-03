@@ -23,7 +23,8 @@ This repository contains a Docker image that will install the latest version of 
   * [Prompted Actions](#prompted-actions)
   * [Git Push](#git-push)
   * [SSH](#ssh)
-  * [Uploads](#uploads)
+  * [Rsync](#rsync)
+  * [S3 Uploads](#s3-uploads)
   * [Config](#config)
   * [Versioning](#versioning)
   * [Publishing](#publishing)
@@ -50,7 +51,7 @@ Below is simplified set of steps for getting started. Look at the [notes for spe
 
     git clone https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate.git your-project-name && cd your-project-name
 
-**$2** Run the `bin/boilerplate.sh` command, select `[2] Update your Wordpress Project` then `[1] Yes` in the prompt to proceed. This will hide the `.git` directory but save it for updating later (see [Dual Project Development](#dual-project-development) for more details).
+**$2** Run the `bin/boilerplate` command, select `[2] Update your Wordpress Project` then `[1] Yes` in the prompt to proceed. This will hide the `.git` directory but save it for updating later (see [Dual Project Development](#dual-project-development) for more details).
 
 **$3** Move your files into the **[/wp](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/wp/)** starter directory. *Optionally*, clone or place a WordPress site in the current directory (if doing this see the [**/wp directory** note](#notes) below).
 
@@ -238,7 +239,7 @@ Script source can be found in the [**/bin**](https://github.com/CityOfNewYork/ny
 
 ### Prompted Actions
 
-With `bin/deploy.sh`, you will be given the option to do the following actions:
+With `bin/deploy`, you will be given the option to do the following actions:
 
 | Action | Description |
 | -------- | -------- |
@@ -248,7 +249,7 @@ With `bin/deploy.sh`, you will be given the option to do the following actions:
 
 To run the executable, at the root of the boilerplate, enter the following:
 
-    bin/deploy.sh
+    bin/deploy
 
 Make your selections based on the values in the square brackets.
 
@@ -256,7 +257,7 @@ Make your selections based on the values in the square brackets.
 
 You can push a deployment to a remote WP Engine installation by running...
 
-    bin/git-push.sh {{ WP Engine install }} -m {{ Slack message (optional) }} -b {{ branch (optional) }} -f {{ true (optional) }}
+    bin/git-push {{ WP Engine install }} -m {{ Slack message (optional) }} -b {{ branch (optional) }} -f {{ true (optional) }}
 
 If you have git push permissions set up and [configured](#configuration) with Slack and Rollbar correctly, this will post a message to the team that a deployment is being made and when it is complete, push to the appropriate WP Engine installation, and post a deployment to Rollbar for tracking. Adding the `-f` flag will perform a forced git push.
 
@@ -270,17 +271,21 @@ The `{{ WP Engine install }}` argument should be the same as the git remote repo
 
 You use [WP Engine's SSH Gateway](https://wpengine.com/support/getting-started-ssh-gateway/) to remotely browse an installation's filesystem by running...
 
-    bin/s.sh {{ WP Engine install }}
+    bin/ssh {{ WP Engine install }}
 
-### Uploads
+### Rsync
 
-You can `rsync` remote **wp-content/uploads** from a WP Engine installation to your local and vise versa by running...
+You can `rsync` remote files from a WP Engine installation to your local and vise versa by running...
 
-    bin/rsync-uploads.sh {{ WP Engine install }} -d
+    bin/rsync {{ WP Engine install }} {{ file }} -d
 
-The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download). If using a plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads) to offload your media library to a static S3 bucket, you can use the S3 Uploads command to sync uploads (up or down) to a specified bucket. The script assumes you are using a single bucket for all of your installations...
+The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
 
-    bin/s3-uploads.sh -d
+### S3 Uploads
+
+If using a plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads) to offload your media library to a static S3 bucket, you can use the S3 Uploads command to sync uploads (up or down) to a specified bucket. The script assumes you are using a single bucket for all of your installations...
+
+    bin/s3-uploads -d
 
 The `s3-uploads` script uses the [AWS CLI](https://aws.amazon.com/cli/) which must be installed on your computer. Additionally, you may need to configure [authenticating with a session token](https://aws.amazon.com/premiumsupport/knowledge-center/authenticate-mfa-cli/) if your AWS account requires users to use MFA. There are several [scripts](https://medium.com/@bixlerm/aws-mfa-bash-script-f59e2b33093c ) to help with this.
 
@@ -288,7 +293,7 @@ The `s3-uploads` script uses the [AWS CLI](https://aws.amazon.com/cli/) which mu
 
 You can rsync the local [**config/config.yml**](https://github.com/CityOfNewYork/nyco-wp-docker-boilerplate/blob/master/config/config.yml) to a remote environment's **wp-content/mu-plugins/config** directory by running...
 
-    bin/rsync-config.sh {{ WP Engine install }}
+    bin/rsync-config {{ WP Engine install }}
 
 ### Versioning
 
@@ -298,33 +303,33 @@ It will also update the theme's **style.css**, the theme's **package.json**, and
 
 Finally, it will commit the file changes and tag the repository.
 
-    bin/version.sh {{ semantic version number }}
+    bin/version {{ semantic version number }}
 
 ### Publishing
 
 Publishing will push committed changes or publish the current branch to the origin repository as well as publish all local tags that do not exist on origin. This can be used to publish newly created versions after the [versioning script](#versioning).
 
-    bin/publish.sh
+    bin/publish
 
 ### Rollbar Sourcemaps
 
 We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar. This script will read all of the files in the theme's **assets/js** folder and will attempt to upload sourcemaps for all files with the extension **.js**. The script files need to match the pattern **{{ script }}.{{ hash }}.js**, ex; **main.485af636.js**. It will assume there is a sourcemap with the same name and extension **.map**, ex; **main.485af636.js.map**. The theme and paths to minified scripts can be modified in the [configuration](#configuration).
 
-    bin/rollbar-sourcemaps.sh {{ WP Engine install }}
+    bin/rollbar-sourcemaps {{ WP Engine install }}
 
 If the WP Engine install is using the CDN feature, that will need to be set in the [configuration](#configuration), ex; `CDN_{{ WP ENGINE INSTALL }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ WP Engine install }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
 
 ### Dual Project Development
 
-With `bin/boilerplate.sh`, you are able to switch between development on your WordPress site or this boilerplate project. This will allow you to fetch the latest changes to the boilerplate or contribute! To run this executable, enter the following at the root of this project:
+With `bin/boilerplate`, you are able to switch between development on your WordPress site or this boilerplate project. This will allow you to fetch the latest changes to the boilerplate or contribute! To run this executable, enter the following at the root of this project:
 
-    bin/boilerplate.sh
+    bin/boilerplate
 
 Based on your selection, the git tracking for the project that you were not working on will be placed in the `temp/bp/` for the boilerplate or `temp/wp/` for WordPress.
 
 # Security
 
-The [Open Web Application Security Project](https://www.owasp.org/index.php/About_The_Open_Web_Application_Security_Project) provides [guidelines for implementing security for WordPress sites](https://www.owasp.org/index.php/OWASP_Wordpress_Security_Implementation_Guideline) that includes free and open source resources instead of commercial ones. Some of the practices mentioned are included in this boilerplate through [plugins](#security-plugins) and documentation while others should be implemented on a case by case basis.
+Refer to this [free security whitepaper](https://wordpress.org/about/security/) from WordPress.org to become more familiar with the security components and best practices of the WordPress Core software. Additionally, the [Open Web Application Security Project](https://www.owasp.org/index.php/About_The_Open_Web_Application_Security_Project) (OWASP) provides [guidelines for implementing security for WordPress sites](https://www.owasp.org/index.php/OWASP_Wordpress_Security_Implementation_Guideline) that includes free and open source resources instead of commercial ones. Some of the practices mentioned are included in this boilerplate through [plugins](#security-plugins) and documentation while others should be implemented on a case by case basis.
 
 ---
 

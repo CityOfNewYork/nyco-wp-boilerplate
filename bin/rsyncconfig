@@ -2,10 +2,13 @@
 
 # Syncs local config.yml file with remote
 # Usage
-# bin/rsync-config.sh <instance>
+# bin/rsync-config <instance>
 
-source config/bin.cfg
-source bin/slack-notifications.sh
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$BASE_PATH/config/bin.cfg"
+source "$SCRIPT_PATH/util/slack-notifications"
 
 INSTANCE=$1
 COMMAND="rsync -azP config/config.yml ${INSTANCE}@${INSTANCE}.ssh.wpengine.net:sites/${INSTANCE}/wp-content/mu-plugins/config/"

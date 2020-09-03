@@ -1,3 +1,5 @@
+#!/bin/sh
+
 function git_clean {
   printf "\xE2\x9A\xA0     Git status... ";
   if [ -z "$(git status --porcelain)" ]; then

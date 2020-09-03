@@ -1,15 +1,16 @@
 #!/bin/sh
+
 # Allows the user to switch between updating the
 # boilerplate and the WordPress project
-# bin/boilerplate.sh
+# bin/boilerplate
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
-source "${SCRIPT_PATH}/headers.sh"
+source "$SCRIPT_PATH/util/headers"
 boilerWPHead
 
-source "${BASE_PATH}/config/bin.cfg"
+source "$BASE_PATH/config/bin.cfg"
 PROJ_PATH=$WP
 
 bpTempDir=$BASE_PATH/temp/bp

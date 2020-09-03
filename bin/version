@@ -13,13 +13,16 @@
 # It then commits the changes and tags the commit.
 #
 # Usage;
-# bin/version.sh <version-number>
+# bin/version <version-number>
 # ex;
-# bin/version.sh 3.1.0
+# bin/version 3.1.0
 
-source config/bin.cfg
-source bin/find-wp.sh
-source bin/git.sh
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$BASE_PATH/config/bin.cfg"
+source "$SCRIPT_PATH/util/find-wp"
+source "$SCRIPT_PATH/util/git"
 
 VERSION=$1
 COMMAND_COMPOSER_LOCK="composer run version"

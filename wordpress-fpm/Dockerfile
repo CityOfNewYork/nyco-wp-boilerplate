@@ -16,6 +16,6 @@ RUN apk add --no-cache --update sudo mysql-client
 RUN curl -o /bin/wp-cli.phar $WP_CLI_PHAR
 # RUN curl -x $PROXY -o /bin/wp-cli.phar $WP_CLI_PHAR
 
-COPY bin/wp.sh /bin/wp
+COPY bin/wp /bin/wp
 RUN chmod +x /bin/wp
 RUN chmod +x /bin/wp-cli.phar

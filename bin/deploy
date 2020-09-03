@@ -5,22 +5,22 @@
 # or upgrade the Wordpress core of their project
 ####
 # Usage:
-# Run `bin/deploy.sh` and follow the prompts
+# Run `bin/deploy` and follow the prompts
 ####
 # Sample commands:
-# bin/deploy.sh
-# ../bin/deploy.sh
+# bin/deploy
+# ../bin/deploy
 ####
 
-# get the absolute path of deploy.sh
+# get the absolute path of deploy
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 # get parent directory of script
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
 # source the environmental variables and scripts
-source "${SCRIPT_PATH}/config.sh"
-source "${SCRIPT_PATH}/headers.sh"
-source "${SCRIPT_PATH}/functions.sh"
+source "$SCRIPT_PATH/util/config"
+source "$SCRIPT_PATH/util/headers"
+source "$SCRIPT_PATH/util/functions"
 
 # create an array of all the projects the user has listed in .env
 ARR=(${!PROJ_*})
@@ -43,7 +43,7 @@ if [[ $selection == 0 ]]; then
   destProj
   echo "You selected:" $userProj
 
-  deploy_cmd="${SCRIPT_PATH}/git-push.sh \"${userProj}\""
+  deploy_cmd="${SCRIPT_PATH}/git-push \"${userProj}\""
   printf "\nWhich branch would you like to push to ${!ARR[$userProj]}?\n"
   BRANCHES=($(cd $WP; git branch | grep "[^* ]+" -Eo))
   for i in ${!BRANCHES[@]}
@@ -55,7 +55,7 @@ if [[ $selection == 0 ]]; then
 
   echo "You chose ${BRANCHES[selected_branch]}"
   deploy_cmd="${deploy_cmd} -b \"${BRANCHES[selected_branch]}\""
-  
+
   printf "\nWould you like to push to the staging or production environment?\n"
   echo "[0] staging"
   echo "[1] production"
@@ -124,7 +124,7 @@ elif [[ $selection == 1 ]]; then
 
   if [[ $selection2 == 0 ]]; then
     echo "You have chosen to upload your config.yml"
-    eval $SCRIPT_PATH/rsync-config.sh $userProj
+    eval $SCRIPT_PATH/rsync-config $userProj
   elif [[ $selection2 == 1 ]]; then
     echo "You have chosen to download uploads"
       rsync_action="-d"
@@ -136,7 +136,7 @@ elif [[ $selection == 1 ]]; then
     destProj
     echo "You selected:" $userProj
 
-    rsync_cmd="${SCRIPT_PATH}/rsync-uploads.sh ${userProj} ${rsync_action}"
+    rsync_cmd="${SCRIPT_PATH}/rsync-uploads ${userProj} ${rsync_action}"
     eval $rsync_cmd
 # ###
 # Core Update

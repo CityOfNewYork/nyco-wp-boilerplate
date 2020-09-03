@@ -4,20 +4,20 @@
 # Syncs remote uploads with local uploads
 ####
 # Usage
-# bin/s3-uploads.sh -d
+# bin/s3-uploads -d
 # or
-# bin/s3-uploads.sh -u
+# bin/s3-uploads -u
 # @required -u or -d upload or download - Whether to sync local with remote or vise versa.
 ####
 # Sample commands:
-# bin/s3-uploads.sh growingupdev -d
+# bin/s3-uploads growingupdev -d
 ####
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 BASE_PATH=$(dirname "$SCRIPT_PATH")
 
-source $SCRIPT_PATH/config.sh
-source $SCRIPT_PATH/slack-notifications.sh
+source "$SCRIPT_PATH/util/config"
+source "$SCRIPT_PATH/util/slack-notifications"
 
 SYNC=$1
 INSTANCE="s3://${S3_BUCKET}"

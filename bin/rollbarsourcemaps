@@ -7,7 +7,7 @@
 # The local source map must match the remote sourcemap.
 #
 # Usage
-# bin/rollbar-sourcemaps.sh <instance>
+# bin/rollbar-sourcemaps <instance>
 #
 # The scripts need to match a specific pattern; script.hash.min.js
 # Example; main.485af636c4bfedaf8ebe1b38e556b27d.min.js
@@ -21,10 +21,13 @@
 # If there is no CDN, it will assume that the script is hosted on the default
 # instance on WP Engine; https://instance.wpengine.com or https://accessnycstage.wpengine.com
 
-source bin/config.sh
-source bin/get-version.sh
-source bin/get-instance-config.sh
-source bin/slack-notifications.sh
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$SCRIPT_PATH/util/config"
+source "$SCRIPT_PATH/util/get-version"
+source "$SCRIPT_PATH/util/get-instance-config"
+source "$SCRIPT_PATH/util/slack-notifications"
 
 INSTANCE=$1
 
