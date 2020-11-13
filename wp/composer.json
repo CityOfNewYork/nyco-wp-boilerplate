@@ -16,12 +16,12 @@
     "wpackagist-plugin/loggedin": "*",
     "wpackagist-plugin/wp-autoupdates": "*",
     "wpackagist-plugin/wp-security-questions": "*",
-    "wpackagist-plugin/wps-hide-login": "*"
+    "wpackagist-plugin/wps-hide-login": "*",
+    "wpackagist-plugin/wpscan": "*"
   },
   "require-dev": {
     "filp/whoops": "*",
     "squizlabs/php_codesniffer": "*",
-    "umutphp/wp-vulnerability-check": "*",
     "whoops/soap": "*",
     "wpackagist-plugin/query-monitor": "*",
     "wpackagist-plugin/redis-cache": "*",
@@ -38,7 +38,6 @@
     "predeploy": [
       "@development",
       "@lint",
-      "@wpscan",
       "@production"
     ],
     "lint": [
@@ -46,9 +45,6 @@
     ],
     "fix": [
       "vendor/bin/phpcbf --standard=phpcs.xml"
-    ],
-    "wpscan": [
-      "vendor/bin/wp-vulnerability-check --config wpscan.yml"
     ],
     "version": [
       "composer update nothing",

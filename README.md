@@ -163,7 +163,6 @@ Developer Packages                                                              
 [WPML Installer](https://github.com/Enelogic/wpml-installer)                      | Installer for WordPress Multilingual Plugin.
 [ACF Pro Installer](https://github.com/philippbaschke/acf-pro-installer)          | Installer for Advanced Custom Fields Pro.
 [Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)                      | Code linting for PHP.
-[WordPress Vunerability Check](https://github.com/umutphp/wp-vulnerability-check) | A command line tool to identify the security issues of WordPress plugins installed against the [WPScan Vunerability Database](https://wpvulndb.com/).
 [Whoops](https://github.com/filp/whoops)                                          | Much nicer error log for PHP.
 [Query Monitor](https://wordpress.org/plugins/query-monitor/)                     | WordPress Plugin. Creates a developer tools panel for WordPress Admins.
 [Redis Cache](https://wordpress.org/plugins/redis-cache/)                         | WordPress Plugin. A persistent object cache powered by Redis. Using Object Caching is optional but it is recommended for site speed.
@@ -192,26 +191,25 @@ Plugin                                                                          
 [LoggedIn](https://wordpress.org/plugins/loggedin/)                                                     | Allows the setting for number of active logins a user can have.
 [WP&nbsp;Security Questions](https://wordpress.org/plugins/wp-security-questions/)                      | Enables security question feature on registration, login, and forgot password screens.
 [WPS&nbsp;Hide Login](https://wordpress.org/plugins/wps-hide-login/)                                    | Lets site adminstrators customize the url of the WordPress admin login screen.
-
-Additionally, the Composer.json includes a package for checking plugins against the [WPScan Vunerability Database](https://wpvulndb.com/). Details in [Scripts](#scripts).
+[WPScan](https://wordpress.org/plugins/wpscan/)                                                         | Identifies security issues of WordPress plugins installed against the [WPScan Vunerability Database](https://wpvulndb.com/).
 
 ### Must Use Plugins
 
 These Must Use plugins provide baseline support for some security concerns, plugin and site configuration. They can be customized for any installation.
 
-Plugin                                                                                                                       | Description
------------------------------------------------------------------------------------------------------------------------------|-
+Plugin                                                                                                                               | Description
+-------------------------------------------------------------------------------------------------------------------------------------|-
 [Add&nbsp;Meta Description&nbsp;to&nbsp;Head](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)        | Adds the description defined in the WordPress Admin settings to the description meta tag in the head for the homepage only.
-[Automatically Update&nbsp;Options](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)        | Disables pingback flag, pings, comments, closes comments for old posts, notifies if there are new comments, and disables user registration.
-[Clean&nbsp;Up&nbsp;Head](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                       | Remove unecessary scripts, styles, and tags from the default WordPress head tag.
+[Automatically Update&nbsp;Options](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                  | Disables pingback flag, pings, comments, closes comments for old posts, notifies if there are new comments, and disables user registration.
+[Clean&nbsp;Up&nbsp;Head](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                            | Remove unecessary scripts, styles, and tags from the default WordPress head tag.
 [Close&nbsp;Attachment Comments&nbsp;and&nbsp;Pings](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/) | Disable future comments and ping status (spam) for attachments as there is no way to close comments in admin settings. For previously uploaded attachments the wp cli can be used to close them (examples are included in the source of this plugin).
-[Configure&nbsp;Core Sitemaps](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)             | Configuration for the proposed WordPress core plugin for simple sitemaps. Filters out users, taxonomies, and other post types that do not have page views.
-[Disable&nbsp;XML-RPC](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                     | [Disable XML-RPC methods](https://kinsta.com/blog/wordpress-xml-rpc/) that require authentication.
-[Nonce&nbsp;Life](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                          | Changing the default [WordPress nonce lifetime](https://codex.wordpress.org/WordPress_Nonces#Modifying_the_nonce_system) from 1 day to 30 minutes.
+[Configure&nbsp;Core Sitemaps](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                       | Configuration for the proposed WordPress core plugin for simple sitemaps. Filters out users, taxonomies, and other post types that do not have page views.
+[Disable&nbsp;XML-RPC](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                               | [Disable XML-RPC methods](https://kinsta.com/blog/wordpress-xml-rpc/) that require authentication.
+[Nonce&nbsp;Life](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                                    | Changing the default [WordPress nonce lifetime](https://codex.wordpress.org/WordPress_Nonces#Modifying_the_nonce_system) from 1 day to 30 minutes.
 [Disable&nbsp;User REST&nbsp;Endpoints](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)              | Explicitly disables WordPress REST API endpoints related to users.
-[Robots.txt](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                          | Modifies the default output of WordPress' robots.txt based on the Search Engine Visibility Settings (Settings > Reading).
-[Timber](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                              | Instantiate and configure Timber
-[Upload Mimes](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                        | Adds SVGs mime type to Media uploader to enable support for SVG files.
+[Robots.txt](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                                         | Modifies the default output of WordPress' robots.txt based on the Search Engine Visibility Settings (Settings > Reading).
+[Timber](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                                             | Instantiate and configure Timber
+[Upload Mimes](https://github.com/cityofnewyork/nyco-wp-boilerplate/wp/wp-content/mu-plugins/)                                       | Adds SVGs mime type to Media uploader to enable support for SVG files.
 
 ### Scripts
 
@@ -226,7 +224,6 @@ Script        | Description
 `predeploy`   | Rebuilds the autoloader using the `development` script for the code checking tasks, runs [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the `lint` script (described below), then runs [WordPress Vunerability Check](https://github.com/umutphp/wp-vulnerability-check) using the `wpscan` script (described below), then rebuilds the autoloader using the `production` script.
 `lint`        | Runs PHP Code Sniffer which will display violations of the standard defined in the [phpcs.xml](https://github.com/CityOfNewYork/nyco-wp-boilerplate/blob/master/wp/phpcs.xml) file.
 `fix`         | Runs PHP Code Sniffer in fix mode which will attempt to fix violations automatically. It is not necessarily recommended to run this on large scripts because if it fails it will leave a script partially formatted and malformed.
-`wpscan`      | Runs WordPress Vunerability Check on the plugin directory. It will display information of vunerable plugins in the [WPScan Vunerability Database](https://wpvulndb.com/). This script requires a token to be set in the [WPScan config file](https://github.com/CityOfNewYork/nyco-wp-boilerplate/blob/master/wp/wpscan.yml). Tokens can be acquired by creating a [WPScan account](https://wpvulndb.com/users/sign_up). Since this file will contain a token, it should not be committed to your project's repository. Uncomment the line in the included [**.gitignore**](https://github.com/CityOfNewYork/nyco-wp-boilerplate/blob/master/wp/.gitignore).
 `version`     | Regenerates the **composer.lock** file and rebuilds the autoloader for production.
 `deps`        | This is a shorthand for `composer show --tree` for illustrating package dependencies.
 

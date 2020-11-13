@@ -1,3 +1,0 @@
-token: {{ token }}
-path: wp-content/plugins/
-output: readable
