@@ -11,8 +11,7 @@ ENV WP_CLI_PHAR https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp
 # Install requirements for wp-cli
 RUN apk add --no-cache --update sudo mysql-client
 
-# Install wp-cli and add executable permissions. Commands can be run with
-# "docker-compose exec wordpress /bin/wp {{ command }}"
+# Install wp-cli and add executable permissions. If you are working behind a proxy, swap lines to curl using the proxy.
 RUN curl -o /bin/wp-cli.phar $WP_CLI_PHAR
 # RUN curl -x $PROXY -o /bin/wp-cli.phar $WP_CLI_PHAR
 

@@ -43,7 +43,7 @@ if [[ $selection == 0 ]]; then
   destProj
   echo "You selected:" $userProj
 
-  deploy_cmd="${SCRIPT_PATH}/git-push \"${userProj}\""
+  deploy_cmd="${SCRIPT_PATH}/push \"${userProj}\""
   printf "\nWhich branch would you like to push to ${!ARR[$userProj]}?\n"
   BRANCHES=($(cd $WP; git branch | grep "[^* ]+" -Eo))
   for i in ${!BRANCHES[@]}
@@ -124,7 +124,7 @@ elif [[ $selection == 1 ]]; then
 
   if [[ $selection2 == 0 ]]; then
     echo "You have chosen to upload your config.yml"
-    eval $SCRIPT_PATH/rsync-config $userProj
+    eval $SCRIPT_PATH/config $userProj
   elif [[ $selection2 == 1 ]]; then
     echo "You have chosen to download uploads"
       rsync_action="-d"
@@ -136,7 +136,7 @@ elif [[ $selection == 1 ]]; then
     destProj
     echo "You selected:" $userProj
 
-    rsync_cmd="${SCRIPT_PATH}/rsync-uploads ${userProj} ${rsync_action}"
+    rsync_cmd="${SCRIPT_PATH}/uploads ${userProj} ${rsync_action}"
     eval $rsync_cmd
 # ###
 # Core Update
