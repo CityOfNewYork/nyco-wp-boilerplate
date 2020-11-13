@@ -221,7 +221,7 @@ Script        | Description
 --------------|-
 `development` | Rebuilds the autoloader including development dependencies.
 `production`  | Rebuilds the autoloader omitting development dependencies.
-`predeploy`   | Rebuilds the autoloader using the `development` script for the code checking tasks, runs [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the `lint` script (described below), then runs [WordPress Vunerability Check](https://github.com/umutphp/wp-vulnerability-check) using the `wpscan` script (described below), then rebuilds the autoloader using the `production` script.
+`predeploy`   | Rebuilds the autoloader using the `development` script for the code checking tasks, runs [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) using the `lint` script (described below), then rebuilds the autoloader using the `production` script.
 `lint`        | Runs PHP Code Sniffer which will display violations of the standard defined in the [phpcs.xml](https://github.com/CityOfNewYork/nyco-wp-boilerplate/blob/master/wp/phpcs.xml) file.
 `fix`         | Runs PHP Code Sniffer in fix mode which will attempt to fix violations automatically. It is not necessarily recommended to run this on large scripts because if it fails it will leave a script partially formatted and malformed.
 `version`     | Regenerates the **composer.lock** file and rebuilds the autoloader for production.
