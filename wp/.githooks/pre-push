@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# WordPress Root, PHP and Composer Dependencies
+composer run predeploy
+
+# Theme Dependencies
+# TODO: Fix linting issues, prevent push if it doesn't pass
+# npm run predeploy
