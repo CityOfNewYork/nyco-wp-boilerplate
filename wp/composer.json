@@ -6,15 +6,16 @@
     }
   ],
   "require": {
+    "humanmade/s3-uploads": "*",
+    "nyco/wp-assets": "*",
+    "nyco/wp-config": "*",
     "timber/timber": "*",
     "wpackagist-plugin/aryo-activity-log": "*",
-    "wpackagist-plugin/core-sitemaps": "*",
     "wpackagist-plugin/defender-security": "*",
     "wpackagist-plugin/duplicate-post": "*",
     "wpackagist-plugin/google-authenticator": "*",
     "wpackagist-plugin/limit-login-attempts-reloaded": "*",
     "wpackagist-plugin/loggedin": "*",
-    "wpackagist-plugin/wp-autoupdates": "*",
     "wpackagist-plugin/wp-security-questions": "*",
     "wpackagist-plugin/wps-hide-login": "*",
     "wpackagist-plugin/wpscan": "*"
