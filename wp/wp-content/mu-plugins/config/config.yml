@@ -1,0 +1,103 @@
+# Default options
+
+# WP_OPTION_ADMIN_EMAIL: ''
+WP_OPTION_BLOG_PUBLIC: false
+FORCE_SSL_ADMIN: true
+WP_POST_REVISIONS: 5
+
+# WordPress Query Monitor Plugin Configuration. Enabling the capabilities panel
+# and dark mode.
+#
+# @link https://wordpress.org/plugins/query-monitor/
+
+QM_ENABLE_CAPS_PANEL: true
+QM_DARK_MODE: true
+
+# WP Scan Plugin Configuration.
+#
+# @link https://wordpress.org/plugins/wpscan/
+
+WPSCAN_API_TOKEN: ''
+WP_OPTION_WPSCAN_MAIL: ''
+WP_OPTION_WPSCAN_INTERVAL: 1
+
+# Occasionally you may wish to disable the plugin or theme editor to prevent
+# overzealous users from being able to edit sensitive files and potentially
+# crash the site. Disabling these also provides an additional layer of security
+# if a hacker gains access to a well-privileged user account.
+#
+# This must be enabled by support on WP Engine environments.
+#
+# @link https://wordpress.org/support/article/editing-wp-config-php/#disable-the-plugin-and-theme-editor
+
+DISALLOW_FILE_EDIT: true
+
+# S3 Uploads Configuration
+#
+# @link https://github.com/humanmade/S3-Uploads
+
+S3_UPLOADS_BUCKET: ''
+S3_UPLOADS_KEY: ''
+S3_UPLOADS_SECRET: ''
+S3_UPLOADS_REGION: us-east-1
+
+# Disabling critical communications with translations services for test sites.
+#
+# @link https://wpml.org/documentation/support/wpml-coding-api/#disabling-critical-communications-with-translations-services-for-test-sites
+
+# WPML_ENVIRONMENT: test
+
+# Configuration for WP Headers plugin
+#
+# @link https://github.com/cityofnewyork/nyco-wp-boilerplate/
+
+WP_HEADERS_DNS_PREFETCH_CONTROL: 'on'
+WP_HEADERS_SAMEORIGIN: true # Prevent web pages from being loaded inside iFrame
+WP_HEADERS_NOSNIFF: true # Prevent MIME Type sniffing
+
+# Content Security Policy Header
+#
+# @link https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+# @link https://github.com/cityofnewyork/nyco-wp-boilerplate/
+
+# WP_HEADERS_CSP_STYLE: ''
+# WP_HEADERS_CSP_FONT: ''
+# WP_HEADERS_CSP_IMG: ''
+# WP_HEADERS_CSP_SCRIPT: ''
+# WP_HEADERS_CSP_CONNECT: ''
+# WP_HEADERS_CSP_FRAME: ''
+# WP_HEADERS_CSP_REPORTING: '' # Creating an endpoint for reporting will send violations to this defined URI for debugging
+WP_HEADERS_CSP_SEND: false # Setting false will prevent CSP headers from sending at all
+
+# Local environments
+
+development:
+  WP_SITEURL: http://localhost:8080
+  WP_HOME: http://localhost:8080
+  FORCE_SSL_ADMIN: false
+  WP_OPTION_BLOG_PUBLIC: false
+  WPML_ENVIRONMENT: test
+
+testing:
+  WP_SITEURL: http://localhost:8080
+  WP_HOME: http://localhost:8080
+  FORCE_SSL_ADMIN: false
+  WP_OPTION_BLOG_PUBLIC: true
+  WPML_ENVIRONMENT: test
+
+# Remote environments
+
+test:
+  WP_SITEURL: ''
+  WP_HOME: ''
+  WPML_ENVIRONMENT: test
+
+stage:
+  WP_SITEURL: ''
+  WP_HOME: ''
+  WPML_ENVIRONMENT: test
+
+prod:
+  WP_SITEURL: ''
+  WP_HOME: ''
+  WP_OPTION_BLOG_PUBLIC: true

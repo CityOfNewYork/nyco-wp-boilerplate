@@ -18,68 +18,6 @@
  * @package WordPress
  */
 
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the Codex.
- *
- * @link https://codex.wordpress.org/Debugging_in_WordPress
- *
- * WP_DEBUG_DISPLAY is another companion to WP_DEBUG that controls whether debug
- * messages are shown inside the HTML of pages or not. The default is ‘true’
- * which shows errors and warnings as they are generated. Setting this to false
- * will hide all errors. This should be used in conjunction with WP_DEBUG_LOG so
- * that errors can be reviewed later.
- *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_display
- *
- * WP_DEBUG_LOG is a companion to WP_DEBUG that causes all errors to also be
- * saved to a debug.log log file This is useful if you want to review all
- * notices later or need to view notices generated off-screen (e.g. during an
- * AJAX request or wp-cron run).
- *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_log
- *
- * SCRIPT_DEBUG is a related constant that will force WordPress to use the “dev”
- * versions of scripts and stylesheets in wp-includes/js, wp-includes/css,
- * wp-admin/js, and wp-admin/css will be loaded instead of the .min.css and
- * .min.js versions.. If you are planning on modifying some of WordPress’
- * built-in JavaScript or Cascading Style Sheets, you should add the following
- * code to your config file:
- *
- * @link https://wordpress.org/support/article/editing-wp-config-php/#script_debug
- */
-
-define('WP_DEBUG', true);
-
-define('WP_DEBUG_DISPLAY', WP_DEBUG);
-
-// define('WP_DEBUG_LOG', WP_DEBUG); // wp-content/debug.log
-
-// define('SCRIPT_DEBUG', WP_DEBUG);
-
-/**
- * Autoload Composer dependencies
- */
-
-require_once __DIR__ . '/vendor/autoload.php';
-
-/**
- * Whoops PHP Error Handler
- * @link https://github.com/filp/whoops
- */
-
-if (true === WP_DEBUG) {
-  $whoops = new \Whoops\Run;
-  $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-  $whoops->register();
-}
-
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('DB_NAME', 'wp');
@@ -100,9 +38,9 @@ define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
 /**
- * Redis Object Cache
+ * Redis Object Cache. Configure the plugin to use the image in our dockerfile.
+ *
  * @link https://wordpress.org/plugins/redis-cache/
- * Configure the plugin to use the image in our dockerfile.
  */
 
 define('WP_REDIS_HOST', 'redis');
@@ -152,52 +90,69 @@ define('WP_HOME', WP_SITEURL);
 
 /**
  * Set our WordPress environment variable
- */
-
-putenv('WP_ENV=development');
-
-$_ENV['WP_ENV'] = getenv('WP_ENV');
-
-define('WP_ENV', getenv('WP_ENV'));
-
-/**
- * Occasionally you may wish to disable the plugin or theme editor to prevent
- * overzealous users from being able to edit sensitive files and potentially
- * crash the site. Disabling these also provides an additional layer of security
- * if a hacker gains access to a well-privileged user account.
  *
- * @link https://wordpress.org/support/article/editing-wp-config-php/#disable-the-plugin-and-theme-editor
+ * @link https://github.com/CityOfNewYork/nyco-wp-config/
  */
 
-define('DISALLOW_FILE_EDIT', true);
+define('WP_ENV', 'development'); // Use development for convenience and active development
+
+// define('WP_ENV', 'testing'); // Use testing for emulating configuration for production environments
+
+putenv('WP_ENV=' . WP_ENV);
 
 /**
- * Headers
- * @return  [type]  [return description]
- */
-
-/**
- * WordPress Query Monitor Plugin Configuration
+ * WordPress Query Monitor Plugin Configuration. Enabling the capabilities
+ * panel for Query Monitor.
+ *
  * @link https://wordpress.org/plugins/query-monitor/
- *
- * Enabling the capabilities panel for Query Monitor
  */
 
 define('QM_ENABLE_CAPS_PANEL', WP_DEBUG);
 
 /**
- * PHP Headers
- * X-Frame-Options: SAMEORIGIN - Prevent web pages from being loaded inside iFrame
- * X-Content-Type-Options: nosniff - Prevent MIME Type sniffing
- * CSP: Frame source - Disable iFrames
- * CSP: Object source - Disable Flash
+ * For developers: WordPress debugging mode.
+ *
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
+ *
+ * For information on other constants that can be used for debugging,
+ * visit the Codex.
+ *
+ * @link https://codex.wordpress.org/Debugging_in_WordPress
+ *
+ * WP_DEBUG_DISPLAY is another companion to WP_DEBUG that controls whether debug
+ * messages are shown inside the HTML of pages or not. The default is ‘true’
+ * which shows errors and warnings as they are generated. Setting this to false
+ * will hide all errors. This should be used in conjunction with WP_DEBUG_LOG so
+ * that errors can be reviewed later.
+ *
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_display
+ *
+ * WP_DEBUG_LOG is a companion to WP_DEBUG that causes all errors to also be
+ * saved to a debug.log log file This is useful if you want to review all
+ * notices later or need to view notices generated off-screen (e.g. during an
+ * AJAX request or wp-cron run).
+ *
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/#wp_debug_log
+ *
+ * SCRIPT_DEBUG is a related constant that will force WordPress to use the “dev”
+ * versions of scripts and stylesheets in wp-includes/js, wp-includes/css,
+ * wp-admin/js, and wp-admin/css will be loaded instead of the .min.css and
+ * .min.js versions.. If you are planning on modifying some of WordPress’
+ * built-in JavaScript or Cascading Style Sheets, you should add the following
+ * code to your config file:
+ *
+ * @link https://wordpress.org/support/article/editing-wp-config-php/#script_debug
  */
 
-header('X-Frame-Options: SAMEORIGIN');
+define('WP_DEBUG', true);
 
-header('X-Content-Type-Options: nosniff');
+define('WP_DEBUG_DISPLAY', WP_DEBUG);
 
-header("Content-Security-Policy: frame-src 'none'; object-src 'none'");
+// define('WP_DEBUG_LOG', WP_DEBUG); // wp-content/debug.log
+
+// define('SCRIPT_DEBUG', WP_DEBUG);
 
 /* That's all, stop editing! Happy blogging. */
 
