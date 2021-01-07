@@ -1,10 +1,29 @@
 # NYCO Config File #
 ####################
-/wp-content/mu-plugins/config/config.yml
+# /wp-content/mu-plugins/config/config.yml # uncomment this in your project
 
 # Composer #
 ############
 /vendor/*
+
+# Packages required by Timber, S3 Uploads NYCO WP Assets, and NYCO WP Config
+!/vendor/autoload.php
+!/vendor/altorouter
+!/vendor/asm89
+!/vendor/aws
+!/vendor/composer
+!/vendor/doctrine
+!/vendor/guzzlehttp
+!/vendor/illuminate
+!/vendor/mustangostang
+!/vendor/mtdowling
+!/vendor/nesbot
+!/vendor/psr
+!/vendor/ralouphie
+!/vendor/symfony
+!/vendor/timber
+!/vendor/twig
+!/vendor/upstatement
 
 # WordPress #
 ############
