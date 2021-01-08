@@ -18,17 +18,17 @@ This repository contains a Docker image that will install the latest version of 
 * [Git Hooks](#git-hooks)
 * [Database](#database)
 * [Bin Scripts](#bin-scripts)
+  * [Boilerplate](#boilerplate)
   * [Menu](#menu)
   * [Push](#push)
   * [Pull](#pull)
   * [SSH](#ssh)
   * [rsync](#rsync)
-  * [S3 Uploads](#s3-uploads)
+  * [Uploads](#uploads)
   * [Config](#config)
-  * [Versioning](#versioning)
-  * [Publishing](#publishing)
+  * [Version](#version)
+  * [Publish](#publish)
   * [Sourcemaps](#sourcemaps)
-  * [Dual Project Development](#dual-project-development)
 * [WordPress Filesystem Guide](#wordpress-filesystem-guide)
   * [Root](#root)
   * [Must Use Plugins](#must-use-plugins)
@@ -106,16 +106,16 @@ to start them. After a few moments, you will be able to open up `localhost:8080`
 
 The [Bin Scripts](#bin-scripts) use a configuration file in [**/config/bin.cfg**](config/config.cfg) for interacting with the local WordPress site and remote services.
 
-Config&nbsp;Blocks   | Description
----------------------|-
-Colors               | These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand.
-Domain               | The production domain and CDN for the WP Engine installation go here.
-WordPress            | WordPress directory configuration including the `WP` path, theme directory name, minified *.js* directory path, and matching pattern for minified *.js* files.
-GitHub               | `GITHUB_URL` The url for the product repository.
-Projects             | All of the product environment instance names should be added here.
-Rollbar              | The access token for the product's [Rollbar](https://rollbar.com) account and your local Rollbar username go here.
-Slack                | Deployment and synchronization scripts post to Slack to alert the team on various tasks. Settings for Slack are managed here.
-S3&nbsp;Uploads      | The name of an S3 bucket where uploads may be stored. Only needed if using a media offloader plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads).
+Config&nbsp;Blocks | Description
+-------------------|-
+Colors             | These are the colors used for Slack and other message highlighting. They currently are set to match the NYC Opportunity brand. Used by the [push](#push) command.
+Domain             | The production domain and CDN for the WP Engine installation go here. Used by the [sourcemaps](#sourcemaps) command.
+WordPress          | WordPress directory configuration including the `WP` path, theme directory name, minified *.js* directory path, and matching pattern for minified *.js* files. Used by [sourcemaps](#sourcemaps) and other [commands](#commands).
+GitHub             | `GITHUB_URL` The url for the product repository. Used by the [push](#push) command.
+Projects           | All of the product environment remote names should be added here. Used by the [menu](#menu) command.
+Rollbar            | The access token for the a [Rollbar](https://rollbar.com) account and local Rollbar username go here. Used by the [push](#push) and [sourcemaps](#sourcemaps) commands.
+Slack              | Deployment and synchronization scripts post to Slack to alert the team on various tasks. Used by various [commands](#commands).
+S3&nbsp;Uploads    | The name of an S3 bucket where uploads may be stored. Only needed if using the [uploads](#uploads) command.
 
 ### NYCO WP Config
 
@@ -365,6 +365,8 @@ Switch between development on your WordPress site or this boilerplate project. T
 
 Based on your selection, the git tracking for the project that you were not working on will be placed in the `temp/bp/` for the boilerplate or `temp/wp/` for WordPress.
 
+---
+
 ### Menu
 
 ```shell
@@ -381,6 +383,8 @@ Update | Upgrade the entire Wordpress core to a specified version detailed in th
 Lint   | Runs PHP linting using the native syntax checker `php -l {{ file }}`.
 
 Make your selections based on the values in the square brackets.
+
+---
 
 ### Push
 
@@ -409,13 +413,17 @@ There are a few integrations that the command will trigger if they are [configur
 
 Setting the `-f` flag to `true` will perform a forced git push.
 
+---
+
 ### Pull
 
 ```shell
 $ bin/pull {{ remote }}
 ```
 
-Pulls a remote instance **master** into the local branch.
+Pulls a remote instance's **master** branch to the current local branch.
+
+---
 
 ### SSH
 
@@ -425,6 +433,8 @@ $ bin/ssh {{ remote }}
 
 Use [WP Engine's SSH Gateway](https://wpengine.com/support/getting-started-ssh-gateway/) to remotely navigate an installation's filesystem.
 
+---
+
 ### rsync
 
 ```shell
@@ -432,6 +442,8 @@ $ bin/rsync {{ remote }} {{ file }} {{ -u or -d }}
 ```
 
 `rsync` remote files from a WP Engine installation to your local and vise versa. The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
+
+---
 
 ### S3 Uploads
 
@@ -443,6 +455,8 @@ If using a plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads) 
 
 The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download). The `uploads` script uses the [AWS CLI](https://aws.amazon.com/cli/) which must be installed on your computer. Additionally, you may need to configure [authenticating with a session token](https://aws.amazon.com/premiumsupport/knowledge-center/authenticate-mfa-cli/) if your AWS account requires users to use MFA. There are several [scripts](https://medium.com/@bixlerm/aws-mfa-bash-script-f59e2b33093c ) to help with this.
 
+---
+
 ### Config
 
 ```shell
@@ -452,6 +466,8 @@ $ bin/config {{ remote }} {{ -u or -d }}
 `rsync` the local [**config/config.yml**](config/config.yml) to a remote environment's **wp-content/mu-plugins/config** directory.
 
 The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
+
+---
 
 ### Version
 
@@ -465,6 +481,8 @@ It will also update the theme's **style.css**, the theme's **package.json**, and
 
 Finally, it will commit the file changes and tag the repository.
 
+---
+
 ### Publish
 
 ```shell
@@ -472,6 +490,8 @@ $ bin/publish
 ```
 
 Publishing will push committed changes or publish the current branch to the origin repository as well as publish all local tags that do not exist on origin. This can be used to publish newly created versions after the [versioning script](#versioning).
+
+---
 
 ### Sourcemaps
 
@@ -481,7 +501,7 @@ $ bin/sourcemaps {{ remote }}
 
 We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar to identify the source of errors. This script will read all of the files in the theme's **assets/js** folder and will attempt to upload sourcemaps for all files with the extension **.js**. The script files need to match the pattern **{{ script }}.{{ hash }}.js**, ex; **main.485af636.js**. It will assume there is a sourcemap with the same name and extension **.map**, ex; **main.485af636.js.map**. The theme and paths to minified scripts can be modified in the [configuration](#configuration).
 
-If the WP Engine install is using the CDN feature, that will need to be set in the [configuration](#configuration), ex; `CDN_{{ WP ENGINE INSTALL }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ remote }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
+If the WP Engine install is using the CDN feature, that will need to be set in the [configuration](#configuration), ex; `CDN_{{ REMOTE }}` or `CDN_ACCESSNYC`. If there is no CDN, it will assume that the script is hosted on the default instance on WP Engine; `https://{{ remote }}.wpengine.com` or `https://accessnycstage.wpengine.com`.
 
 # WordPress Filesystem Guide
 
