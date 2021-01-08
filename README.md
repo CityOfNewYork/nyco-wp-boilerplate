@@ -506,7 +506,7 @@ An important note about the **.htaccess** file which is not included here. This 
 
 <div><pre>
 ├ 📁 .githooks         - Hooks to run when committing, pushing, etc. This directory needs to be configured in the repo configuration by running; git config core.hooksPath .githooks
-  └ 📄 <a href='wp/.gitignore'>pre-push</a>          - Runs the Composer predeploy script before pushing to the remote repository.
+  └ 📄 <a href='wp/.githooks/pre-push'>pre-push</a>          - Runs the Composer predeploy script before pushing to the remote repository.
 ├ 📁 .github           - GitHub configurations.
   └ 📄 <a href='wp/.github/dependabot.yml'>dependabot.yml</a>    - <a href="https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/keeping-your-dependencies-updated-automatically">Dependabot</a> configuration.
 ├ 📁 vendor            - Composer packages will be installed here.
@@ -514,13 +514,13 @@ An important note about the **.htaccess** file which is not included here. This 
 ├ 📁 wp-content        - Must use plugins, themes, uploads, etc.
 ├ 📁 wp-includes       - WordPress Core directory.
 ├ 📄 <a href='wp/.gitignore'>.gitignore</a>        - Git file ignores and includes.
-├ 📄 <a href='wp/.gitignore'>composer.json</a>     - Root composer package containing required packages, plugins, and Composer scripts. See <a href="https://getcomposer.org/doc/04-schema.md">composer.json schema</a> docs and <a href="#composer">Composer</a> guide.
+├ 📄 <a href='wp/composer.json'>composer.json</a>     - Root composer package containing required packages, plugins, and Composer scripts. See <a href="https://getcomposer.org/doc/04-schema.md">composer.json schema</a> docs and <a href="#composer">Composer</a> guide.
 ├ 📄 composer.lock     - Composer lock package that defines the required versions.
-├ 📄 <a href='wp/.gitignore'>phpcs.xml</a>         - NYCO PHP Code Sniffer configuration. PSR2 with two spaces, braces on same line.
+├ 📄 <a href='wp/phpcs.xml'>phpcs.xml</a>         - NYCO PHP Code Sniffer configuration. PSR2 with two spaces, braces on same line.
 ├ 📄 README.md         - Site readme file.
-├ 📄 <a href='wp/.gitignore'>SECURITY.md</a>       - Site security policy.
+├ 📄 <a href='wp/SECURITY.md'>SECURITY.md</a>       - Site security policy.
 ├ 📄 LICENSE           - Site open source license.
-├ 📄 <a href='wp/.gitignore'>wp-config.php</a>     - Database, salts, debug settings. Note, this should not be checked into a project's repository. The 📄 wp-config.php file in the local project will differ from the one in a remote environment.
+├ 📄 <a href='wp/wp-config.php'>wp-config.php</a>     - Database, salts, debug settings. Note, this should not be checked into a project's repository. The 📄 wp-config.php file in the local project will differ from the one in a remote environment.
 └ 📄 ...
 </div></pre>
 
