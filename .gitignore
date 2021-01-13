@@ -5,12 +5,14 @@
 /wp/wp-content/*
 
 # Keep
+!/wp/.githooks
+!/wp/.githooks/*
+!/wp/.github
+!/wp/.github/*
 !/wp/.gitignore
 !/wp/composer.json
-!/wp/phpcs.php
 !/wp/wp-config.php
 !/wp/phpcs.xml
-!/wp/wpscan.yml
 !/wp/wp-content/
 !/wp/wp-content/mu-plugins
 !/wp/wp-content/mu-plugins/*
