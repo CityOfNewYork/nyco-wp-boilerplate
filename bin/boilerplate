@@ -32,21 +32,21 @@ function tempDirs() {
 # make updates to the boilerplate
 function updateBoilerplate() {
 	echo "\n========================"
-	echo "Great! You've chosen update the boilerplate. We're gonna get that setup for you right now."
+	echo "Great! You've chosen update the Boilerplate. We're gonna get that setup for you right now."
 
 	confirmAction
 	tempDirs
-	echo "\nMoving the boilerplate back to ${BASE_PATH} from ${bpTempDir}\n"
+	echo "\nMoving the Boilerplate back to ${BASE_PATH} from ${bpTempDir}\n"
 
 	# checking existence of repo in root
 	if [ -d $BASE_PATH/.git ] || [ -e $BASE_PATH/.gitignore ] ; then
-		echo "It appears that the boilerplate repo is already in the root. Nothing to do. \n"
+		echo "It appears that the Boilerplate repo is already in the root. Nothing to do. \n"
 		promptUser
 	fi
 
 	# moves boilerplate repo to root
 	if [ ! -d $BASE_PATH/.git ] && [ -d $bpTempDir/.git ]; then
-		echo "Moving the boilerplate repo to the root"
+		echo "Moving the Boilerplate repo to the root"
 		mv $bpTempDir/.git/ $BASE_PATH
 		if [ -e $bpTempDir/.gitignore ]; then
 	    echo "Moving the gitignore."
@@ -66,7 +66,7 @@ function updateBoilerplate() {
   fi
 
 	echo "========================"
-	echo "You are all set to edit the nyco-wp-docker-boilerplate!\n"
+	echo "You are all set to edit the Boilerplate!\n"
 }
 
 # When you want to go back to making edits to the WP,
@@ -81,7 +81,7 @@ function updateWP() {
 
 	# checking existence of repo in root
 	if [ -d $BASE_PATH/.git ] || [ -e $BASE_PATH/.gitignore ] ; then
-		echo "\nMoving the boilerplate repo to ${bpTempDir} \n"
+		echo "\nMoving the Boilerplate repo to ${bpTempDir} \n"
 		mv $BASE_PATH/.git $bpTempDir
 		mv $BASE_PATH/.gitignore $bpTempDir
 		echo ">>>DONE!"
@@ -103,8 +103,8 @@ function updateWP() {
 function promptUser(){
 	echo "========================\n"
 	echo "What do you want to do?"
-	echo "[1] Update the nyco-wp-docker-boilerplate"
-	echo "[2] Update your Wordpress Project"
+	echo "[1] Update the Boilerplate"
+	echo "[2] Update your Wordpress project"
 	printf "Selection: "
 	read selection
 	if [[ $selection == 1 ]]; then

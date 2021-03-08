@@ -37,13 +37,16 @@ define('DB_CHARSET', 'utf8');
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
 
-/**
- * Redis Object Cache. Configure the plugin to use the image in our dockerfile.
- *
- * @link https://wordpress.org/plugins/redis-cache/
- */
+// Boilerplate; If using the optional Redis image in the docker-compose.yml
+// uncomment these lines to set the host for the Redis Cache plugin.
+//
+// /**
+//  * Redis Object Cache. Configure the plugin to use the image in our dockerfile.
+//  *
+//  * @link https://wordpress.org/plugins/redis-cache/
+//  */
 
-define('WP_REDIS_HOST', 'redis');
+// define('WP_REDIS_HOST', 'redis');
 
 /**#@+
  * Authentication Unique Keys and Salts.
@@ -73,20 +76,23 @@ define('NONCE_SALT',       '');
  */
 $table_prefix  = 'wp_';
 
-/**
- * WP_SITEURL allows the WordPress address (URL) to be defined. The value
- * defined is the address where your WordPress core files reside.
- *
- * WP_HOME overrides the wp_options table value for home but does not change
- * it in the database. home is the address you want people to type in their
- * browser to reach your WordPress site.
- *
- * @link https://codex.wordpress.org/Changing_The_Site_URL
- */
+// Boilerplate; if using the NYCO WP Config plugin, the site url can be designated
+// per environment there.
+//
+// /**
+//  * WP_SITEURL allows the WordPress address (URL) to be defined. The value
+//  * defined is the address where your WordPress core files reside.
+//  *
+//  * WP_HOME overrides the wp_options table value for home but does not change
+//  * it in the database. home is the address you want people to type in their
+//  * browser to reach your WordPress site.
+//  *
+//  * @link https://codex.wordpress.org/Changing_The_Site_URL
+//  */
 
-define('WP_SITEURL', 'http://localhost:8080');
+// define('WP_SITEURL', 'http://localhost:8080');
 
-define('WP_HOME', WP_SITEURL);
+// define('WP_HOME', WP_SITEURL);
 
 /**
  * Set our WordPress environment variable
@@ -99,15 +105,6 @@ define('WP_ENV', 'development'); // Use development for convenience and active d
 // define('WP_ENV', 'testing'); // Use testing for emulating configuration for production environments
 
 putenv('WP_ENV=' . WP_ENV);
-
-/**
- * WordPress Query Monitor Plugin Configuration. Enabling the capabilities
- * panel for Query Monitor.
- *
- * @link https://wordpress.org/plugins/query-monitor/
- */
-
-define('QM_ENABLE_CAPS_PANEL', WP_DEBUG);
 
 /**
  * For developers: WordPress debugging mode.
@@ -150,7 +147,7 @@ define('WP_DEBUG', true);
 
 define('WP_DEBUG_DISPLAY', WP_DEBUG);
 
-// define('WP_DEBUG_LOG', WP_DEBUG); // wp-content/debug.log
+define('WP_DEBUG_LOG', WP_DEBUG); // wp-content/debug.log
 
 // define('SCRIPT_DEBUG', WP_DEBUG);
 

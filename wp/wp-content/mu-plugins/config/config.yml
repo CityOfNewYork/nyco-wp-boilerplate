@@ -32,20 +32,26 @@ WP_OPTION_WPSCAN_INTERVAL: 1
 
 DISALLOW_FILE_EDIT: true
 
-# S3 Uploads Configuration
+# Boilerplate; if using the S3 Uploads plugin to store uploads the
+# configuration can be set here.
 #
-# @link https://github.com/humanmade/S3-Uploads
-
-S3_UPLOADS_BUCKET: ''
-S3_UPLOADS_KEY: ''
-S3_UPLOADS_SECRET: ''
-S3_UPLOADS_REGION: us-east-1
-
-# Disabling critical communications with translations services for test sites.
+## S3 Uploads Configuration
+##
+## @link https://github.com/humanmade/S3-Uploads
 #
-# @link https://wpml.org/documentation/support/wpml-coding-api/#disabling-critical-communications-with-translations-services-for-test-sites
+## S3_UPLOADS_BUCKET: ''
+## S3_UPLOADS_KEY: ''
+## S3_UPLOADS_SECRET: ''
+## S3_UPLOADS_REGION: us-east-1
 
-# WPML_ENVIRONMENT: test
+# Boilerplate; if using WPML for translation management this config can
+# designate lower environments as testing. Uncomment to set.
+#
+## Disabling critical communications with translations services for test sites.
+##
+## @link https://wpml.org/documentation/support/wpml-coding-api/#disabling-critical-communications-with-translations-services-for-test-sites
+#
+## WPML_ENVIRONMENT: test
 
 # Configuration for WP Headers plugin
 #
