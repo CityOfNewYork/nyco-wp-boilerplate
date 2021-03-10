@@ -375,12 +375,12 @@ $ bin/menu
 
 With `bin/menu`, you will be given the option to do the following actions:
 
-Action | Description
--------|-
-Deploy | Deploy your local branch to a remote environment; calls [Push](#push)
-Sync   | Sync your uploads to/from a remote; calls [Uploads](#uploads) or [Config](#config) based on selection
-Update | Upgrade the entire Wordpress core to a specified version detailed in the root composer.json
-Lint   | Runs PHP linting using the native syntax checker `php -l {{ file }}`.
+`#`   | Action | Description
+------|--------|-
+`[0]` | Deploy | Deploy your local branch to a remote environment; calls [`bin/push`](#push)
+`[1]` | Sync   | Sync your uploads to/from a remote; calls [`bin/uploads`](#uploads) or [`bin/config`](#config) based on selection
+`[2]` | Update | Upgrade the entire WordPress core to a specified version detailed in the root [**composer.json**](composer.json)
+`[3]` | Lint   | Runs PHP linting using the native syntax checker `php -l {{ file }}`. The [**wp/composer.json**](wp/composer.json) also uses [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) with a custom [XML](wp/phpcs.xml) specification. See [Composer scripts](#composer-scripts) for more details.
 
 Make your selections based on the values in the square brackets.
 
