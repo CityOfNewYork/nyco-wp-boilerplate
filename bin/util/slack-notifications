@@ -30,7 +30,7 @@ function post_slack() {
 
   if [[ "$SLACK_INCOMMING_WEBHOOK" != "" ]]; then
     printf "${SLACK_ICON_BYTE}     Alerting the team on ${SLACK_CHANNEL}... ";
-    curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
+    curl --silent -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
   else
     printf "${SLACK_ICON_BYTE}     Slack is not configured in config/bin.cfg... ";
   fi
@@ -53,7 +53,7 @@ function post_slack_success() {
   }"
 
   if [[ "$SLACK_INCOMMING_WEBHOOK" != "" ]]; then
-    curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
+    curl --silent -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
   else
     printf "${SLACK_ICON_BYTE}     Slack is not configured in config/bin.cfg... ";
   fi
@@ -76,7 +76,7 @@ function post_slack_fail() {
   }"
 
   if [[ "$SLACK_INCOMMING_WEBHOOK" != "" ]]; then
-    curl -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
+    curl --silent -X POST --data-urlencode ${PAYLOAD} ${SLACK_INCOMMING_WEBHOOK}
   else
     printf "${SLACK_ICON_BYTE}     Slack is not configured in config/bin.cfg... ";
   fi

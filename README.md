@@ -1,6 +1,6 @@
 # NYCO WordPress Boilerplate
 
-At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC), [Growing Up NYC](https://growingupnyc.cityofnewyork.us/), [WorkingNYC](https://github.com/nycopportunity/workingnyc), and more.
+At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC), [Growing Up NYC](https://growingupnyc.cityofnewyork.us/), [Working NYC](https://github.com/nycopportunity/workingnyc), and more.
 
 This repository contains a Docker image that will install the latest version of WordPress to be served by nginx. It is the Boilerplate for running and maintaining all of our WordPress products and contains scripts for deployment, syncing, configuration, and notifications with all product environments hosted on WP Engine.
 
@@ -20,8 +20,10 @@ This repository contains a Docker image that will install the latest version of 
 * [Bin Scripts](#bin-scripts)
   * [Boilerplate](#boilerplate)
   * [Menu](#menu)
+  * [Backup](#backup)
   * [Push](#push)
   * [Pull](#pull)
+  * [Purge](#purge)
   * [SSH](#ssh)
   * [rsync](#rsync)
   * [Uploads](#uploads)
@@ -116,6 +118,7 @@ Projects           | All of the product environment remote names should be added
 Rollbar            | The access token for the a [Rollbar](https://rollbar.com) account and local Rollbar username go here. Used by the [push](#push) and [sourcemaps](#sourcemaps) commands.
 Slack              | Deployment and synchronization scripts post to Slack to alert the team on various tasks. Used by various [commands](#commands).
 S3&nbsp;Uploads    | The name of an S3 bucket where uploads may be stored. Only needed if using the [uploads](#uploads) command.
+WP Engine API      | Commands that use the [WP Engine API](https://wpengineapi.com/) require API credentials to be [generated in your user profile](https://my.wpengine.com/api_access) and set to the variables in this block.
 
 ### NYCO WP Config
 
@@ -345,8 +348,10 @@ $ bin/{{ script }} {{ args (if any) }}
 
 * [Boilerplate](#boilerplate) `boilerplate`
 * [Menu](#menu) `menu`
+* [Backup](#backup) `backup`
 * [Push](#push) `push`
 * [Pull](#pull) `pull`
+* [Purge](#purge) `purge`
 * [SSH](#ssh) `ssh`
 * [rsync](#rsync) `rsync`
 * [Uploads](#uploads) `uploads`
@@ -386,6 +391,22 @@ Make your selections based on the values in the square brackets.
 
 ---
 
+### Backup
+
+```shell
+$ bin/backup {{ remote }}
+```
+
+Use the [WP Engine API](https://wpengineapi.com/) to request a backup point for a remote WP Engine installation. The command accepts the installation name as the only argument.
+
+```shell
+$ bin/backup mysitetest
+```
+
+This command uses the [jq](https://stedolan.github.io/jq/) package to parse the response from the API. It can be installed via Homebrew using the command `brew install jq`. WP Engine API credentials must also be set in the config for this command to work.
+
+---
+
 ### Push
 
 ```shell
@@ -422,6 +443,22 @@ $ bin/pull {{ remote }}
 ```
 
 Pulls a remote instance's **master** branch to the current local branch.
+
+---
+
+### Purge
+
+```shell
+$ bin/purge {{ remote }}
+```
+
+Use the [WP Engine API](https://wpengineapi.com/) to purge the object cache of a remote WP Engine installation. The command accepts the installation name as the only argument.
+
+```shell
+$ bin/purge mysitetest
+```
+
+This command uses the [jq](https://stedolan.github.io/jq/) package to parse the response from the API. It can be installed via Homebrew using the command `brew install jq`. WP Engine API credentials must also be set in the config for this command to work.
 
 ---
 

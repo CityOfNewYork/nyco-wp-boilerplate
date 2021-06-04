@@ -5,10 +5,10 @@
 # sends a deployment message to Slack, and sends a deployment notification to Rollbar
 #
 # Usage
-# Run `bin/git-push` and follow the prompts
+# Run `bin/push` and follow the prompts
 #
 # To run individually from the main deploy:
-# Run `bin/git-push {{ WP Engine Install }} -b {{ branch }} -m {{ optional message }} -f true -e {{ env }}`
+# Run `bin/push {{ WP Engine Install }} -b {{ branch }} -m {{ optional message }} -f true -e {{ env }}`
 # @required instance    - the wpengine instance and git remote alias.
 # @optional -b branch   - if the branch is different from env/{{ WP Engine Install }}, this must be specified
 # @optional -m message  - an optional message to post to slack.
@@ -16,7 +16,7 @@
 # @optional -e env      - staging or production(default), the WP Engine environment.
 #
 # Sample commands:
-# bin/git-push accessnyctest
+# bin/push accessnyctest
 # This will run git push to the remote "accessnyctest" from the branch "env/accessnyctest"
 
 SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )

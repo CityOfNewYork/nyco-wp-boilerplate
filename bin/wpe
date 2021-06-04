@@ -1,0 +1,122 @@
+#!/bin/sh
+
+# Description
+# WP Engine API Wrapper
+#
+# Requirements
+# Requires jq package for JSON response parsing. To install use Homebrew.
+# brew install jq
+#
+# Retrieve API credentials from https://wpengineapi.com/ and add them to config/bin.cfg
+# WPENGINE_USER_ID       | Your API user ID.
+# WPENGINE_PASSWORD      | Your API password.
+# WPENGINE_NOTIFICATIONS | Where to send backup notifications.
+#
+# Usage
+# bin/wpe {{ command }} {{ instance }}
+#
+# Commands
+# backup | Request an installation backup
+# purge  | Installation object cache purge
+#
+# API reference https://wpengineapi.com/reference
+
+SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+BASE_PATH=$(dirname "$SCRIPT_PATH")
+
+source "$SCRIPT_PATH/util/config"
+source "$SCRIPT_PATH/util/slack-notifications"
+
+AUTH="$WPENGINE_USER_ID:$WPENGINE_PASSWORD"
+
+if [ "$AUTH" == ":" ]; then
+  echo "\xF0\x9F\x9A\xAB     WP Engine API credentials are required to use this command. Generate credentials in your profile https://my.wpengine.com/api_access"
+
+  exit 0
+fi
+
+COMMAND=$1
+INSTANCE=$2
+DOMAIN="https://$INSTANCE.wpengine.com"
+BACKUPPOINTS="https://my.wpengine.com/installs/$INSTANCE/backup_points"
+
+if [ "$INSTANCE" != "" ]; then
+  printf "\xF0\x9F\x94\xAC     Finding the \"$INSTANCE\" installation ID... "
+
+  QUERY=".results[] | select(.name==\"$INSTANCE\").id"
+
+  ID=$(curl --silent -X GET $WPENGINE_API/installs -u $AUTH | jq "$QUERY" -r)
+
+  echo $ID
+else
+  echo "\xF0\x9F\x9A\xAB     An installation name is required as the second CLI argument"
+
+  exit 0
+fi
+
+backup() {
+  REQUESTING="Requesting installation backup."
+
+  post_slack $REQUESTING
+
+  printf "\xF0\x9F\x92\xBE     $REQUESTING... "
+
+  PAYLOAD="{ \
+    \"description\": \"Initiated by @$SLACK_USER via NYCO WP Boilerplate.\", \
+    \"notification_emails\": [ \
+      \"$WPENGINE_NOTIFICATIONS\" \
+    ] \
+  }"
+
+  STATUS=$(curl --silent -X POST "$WPENGINE_API/installs/$ID/backups" -H "accept: application/json" -H "Content-Type: application/json" -d "$PAYLOAD" -u $AUTH | jq ".status" -r)
+
+  if [ "$STATUS" == "requested" ]; then
+    SUCCESS="Backup requested successfully. $WPENGINE_NOTIFICATIONS will be notified when the backup is complete. $BACKUPPOINTS"
+
+    post_slack_success $SUCCESS
+
+    echo "\xE2\x9C\x85     $SUCCESS"
+  else
+    FAIL="Backup request failed."
+
+    post_slack_fail $FAIL
+
+    echo "\xF0\x9F\x9A\xAB     $FAIL"
+  fi
+}
+
+purge() {
+  PURGING="Purging object cache."
+
+  post_slack $PURGING
+
+  printf "\xF0\x9F\x92\xBE     $PURGING... "
+
+  PAYLOAD="{ \"type\": \"object\" }"
+
+  STATUS=$(curl --silent -X POST "$WPENGINE_API/installs/$ID/purge_cache" -H "accept: application/json" -H "Content-Type: application/json" -d "$PAYLOAD" -u $AUTH | jq ".message" -r)
+
+  if [ "$STATUS" == "" ]; then
+    SUCCESS="The object cache is purged."
+
+    post_slack_success $SUCCESS
+
+    echo "\xE2\x9C\x85     $SUCCESS"
+  else
+    post_slack_fail $STATUS
+
+    echo "\xF0\x9F\x9A\xAB     $STATUS"
+  fi
+}
+
+IFS='%'
+if [ "$COMMAND" == "backup" ]; then
+  backup
+fi
+
+if [ "$COMMAND" == "purge" ]; then
+  purge
+fi
+unset IFS
+
+exit 0
