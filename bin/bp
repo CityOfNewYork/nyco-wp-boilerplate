@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Creates an alias command for running a Boilerplate project bin script from any directory. Examples:
+#
+# bp push {{ instance }}
+#
+# or
+#
+# bp ssh {{ instance }}
+#
+# or
+#
+# bp backup {{ instance }}
+#
+# Set up
+# 1. Change "bp" below to your project's shorthand (so it doesn't conflict with other projects).
+#    The alias name (bp), the alias function reference (_bp), and the function name (_bp)
+# 2. Change "/path/to/project/" to your project's path
+# 3. Run ". bin/bp" to add the alias and try it out
+# 4. Add ". ~/path/to/project/bin/bp" to your bash profile to have it added on terminal startup
+
+alias bp="_bp"
+
+_bp() {
+  (cd ~/path/to/project/ ; sh bin/$1 "${@:2}")
+}
