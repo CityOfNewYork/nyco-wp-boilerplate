@@ -104,8 +104,6 @@ define('WP_ENV', 'development'); // Use development for convenience and active d
 
 // define('WP_ENV', 'testing'); // Use testing for emulating configuration for production environments
 
-putenv('WP_ENV=' . WP_ENV);
-
 /**
  * For developers: WordPress debugging mode.
  *

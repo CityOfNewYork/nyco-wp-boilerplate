@@ -1,0 +1,46 @@
+#!/bin/sh
+
+INSTALLATION=$1
+VERSION=$2
+
+echo ''
+
+if [ "$INSTALLATION" == '' ]; then
+  INSTALLATION='{{ installation }}'
+
+  echo 'Pass your installation name as the first argument to see how the commands look.'
+  echo ''
+fi
+
+if [ "$VERSION" == '' ]; then
+  VERSION='MAJOR.MINOR.PATCH'
+
+  echo 'Pass your version number as the second argument to see how the version would look.'
+  echo ''
+fi
+
+SEPA='----------------------------------------|---------------------------------------------'
+
+echo " [] Version the release                 | bin/version $VERSION                        "; echo $SEPA
+
+echo " [] Backup the remote environment       | bin/wpe backup $INSTALLATION                "; echo $SEPA
+
+echo " [] Update config.yml (if changed)      | bin/config $INSTALLATION -u                 "; echo $SEPA
+
+echo " [] Push to the remote environment      |                                             "
+echo "    a) Where the installation matches   | bin/push $INSTALLATION                      "
+echo "       the env/installation branch      |                                             "
+echo "       naming pattern                   |                                             "
+echo "    b) Specify a branch name            | bin/push $INSTALLATION -b {{ branch }}      "
+echo "    c) Use force push                   | bin/push $INSTALLATION -f true              "; echo $SEPA
+
+echo " [] SSH into the environment to clean   | bin/ssh $INSTALLATION                       "
+echo "    up any dangling files. These can    |                                             "
+echo "    occur as a result of a force push   |                                             "; echo $SEPA
+
+echo " [] rsync local files up (optional)     | bin/rsync $INSTALLATION path/to/file -u     "; echo $SEPA
+
+echo " [] Clear the object cache              | bin/wpe purge $INSTALLATION                 "; echo $SEPA
+
+echo " [] Publish release to GitHub           | bin/publish                                 "
+echo ''

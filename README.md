@@ -346,6 +346,36 @@ Script source can be found in the [**/bin**](bin) directory. Be sure to fill out
 $ bin/{{ script }} {{ args (if any) }}
 ```
 
+### Bin Alias
+
+Create an alias command for running a Boilerplate project bin script from any directory.
+
+```shell
+$ bp {{ script }} {{ args (if any) }}
+```
+
+Examples:
+
+```shell
+$ bp ssh {{ instance }}
+```
+
+or
+
+```shell
+$ bp backup {{ instance }}
+```
+
+To set it up.
+
+1. Change "bp" in the [**bin/bp**](bin/bp) file to your project's shorthand (so it doesn't conflict with other projects). The alias name `bp`, the alias function reference `_bp`, and the function name `_bp`.
+2. Run `. bin/bp` to add the alias and try it out.
+3. Add `. ~/path/to/project/bin/bp` to your bash profile to have it added on terminal startup.
+
+Then you can use your alias for your project in place of `bin/` for each script below.
+
+### Scripts
+
 * [Boilerplate](#boilerplate) `boilerplate`
 * [Menu](#menu) `menu`
 * [Backup](#backup) `backup`
