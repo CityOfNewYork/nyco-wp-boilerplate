@@ -1,41 +1,8 @@
 # NYCO WordPress Boilerplate
 
-At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC), [Growing Up NYC](https://growingupnyc.cityofnewyork.us/), [Working NYC](https://github.com/nycopportunity/workingnyc), and more.
+At NYC Opportunity, we are utilizing Docker to help us more easily and consistently manage our products, specifically, [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC), [Growing Up NYC](https://github.com/CityOfNewYork/growingupnyc), [Working NYC](https://github.com/CityOfNewYork/working-nyc), and more.
 
 This repository contains a Docker image that will install the latest version of WordPress to be served by nginx. It is the Boilerplate for running and maintaining all of our WordPress products and contains scripts for deployment, syncing, configuration, and notifications with all product environments hosted on WP Engine.
-
-## Contents
-
-* [Docker Images](#docker-images)
-* [Usage](#usage)
-    * [Notes](#notes)
-* [Configuration](#configuration)
-    * [NYCO WP Config](#nyco-wp-config)
-* [WP-CLI](#wp-cli)
-* [Composer](#composer)
-    * [Required Plugins and Packages](#required-plugins-and-packages)
-    * [Using Composer](#using-composer)
-* [Git Hooks](#git-hooks)
-* [Database](#database)
-* [Bin Scripts](#bin-scripts)
-  * [Boilerplate](#boilerplate)
-  * [Menu](#menu)
-  * [Backup](#backup)
-  * [Push](#push)
-  * [Pull](#pull)
-  * [Purge](#purge)
-  * [SSH](#ssh)
-  * [rsync](#rsync)
-  * [Uploads](#uploads)
-  * [Config](#config)
-  * [Version](#version)
-  * [Publish](#publish)
-  * [Sourcemaps](#sourcemaps)
-* [WordPress Filesystem Guide](#wordpress-filesystem-guide)
-  * [Root](#root)
-  * [Must Use Plugins](#must-use-plugins)
-  * [Theme](#theme)
-* [Security](#security)
 
 ## Docker Images
 
@@ -369,8 +336,9 @@ $ bp backup {{ instance }}
 To set it up.
 
 1. Change "bp" in the [**bin/bp**](bin/bp) file to your project's shorthand (so it doesn't conflict with other projects). The alias name `bp`, the alias function reference `_bp`, and the function name `_bp`.
-2. Run `. bin/bp` to add the alias and try it out.
-3. Add `. ~/path/to/project/bin/bp` to your bash profile to have it added on terminal startup.
+1. If you are using Z Shell (zsh) as your default terminal then uncomment the zsh compatible `BP_BIN` source export.
+1. Run `. bin/bp` to add the alias and try it out.
+1. Source `. ~/path/to/project/bin/bp` in your profile to have it added whenever your create a new terminal session.
 
 Then you can use your alias for your project in place of `bin/` for each script below.
 

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# Creates an alias command for running a Boilerplate project bin script from any directory. Examples:
+# Creates an alias command for running a Boilerplate project bin script from
+# any directory. Examples:
 #
 # bp push {{ instance }}
 #
@@ -12,17 +13,28 @@
 #
 # bp backup {{ instance }}
 #
-# Set up
-# 1. Change "bp" below to your project's shorthand (so it doesn't conflict with other projects).
-#    The alias name (bp), the alias function reference (_bp), and the function name (_bp)
+# Set up:
+#
+# 1. Change "bp" and BP below to your project's shorthand (so it doesn't
+#    conflict with other projects). The exported variables (BP), the alias
+#    name (bp), the alias function reference (_bp), and the function name (_bp)
 # 2. Run ". bin/bp" to add the alias and try it out
 # 3. Add ". ~/path/to/project/bin/bp" to your bash profile to have it added on terminal startup
 
-SCRIPT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-BASE_PATH=$(dirname "$SCRIPT_PATH")
-
-alias bp="_bp"
+export BP_BIN=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+# export BP_BIN=$( cd "$(dirname "${(%):-%N}")" ; pwd -P ) # zsh compatible
+export BP=$(dirname "$BP_BIN")
 
 _bp() {
-  (cd $BASE_PATH ; sh bin/$1 "${@:2}")
+  if [[ "$1" == "theme" ]]; then
+    source $BP/config/bin.cfg
+
+    cd "${BP}/${WP}wp-content/themes/${THEME}"
+  elif [[ "$1" == "" ]]; then
+    cd $BP;
+  else;
+    (cd $BP ; sh bin/$1 "${@:2}")
+  fi
 }
+
+alias bp="_bp"

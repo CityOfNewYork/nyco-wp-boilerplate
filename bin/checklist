@@ -19,10 +19,11 @@ if [ "$VERSION" == '' ]; then
   echo ''
 fi
 
-SEPA='----------------------------------------|---------------------------------------------'
+SEPA="––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";
 
+echo "This is the deployment checklist that will walk through the steps to deploy the site to WP Engine using Git push. Open a new terminal window and run the following commands.";
+echo ""
 echo " [] Version the release                 | bin/version $VERSION                        "; echo $SEPA
-
 echo " [] Backup the remote environment       | bin/wpe backup $INSTALLATION                "; echo $SEPA
 
 echo " [] Update config.yml (if changed)      | bin/config $INSTALLATION -u                 "; echo $SEPA
