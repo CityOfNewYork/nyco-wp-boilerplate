@@ -594,7 +594,8 @@ An important note about the **.htaccess** file which is not included here. This 
 
 * Custom Post Type Registration
 * WordPress REST API Route Registration
-* Constant Definition ([NYCO WP Config](https://github.com/cityofnewyork/nyco-wp-config) or other). Note, some constants need to be defined in the root 📄 **wp-config.php** file.
+* Constant Definition (using the [NYCO WordPress Config plugin](https://github.com/cityofnewyork/nyco-wp-config) or other). Note, some constants need to be defined in the root 📄 **wp-config.php** file.
+* Integration Configuration such as Google Analytics, Tag Manager (event tracking), and Optimize (A/B testing). The [NYCO WordPress Assets plugin](https://github.com/cityofnewyork/nyco-wp-assets) can manage the configuration of integrations.
 * Plugin Configuration
 * Additional Logic and Custom Functionality
 
@@ -609,6 +610,7 @@ Plugin                                                                          
 [Timber](wp/wp-content/mu-plugins/timber.php)                                                                       | Instantiates [Timber](https://timber.github.io/docs/getting-started/setup/#via-github-for-developers) for a more pleasant theme development experience.
 [Upload&nbsp;Mimes](wp/wp-content/mu-plugins/upload-mimes.php)                                                      | Adds the SVG mime type to enable support for SVG files in the media uploader.
 [WP&nbsp;Assets](wp/wp-content/mu-plugins/wp-assets.php)                                                            | Instantiates [NYCO WP Assets](https://packagist.org/packages/nyco/wp-assets).
+[WP&nbsp;Assets Integrations](wp/wp-content/mu-plugins/wp-assets-integrations.php)                                  | Add an Advanced Custom Fields option page for toggling NYCO WordPress Assets integrations.
 *&nbsp;[Auto&nbsp;update&nbsp;options](wp/wp-content/mu-plugins/auto-update-options.php)                            | * Disables ping-back flag, pings, comments, closes comments for old posts, notifies if there are new comments, and disables user registration.
 *&nbsp;[Close&nbsp;attachment comments&nbsp;and&nbsp;pings](wp/wp-content/mu-plugins/close-attachment-comments.php) | * Disable future comments and ping status (spam) for attachments as there is no way to close comments in admin settings. For previously uploaded attachments the wp cli can be used to close them (examples are included in the source of this plugin).
 *&nbsp;[Configure&nbsp;core&nbsp;sitemaps](wp/wp-content/mu-plugins/core-sitemaps.php)                              | * Configuration for the [WordPress sitemaps feature](https://make.wordpress.org/core/2020/07/22/new-xml-sitemaps-functionality-in-wordpress-5-5/). Filters out users, taxonomies, and other post types that do not have page views. Note, prior to WordPress 5.5 this was not available to WordPress natively.

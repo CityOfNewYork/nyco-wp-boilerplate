@@ -1,0 +1,70 @@
+- handle: data-layer
+  name: Data Layer
+  instructions: Required. This is required at the top level for Google Analytics, Tag Manager, and Optimize integrations.
+  dep: DATA_LAYER
+  in_footer: false
+  inline:
+    path: config/integrations/scripts/data-layer.js
+    position: before
+
+- handle: google-optimize
+  name: Google Optimize
+  instructions: Enables the creation, previewing, and running of active Optimize experiments (A/B testing). Disable when there is no active experiment to improve site performance. Additionally, Optimize is integrated through the Google Analytics tag. That will need to be active in addition to this integration.
+  dep: GOOGLE_OPTIMIZE_ID
+  localize:
+    - GOOGLE_OPTIMIZE_ID
+  in_footer: false
+  inline:
+    path: config/integrations/scripts/google-optimize.js
+    position: before
+  style:
+    path: config/integrations/styles/google-optimize.css
+
+- handle: google-analytics
+  name: Google Analytics
+  instructions: Required for Google Tag Manger and Optimize integrations. Site analytics tracking.
+  path: https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}
+  dep: GOOGLE_ANALYTICS
+  localize:
+    - GOOGLE_OPTIMIZE_ID
+    - GOOGLE_ANALYTICS
+  in_footer: false
+  inline:
+    path: config/integrations/scripts/google-analytics.js
+    position: after
+  attrs:
+    async: true
+
+- handle: google-tag-manager
+  name: Google Tag Manager
+  instructions: Enables the addition of event tracking through Google Tag Manager.
+  dep: GOOGLE_TAG_MANAGER
+  localize:
+    - GOOGLE_TAG_MANAGER
+    - GOOGLE_TAG_MANAGER_AUTH
+    - GOOGLE_TAG_MANAGER_PREVIEW
+    - GOOGLE_TAG_MANAGER_COOKIES
+  in_footer: false
+  inline:
+    path: config/integrations/scripts/google-tag-manager.js
+    position: before
+  body_open:
+    path: config/integrations/body/google-tag-manager.html
+
+# - handle: google-recaptcha
+#   name: Google ReCaptcha
+#   path: https://www.google.com/recaptcha/api.js?onload=reCaptchaCallback&render=explicit
+#   in_footer: false
+#   attrs:
+#     async: true
+
+# - handle: google-translate-element
+#   name: Google Translate Element
+#   instructions: Required. Enables the site's global machine translation functionality using Google Translate.
+#   path: https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit
+#   in_footer: false
+#   inline:
+#     path: config/integrations/scripts/google-translate-element.js
+#     position: before
+#   style:
+#     path: config/integrations/styles/google-translate-element.css

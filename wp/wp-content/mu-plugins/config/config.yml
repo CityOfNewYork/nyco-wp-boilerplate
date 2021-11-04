@@ -5,6 +5,18 @@ WP_OPTION_BLOG_PUBLIC: false
 FORCE_SSL_ADMIN: true
 WP_POST_REVISIONS: 5
 
+# NYCO WordPress Assets integration configuration. These may be different for
+# downstream environments. They are required for the Google Integration Suite
+# to function properly and can be found in your various Google product settings.
+
+# DATA_LAYER: true
+# GOOGLE_ANALYTICS: ''
+# GOOGLE_OPTIMIZE_ID: ''
+# GOOGLE_TAG_MANAGER: ''
+# GOOGLE_TAG_MANAGER_AUTH: ''
+# GOOGLE_TAG_MANAGER_PREVIEW: ''
+# GOOGLE_TAG_MANAGER_COOKIES: x
+
 # WordPress Query Monitor Plugin Configuration. Enabling the capabilities panel
 # and dark mode.
 #

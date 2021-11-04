@@ -1,0 +1,30 @@
+/**
+ * May be required.
+ *
+ * These styles ensure the modified markup from the
+ * translate widget will retain their functionality.
+ */
+
+font {
+  pointer-events: none;
+}
+
+a {
+  pointer-events: all;
+}
+
+/**
+ * Optional.
+ *
+ * These styles hide the translate widget bar.
+ */
+
+/* .goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: auto !important;
+  min-height: auto !important;
+  position: static !important;
+} */
