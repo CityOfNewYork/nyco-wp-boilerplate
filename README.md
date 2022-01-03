@@ -22,7 +22,7 @@ Below is simplified set of steps for getting started. Look at the [notes for spe
 **$1** Download a zip of this repository, or clone it to a new project directory.
 
 ```shell
-$ git clone https://github.com/CityOfNewYork/nyco-wp-boilerplate.git your-project-name && cd your-project-name
+git clone https://github.com/CityOfNewYork/nyco-wp-boilerplate.git your-project-name && cd your-project-name
 ```
 
 **$2** Run the `bin/boilerplate` command, select `[2] Update your Wordpress Project` then `[1] Yes` in the prompt to proceed. This will hide the `.git` directory but save it for updating later (see [Dual Project Development](#dual-project-development) for more details).
@@ -34,13 +34,13 @@ $ git clone https://github.com/CityOfNewYork/nyco-wp-boilerplate.git your-projec
 **$5** Run
 
 ```shell
-$ docker-compose build
+docker-compose build
 ```
 
 to build your images. Then run
 
 ```shell
-$ docker-compose up
+docker-compose up
 ```
 
 to start them. After a few moments, you will be able to open up `localhost:8080` to visit your site.
@@ -96,7 +96,7 @@ WP Engine API      | Commands that use the [WP Engine API](https://wpengineapi.c
 WP-CLI is a command line interface for WordPress. It is set up to work with your WordPress installation through this Boilerplate. [Read more about WP-CLI at it's website](https://wp-cli.org/). To use WP-CLI commands, you need to run...
 
 ```shell
-$ docker-compose exec wordpress /bin/wp {{ command }}
+docker-compose exec wordpress /bin/wp {{ command }}
 ```
 
 ... in place of `wp {{ command }}` to run one off commands on the container. Optionally, create an alias...
@@ -108,13 +108,13 @@ alias dcwp="docker-compose exec wordpress /bin/wp"
 ... so you don't have to type out `docker-compose exec`. **Optionally**, shell into the container to run commands directly in the container.
 
 ```shell
-$ docker-compose exec wordpress sh
+docker-compose exec wordpress sh
 ```
 
 Then commands can be run using the normal CLI;
 
 ```shell
-$ wp {{ command }}
+wp {{ command }}
 ```
 
 ### Uses
@@ -122,19 +122,19 @@ $ wp {{ command }}
 There a lot of things you can do with the CLI such as import a database...
 
 ```shell
-$ wp db import database.sql
+wp db import database.sql
 ```
 
 ... replace strings in a the database...
 
 ```shell
-$ wp search-replace 'https://production.com' 'http://localhost:8080'
+wp search-replace 'https://production.com' 'http://localhost:8080'
 ```
 
 ... and add a local administrative user:
 
 ```shell
-$ wp user create username username@domain.com --role=administrator --user_pass=wp
+wp user create username username@domain.com --role=administrator --user_pass=wp
 ```
 
 [Refer to the documentation for more commands](https://developer.wordpress.org/cli/commands/).
@@ -144,7 +144,7 @@ $ wp user create username username@domain.com --role=administrator --user_pass=w
 This boilerplate comes with a root composer package that you may use to manage php packages and plugins. To use composer, [install it](https://getcomposer.org/) on your machine and run...
 
 ```shell
-$ composer update
+composer update
 ```
 
 ... to install the vendor package (or `php composer.phar i` depending on your setup). You may also want to add **/vendor** to your WordPress **.gitignore** file, if it hasn't been already.
@@ -224,7 +224,7 @@ require_once ABSPATH . '/vendor/autoload.php';
 Different types of autoloaders can be [generated](https://getcomposer.org/doc/03-cli.md#dump-autoload-dumpautoload-). The [**composer.json**](composer.json) includes scripts that will generate a "development" autoloader that requires packages defined in the `require` and `require-dev` json blocks (including [whoops](https://filp.github.io/whoops/)).
 
 ```shell
-$ composer run development
+composer run development
 ```
 
 ##### Production build
@@ -232,7 +232,7 @@ $ composer run development
 The "production" autoloader will only require packages in the `require` json block. **Once you are done developing and before deployment generate the production autoloader which will remove development dependencies in the autoloader**.
 
 ```shell
-$ composer run production
+composer run production
 ```
 
 #### Requiring Packages
@@ -240,13 +240,13 @@ $ composer run production
 The command to install new packages is `composer require`. See the [Composer docs for more details on the CLI](https://getcomposer.org/doc/03-cli.md#require). Packages can be installed from [Packagist](https://packagist.org/) or [WordPress Packagist](https://wpackagist.org/). To require a package run:
 
 ```shell
-$ composer require {{ vendor }}/{{ package }}:{{ version constraint }}
+composer require {{ vendor }}/{{ package }}:{{ version constraint }}
 ```
 
 For example:
 
 ```shell
-$ composer require timber/timber:^1.18
+composer require timber/timber:^1.18
 ```
 
 ... will require the **Timber** package and install the latest minor version, greater than `1.18` and less than `2.0.0`. The caret designates the version range. Version constraints can be read about in more detail in the [Composer documentation](https://getcomposer.org/doc/articles/versions.md).
@@ -256,13 +256,13 @@ $ composer require timber/timber:^1.18
 The command to update packages is [`composer update`](https://getcomposer.org/doc/03-cli.md#update-u). Running it will install packages based on their version constraint in the [**composer.json**](composer.json) file. Individual packages can be updated by specifying the package name.
 
 ```shell
-$ composer update {{ vendor }}/{{ package }}
+composer update {{ vendor }}/{{ package }}
 ```
 
 For example:
 
 ```shell
-$ composer update timber/timber
+composer update timber/timber
 ```
 
 #### Composer scripts
@@ -270,7 +270,7 @@ $ composer update timber/timber
 The Composer package includes scripts that can be run via the command:
 
 ```shell
-$ composer run {{ script }}
+composer run {{ script }}
 ```
 
 Script        | Description
@@ -288,7 +288,7 @@ Script        | Description
 This repository includes a [Git Hook directory](wp/.githooks/pre-push). To utilize git hooks they need to be configured in the repository by running the following command:
 
 ```shell
-$ git config core.hooksPath .githooks
+git config core.hooksPath .githooks
 ```
 
 Below is a description of the available Git Hooks.
@@ -310,7 +310,7 @@ You can look at the database with tools like [Sequel Pro](https://www.sequelpro.
 Script source can be found in the [**/bin**](bin) directory. Be sure to fill out the [configuration](#configuration) file before using these scripts.
 
 ```shell
-$ bin/{{ script }} {{ args (if any) }}
+bin/{{ script }} {{ args (if any) }}
 ```
 
 ### Bin Alias
@@ -318,19 +318,19 @@ $ bin/{{ script }} {{ args (if any) }}
 Create an alias command for running a Boilerplate project bin script from any directory.
 
 ```shell
-$ bp {{ script }} {{ args (if any) }}
+bp {{ script }} {{ args (if any) }}
 ```
 
 Examples:
 
 ```shell
-$ bp ssh {{ instance }}
+bp ssh {{ instance }}
 ```
 
 or
 
 ```shell
-$ bp backup {{ instance }}
+bp backup {{ instance }}
 ```
 
 To set it up.
@@ -346,6 +346,7 @@ Then you can use your alias for your project in place of `bin/` for each script 
 
 * [Boilerplate](#boilerplate) `boilerplate`
 * [Menu](#menu) `menu`
+* [Checklist](#checklist) `checklist`
 * [Backup](#backup) `backup`
 * [Push](#push) `push`
 * [Pull](#pull) `pull`
@@ -361,7 +362,7 @@ Then you can use your alias for your project in place of `bin/` for each script 
 ### Boilerplate
 
 ```shell
-$ bin/boilerplate
+bin/boilerplate
 ```
 
 Switch between development on your WordPress site or this boilerplate project. This will allow you to fetch the latest changes to the boilerplate or contribute! To run this executable, enter the following at the root of this project:
@@ -373,7 +374,7 @@ Based on your selection, the git tracking for the project that you were not work
 ### Menu
 
 ```shell
-$ bin/menu
+bin/menu
 ```
 
 With `bin/menu`, you will be given the option to do the following actions:
@@ -389,16 +390,34 @@ Make your selections based on the values in the square brackets.
 
 ---
 
+### Checklist
+
+```shell
+bin/checklist
+```
+
+This will pull up a deployment checklist with sample commands to help guide developers through deployments. Accepts a semantic version number and installation name to pre-populate the sample commands with information about the deployment.
+
+```shell
+bin/checklist {{ version }} {{ installation }}
+```
+
+```shell
+bin/checklist 1.0.0 installation
+```
+
+---
+
 ### Backup
 
 ```shell
-$ bin/backup {{ remote }}
+bin/backup {{ remote }}
 ```
 
 Use the [WP Engine API](https://wpengineapi.com/) to request a backup point for a remote WP Engine installation. The command accepts the installation name as the only argument.
 
 ```shell
-$ bin/backup mysitetest
+bin/backup mysitetest
 ```
 
 This command uses the [jq](https://stedolan.github.io/jq/) package to parse the response from the API. It can be installed via Homebrew using the command `brew install jq`. WP Engine API credentials must also be set in the config for this command to work.
@@ -408,19 +427,19 @@ This command uses the [jq](https://stedolan.github.io/jq/) package to parse the 
 ### Push
 
 ```shell
-$ bin/push {{ remote }} -b {{ branch (optional) }} -m {{ message (optional) }} -f {{ true (optional) }}
+bin/push {{ remote }} -b {{ branch (optional) }} -m {{ message (optional) }} -f {{ true (optional) }}
 ```
 
 Push a local Git branch to a remote origin. Most instances of running the command will look like the following:
 
 ```shell
-$ bin/push mysitetest
+bin/push mysitetest
 ```
 
 This will push changes from the `env/mysitetest` branch to the remote remote origin `mysitetest`. The `{{ remote }}` argument should be the same as the git remote repository for a WP Engine installation. Use ...
 
 ```shell
-$ git remote add {{ remote }} git@git.wpengine.com:production/{{ remote }}.git
+git remote add {{ remote }} git@git.wpengine.com:production/{{ remote }}.git
 ```
 
 ... when adding remotes before using the command. The WP Engine Git Push service and adding remotes is also described in further detail in [WP Engine's Git Push tutorial](https://wpengine.com/git/).
@@ -437,7 +456,7 @@ Setting the `-f` flag to `true` will perform a forced git push.
 ### Pull
 
 ```shell
-$ bin/pull {{ remote }}
+bin/pull {{ remote }}
 ```
 
 Pulls a remote instance's **master** branch to the current local branch.
@@ -447,13 +466,13 @@ Pulls a remote instance's **master** branch to the current local branch.
 ### Purge
 
 ```shell
-$ bin/purge {{ remote }}
+bin/purge {{ remote }}
 ```
 
 Use the [WP Engine API](https://wpengineapi.com/) to purge the object cache of a remote WP Engine installation. The command accepts the installation name as the only argument.
 
 ```shell
-$ bin/purge mysitetest
+bin/purge mysitetest
 ```
 
 This command uses the [jq](https://stedolan.github.io/jq/) package to parse the response from the API. It can be installed via Homebrew using the command `brew install jq`. WP Engine API credentials must also be set in the config for this command to work.
@@ -463,7 +482,7 @@ This command uses the [jq](https://stedolan.github.io/jq/) package to parse the 
 ### SSH
 
 ```shell
-$ bin/ssh {{ remote }}
+bin/ssh {{ remote }}
 ```
 
 Use [WP Engine's SSH Gateway](https://wpengine.com/support/getting-started-ssh-gateway/) to remotely navigate an installation's filesystem.
@@ -473,7 +492,7 @@ Use [WP Engine's SSH Gateway](https://wpengine.com/support/getting-started-ssh-g
 ### rsync
 
 ```shell
-$ bin/rsync {{ remote }} {{ file }} {{ -u or -d }}
+bin/rsync {{ remote }} {{ file }} {{ -u or -d }}
 ```
 
 `rsync` remote files from a WP Engine installation to your local and vise versa. The `-u` flag will sync local to remote (upload) and `-d` will sync remote to local (download).
@@ -483,7 +502,7 @@ $ bin/rsync {{ remote }} {{ file }} {{ -u or -d }}
 ### S3 Uploads
 
 ```shell
-$ bin/uploads {{ -u or -d }}
+bin/uploads {{ -u or -d }}
 ```
 
 If using a plugin such as [S3-Uploads](https://github.com/humanmade/S3-Uploads) to offload your media library to a static S3 bucket, you can use the S3 Uploads command to sync uploads (up or down) to a specified bucket. The script assumes you are using a single bucket for all of your installations.
@@ -495,7 +514,7 @@ The `-u` flag will sync local to remote (upload) and `-d` will sync remote to lo
 ### Config
 
 ```shell
-$ bin/config {{ remote }} {{ -u or -d }}
+bin/config {{ remote }} {{ -u or -d }}
 ```
 
 `rsync` the local [**config/config.yml**](config/config.yml) to a remote environment's **wp-content/mu-plugins/config** directory.
@@ -507,7 +526,7 @@ The `-u` flag will sync local to remote (upload) and `-d` will sync remote to lo
 ### Version
 
 ```shell
-$ bin/version {{ semantic version number }}
+bin/version {{ semantic version number }}
 ```
 
 Version the repository with the latest release number. This will update the root [composer.json](wp/composer.json) then run the `version` Composer script, which is set by default to regenerate the **composer.lock** file and regenerate the autoloader for production.
@@ -521,7 +540,7 @@ Finally, it will commit the file changes and tag the repository.
 ### Publish
 
 ```shell
-$ bin/publish
+bin/publish
 ```
 
 Publishing will push committed changes or publish the current branch to the origin repository as well as publish all local tags that do not exist on origin. This can be used to publish newly created versions after the [versioning script](#versioning).
@@ -531,7 +550,7 @@ Publishing will push committed changes or publish the current branch to the orig
 ### Sourcemaps
 
 ```shell
-$ bin/sourcemaps {{ remote }}
+bin/sourcemaps {{ remote }}
 ```
 
 We use [Rollbar](https://rollbar.com) for error monitoring. After every new script is deployed we need to supply new sourcemaps to Rollbar to identify the source of errors. This script will read all of the files in the theme's **assets/js** folder and will attempt to upload sourcemaps for all files with the extension **.js**. The script files need to match the pattern **{{ script }}.{{ hash }}.js**, ex; **main.485af636.js**. It will assume there is a sourcemap with the same name and extension **.map**, ex; **main.485af636.js.map**. The theme and paths to minified scripts can be modified in the [configuration](#configuration).
