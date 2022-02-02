@@ -73,7 +73,7 @@ to start them. After a few moments, you will be able to open up `localhost:8080`
 
 ## Configuration
 
-The [Bin Scripts](#bin-scripts) use a configuration file in [**/config/bin.cfg**](config/config.cfg) for interacting with the local WordPress site and remote services.
+The [Bin Scripts](#bin-scripts) use a configuration file in [**/config/bin.cfg**](config/bin.cfg) for interacting with the local WordPress site and remote services.
 
 Config&nbsp;Blocks | Description
 -------------------|-
