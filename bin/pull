@@ -12,7 +12,7 @@ BASE_PATH=$(dirname "$SCRIPT_PATH")
 source "$BASE_PATH/config/bin.cfg"
 
 INSTANCE=$1
-COMMAND="git pull ${INSTANCE} master"
+COMMAND="git pull --no-rebase -s recursive -X theirs ${INSTANCE} master"
 
 function find_wp {
   printf "\xF0\x9F\x94\xAC     Finding application source... ";

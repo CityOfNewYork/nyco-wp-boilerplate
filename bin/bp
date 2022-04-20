@@ -32,7 +32,7 @@ _bp() {
     cd "${BP}/${WP}wp-content/themes/${THEME}"
   elif [[ "$1" == "" ]]; then
     cd $BP;
-  else;
+  else
     (cd $BP ; sh bin/$1 "${@:2}")
   fi
 }

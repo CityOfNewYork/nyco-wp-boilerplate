@@ -459,7 +459,7 @@ Setting the `-f` flag to `true` will perform a forced git push.
 bin/pull {{ remote }}
 ```
 
-Pulls a remote instance's **master** branch to the current local branch.
+Pulls a remote instance's **master** branch to the current local branch. It will use the `--no-rebase` merge strategy (creating a merge commit) and prefer changes from the remote instance.
 
 ---
 
