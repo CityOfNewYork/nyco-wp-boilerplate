@@ -77,9 +77,13 @@ else
 fi
 
 # Configure the URL
-if [ ENV = "staging" ] ; then
+if [ "${INSTANCE}" = "origin" ] ; then
+  DOMAIN="https://www.github.com"
+elif [ ENV = "staging" ] ; then
+  echo "${INSTANCE}"
   DOMAIN="https://${INSTANCE}.${ENV}.wpengine.com"
 else
+  echo "${INSTANCE}"
   DOMAIN="https://${INSTANCE}.wpengine.com"
 fi
 
